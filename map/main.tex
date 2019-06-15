@@ -2,6 +2,12 @@
 \usepackage{tikz}
 \usepackage{graphicx,fancybox,ascmac, amsmath, amssymb}
 
+\newtheorem{theo}{定理}[section]
+\newtheorem{defi}[theo]{定義}
+\newtheorem{exam}[theo]{例}
+\newtheorem{exercise}[theo]{例題}
+\newtheorem{prop}[theo]{命題}
+
 \title{写像}
 
 \author{武井優己}
@@ -85,7 +91,7 @@ f^{-1}(B) = \{a \in A | f(a) \in B \}
 この定義のように、逆像とはfでうつすとBの元になるようなAの元aを集めた集合である。
 また、逆像はどんな写像からも得ることができる。ただし、逆像は写像ではなく単なる集合である。(ただし、与えられた写像が全単射であれば、逆像は逆写像である)
 
-\subsubsection{具体例}
+\exam
 
 ここでまた、集合AとBを定義する。
 
@@ -182,18 +188,18 @@ ${\mid S \mid}= m \quad (m \in \mathbb{N})$である。
 $\newline \newline$※プログラミング経験者には、new Array(1, 2, 3).lengthなどと言ったほうがわかりやすいかもしれない。
 
 
-\subsubsection{ 例.1 }
+\exam
 
 {\bf １次関数、$f(x) = ax+b$は単射である }
 
 $f(x) = f(y)$のとき、$ax+b = ay+b$であるから、$x=y$である。
 
-\subsubsection { 例.2 }
+\exam
 {\bf 三角関数 $f(x) = sinx$ は単射でない }
 
 $x=0$, $y=\pi$とすると、$(x) = f(y) =0$であるが、$x \neq y$である。
 
-\subsubsection{ 命題.1 }
+\prop
 \label{eq:injectiveProposition}
 
  {\bf 合成写像における単射性 }
@@ -201,6 +207,7 @@ $x=0$, $y=\pi$とすると、$(x) = f(y) =0$であるが、$x \neq y$である�
  $f:A \to B, g: B \to C$とする。
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item $f$と$g$が単射ならば、$g \circ f$ は単射である
 	\item $g \circ f$が単射ならば、$f$は単射である
 	\item $g \circ f$が単射でも、$g$は単射であるとは限らない
@@ -210,6 +217,7 @@ $x=0$, $y=\pi$とすると、$(x) = f(y) =0$であるが、$x \neq y$である�
 {\bf 証明}
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item $g \circ f(a) = g \circ f(a') \quad (a, a' \in A)$とすると、$f(a), f(a) \in B$、$g(f(a))　= g(f(a'))$である。
 	
 	ここで、$g$は単射より、$f(a) = f(a')$が言え、$f$が単射より、$a = a'$である。
@@ -249,7 +257,7 @@ $f: A \to B$ が全射 (surjective) であるとは、
 
 写像$f: A \to B$が全射のとき、集合の濃度の関係は${\mid A \mid} \geq {\mid B \mid}$である。
 
-\subsubsection { 例.1 }
+\exam
 
 {\bf １次関数、$f(x) = ax+b$は全射である}
 
@@ -258,7 +266,7 @@ $f: A \to B$ が全射 (surjective) であるとは、
 (*写像を作る上ではこういった変形が大事である)
 
 
-\subsubsection { 例.2 }
+\exam
 {\bf 2次関数 $f(x)=x^2$ は実数全体で全射でない}
 
 $y=-1$とすると、どんな実数$x$を取ってきても、$f(x) = -1$になるような$x$が存在しない。
@@ -266,13 +274,14 @@ $y=-1$とすると、どんな実数$x$を取ってきても、$f(x) = -1$にな
 ただし、実数全体で全射でないと明記しているとおり、$x > 0$で、$f(x)=x^2$は全射となる。
 
 
-\subsubsection{ 命題.1 }
+\prop
 
  {\bf 合成写像における全射性 }
  
  $f:A \to B, g: B \to C$とする。
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item $f$と$g$が全射ならば、$g \circ f$は全射である
 	\item $g \circ f$が全射ならば、$g$は全射である
 	\item $g \circ f$が全射でも、$f$が全射とは限らない
@@ -282,6 +291,7 @@ $y=-1$とすると、どんな実数$x$を取ってきても、$f(x) = -1$にな
 { \bf 証明}
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item 任意の$c \in C$を取る。$g$が全射より、ある$b \in B$が存在して、$g(b) = c$である。
 	
 	また、$f$が全射より、特に$b \in B$に対して、ある$a \in A$が存在して、$f(a) = b$となる。
@@ -310,17 +320,18 @@ $y=-1$とすると、どんな実数$x$を取ってきても、$f(x) = -1$にな
 
 写像$f: A \to B$が全単射であるとは、$f$が全射かつ単射であることをいう。このとき$A$と$B$の元は1対1に対応している。
 
-写像$f: A \to B$が全単射のとき、集合の濃度の関係は${\mid A \mid} = {\mid B \mid}$である。
+写像$f: A \to B$が全単射のとき、集合の濃度の関係は$|A| = |B|$である。
 このとき、「集合が対等である」、「濃度が等しい」などと表現する。
 
 また全単射では、有限集合における次の命題が言える。
 
-\subsubsection{ 命題.1 }
+\prop
 
-A, Bが有限集合で、${\mid A \mid} = {\mid B \mid}$であれば、以下が成り立つ。
+A, Bが有限集合で、$|A| = |B|$であれば、以下が成り立つ。
 \begin{enumerate}
-\item $A \subset B$なら、$A = B$である
-\item $f: A \to B$が写像なら、$f$が単射である
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $A \subset B$なら、$A = B$である。
+\item $f: A \to B$が写像なら、$f$が単射であることと、全単射であることは同値である $\Rightarrow$ $f$は全単射となる。
 \end{enumerate}
 
 は同値であり、このとき$f$は全単射となる。
@@ -329,7 +340,14 @@ A, Bが有限集合で、${\mid A \mid} = {\mid B \mid}$であれば、以下が
 
 {\bf (1)}
 
-% TODO
+※ $B \backslash A$または、$B-A$は、差集合のこと。Bに含まれているが A に含まれていない元の集合
+
+$B = A \cup (B \backslash A)$、$A \cap (B \backslash A) = \phi$より、$ |B| = |A| + |B\backslash A|$である。
+
+$|A| = |B|$であれば$|B \backslash A| = 0$なので、$B = A$である。
+
+{\bf (2)}
+$f$が単射とする。したがって、$|f(A)| = |A| = |B|$は明らか。(1)により、$f(A) = B$が言えるので、$f$は全射である。よって、$f$は全単射。
 
 \subsection{逆写像}
 
@@ -349,15 +367,16 @@ fが全射であるとする。任意の$b \in B$を取り、$g$で送ると、$
 この$g(b)$は、$f \circ g(b) = b$という恒等写像の行き先に対応する元であるから、全射であることが言える。
 (言い換えると、$f \circ g(b) = b$となる、$g(b)$が存在する。)
 
-\subsection { 命題.1 }
+\prop
 
 以上のことより、逆写像の定義域と値域は、それぞれ元の写像の値域と定義域であることが言える。
 
-\subsubsection { 例題.1 }
+\exercise
 
 $f:A \to B$を写像とするとき、
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item $f$は単射である
 	\item $S \subset A$に対し、$f^{-1}(f(S)) = S$
 \end{enumerate}
@@ -384,11 +403,12 @@ $f^{-1}(f(\{a\})) = \{a\}$, $f^{-1}(f(\{b\})) = \{b\}$となる。
 よって、$a = b$である。
 
 
-\subsubsection { 例題.2 }
+\exercise
 
 $f:A \to B$を写像とするとき、
 
 \begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
 	\item $f$は全射である
 	\item 任意の部分集合$S \subset B$に対して、$f(f^{-1}(S)) = S$
 \end{enumerate}
@@ -419,7 +439,3 @@ $S \subset B$を任意の部分集合とする。任意の$b \in B$を取って�
 \end{thebibliography}
 
 \end{document}
-
-
-
-
