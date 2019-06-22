@@ -1,0 +1,431 @@
+\documentclass[dvipdfmx,autodetect-engine]{jsarticle}
+\usepackage{tikz}
+\usepackage{graphicx,fancybox,ascmac, amsmath, amssymb}
+
+\newtheorem{theo}{定理}[section]
+\newtheorem{defi}[theo]{定義}
+\newtheorem{rem}[theo]{定理}
+\newtheorem{exam}[theo]{例}
+\newtheorem{exercise}[theo]{例題}
+\newtheorem{prop}[theo]{命題}
+\newtheorem{ques}[theo]{問}
+
+\title{群論}
+
+\author{武井優己}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{はじめに}
+
+本レポートでは、写像の定義や命題を多用するため、写像に関する知識に自身が無い場合は、
+
+写像のレポート: https://github.com/noppoMan/math-report/blob/master/map/map.pdf
+
+を読んでから、本レポートを読み進めることを推奨する。
+
+\section{群の定義と例}
+
+\subsection{群の定義}
+
+Gが集合であるとき、写像:$f: G \times G \to {} G$のことを集合G上の演算という。
+
+この写像は、集合Gのふたつの元を関数$\times$に入れると、Gの元が一つ返ってるということを言っており、この$\times$による演算を二項演算とも呼ぶ。この写像は二項演算に関して閉じてもいる。
+
+※ 二項演算が閉じているとは、集合Gの演算$\circ$に関して、$x, y \in G$のとき、$x \circ y \in G$である。
+
+\defi
+Gを空でない集合とする。G上の演算が定義されていて以下の性質を満たすとき、Gを群という。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+    \item {\bf 結合法則}を満たす。全ての$a, b, c \in G$に対し、$(ab)c = a(bc)$が成り立つ
+	\item {\bf 単位元}が存在する。単位元とは、$e \in G$があり、すべての$a \in G$に対して、$ea = ae = a$となる。
+	\item {\bf 逆元}が存在する。逆元とは、すべての$a \in G$に対し、$ab = ba = e$となるような$b \in G$のことであり、${\bf a^{-1} }$と表す。言い換えると、xに対して演算すると単位元を得ることの出来る元のこと。
+\end{enumerate}
+
+群Gの任意の元$a, b$が可換($ab = ba$)であれば、Gを可換群(アーベル群)と言う。また、可換群でない群を非可換群と言う。
+
+% TODO 有限群、無限群
+
+\defi
+Gが群であるとき、その元の個数$|G|$をGの{\bf 位数}という。位数が有限な群を{\bf 有限群}、有限でない群を{\bf 無限群}という。
+
+\exam $\mathbb{Z}, \mathbb{Q}, \mathbb{R}, \mathbb{C}$は加法により群である。また可換群でもある。単位元は$0$であり、元$x$の逆元は$x^{-1} = -x$となる。
+
+\exam $\mathbb{Z}^×, \mathbb{Q}^×, \mathbb{R}^×$は乗法により、可換群となる。
+単位元は$1$、元$x$の逆元は$x^{-1} = \frac{1}{x}$である。
+
+\exam $\mathbb{Z}$は乗法により群にならない。単位元は$1$であるが、$x, x^{-1} \in \mathbb{Z}$に対して、$xx^{-1} = 1$となるような$x^{-1}$が$\mathbb{Z}$に存在しない。
+
+
+\prop
+
+Gを群とするとき以下の性質が言える。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 群の単位元は一意に決まる
+\item $a \in G$に対して、その逆元は一意に決まる
+\item $a, b' \in G$なら、$(ab)^{-1} = b^{-1}a^{-1}$
+\item $a \in G$なら、$(a^{-1})^{-1} = a$
+\end{enumerate}
+
+{\bf 証明}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item Gの単位元を$e, e'$とおく。任意の$a \in G$に対して、$ea = ae = a$である。
+$a = e'$とおくと、$ee' = e'e = e'$であり、$a = e$とおくと、$e'e = ee' = e$より、$e = e'$となり、単位元は1つである。
+\item $b, c$が$a$の逆元であれば、$b = (ca)b = c(ab) = c$
+\item 結合法則を使えば明らか。$(b^{^-1}a^{-1})ab = b^{-1}(a^{-1}a)b = b^{-1}b = e$. 同様に、$ab(b^{-1}a^{-1}) = e$. これより、$b^{-1}a^{-1}$は$ab$の逆元である。
+\item $aa^{-1} = a^{-1}a = e$より、$a = (a^{-1})^{-1}$
+
+\end{enumerate}
+
+\subsection{部分群}
+
+Gを群、$H \subset G$とする。$H$がGの演算により群となるとき、$H$を$G$の部分群という。
+
+\prop{$H \subset G$が$G$の部分群になるための必要十分条件は、次の3つの条件が満たされることである。}\label{sec:propSubGroup}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $1_{G} \in H$
+\item $x, y \in H$ならば、$xy \in H$
+\item $x \in H$ならば、$x^{-1} \in H$
+\end{enumerate}
+
+{\bf 証明}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $H$を部分群とする。$G$の演算により、$1_{H}1_{H} = 1_{H}$が成り立つ。$1_{H}^{-1}$を両辺に対し左からかけて、$1_{H} = 1_{G}$となる。($1_{H}^{-1}1_{H}1_{H} = 1_{H}, 1_{H}1_{H}^{-1} = 1_{G}$より)
+これより、$1_{G} \in H$。
+
+\item $H$が$G$の部分群であれば、二項演算が閉じていることより明らか。($H$が$G$の演算により閉じている)
+
+\item $x \in H$に対して、$x$の逆元を$y \in H$とする。$G$の演算により、$xy = yx = 1_{H} = 1_{G}$となる。これより、$y = x^{-1}$となり、$x^{-1} \in H$。
+
+\end{enumerate}
+
+\prop $G$が群で、$H_{1}, H_{2} \subset G$が$G$の部分群 $\Rightarrow$ $H_{1} \cap H_{2}$も$G$の部分群
+
+\exam{自明な部分群}
+
+$G$が群なら、$\{1\}, G$は$G$の部分群であるのは明らか。これらを$G$の自明な部分群という。
+
+\exam $\mathbb{Z}$を加法により群とする。$n \in \mathbb{Z}$のとき、$n \mathbb{Z} := \{nx | x \in \mathbb{Z} \}$とする。このとき、$n\mathbb{Z}$は$\mathbb{Z}$の部分群である。
+
+{\bf 証明}
+
+命題\ref{sec:propSubGroup}を使い証明する。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\mathbb{Z}$は加法により群だから、単位元は$0$。$n0 = 0 \in \mathbb{Z}$より、$1_{\mathbb{Z}} \in n\mathbb{Z}$が成り立つ。
+\item $n\mathbb{Z}$の元は、$nx, ny (x, y \in \mathbb{Z})$となっている。これより、$nx + ny = n(x + y) \in \mathbb{Z}$となる。
+\item $nx \in n\mathbb{Z}$の逆元を$-nx = n(-x) \in \mathbb{Z}$である。$nx + (-nx) = 1_{\mathbb{Z}} = 1_{n\mathbb{Z}} = 0$より、$-nx = nx^{-1} \in n\mathbb{Z}$。
+\end{enumerate}
+
+\ques $H = \{1, -1\} \in \mathbb{R}^{x}$とする。$H$が$\mathbb{R}^{x}$の部分群であることを、命題\ref{sec:propSubGroup}を使って示せ。
+
+
+\subsection{群の生成}
+
+\defi{群$G$の部分集合$S$に対して，$S$を含む$G$の部分群のうち最小のものを
+$\langle S \rangle$ で表す。} この$\langle S \rangle$のことを、{\bf $S$によって生成された部分群}、$S$のことを{\bf 生成系}、$S$の元を{\bf 生成元}という。($S = \{s\}$なら、$s$が$\langle S \rangle$の生成元である。)
+
+$S = \{s_{1}, .... s_{n}  \}$なら、$\langle \{s_{1}, .... s_{n}  \} \rangle$を$\langle s_{1}, .... s_{n} \rangle$とも書く。
+
+\exam{定義を噛み砕いた群の生成例}{\label{exam:gen1}}
+
+$G$を群、$S = \{x\} \subset G$とする。まだこの$S$は部分群の必要十分条件である、命題\ref{sec:propSubGroup}を満たしておらず、部分群とは言えない。この$S$を部分群にしていく作業が生成である。
+
+まず、逆元を加える。$x$の逆元が$y \in G$であれば、これを$S$に加え、$S = \{x, y\}$となる。これより、命題\ref{sec:propSubGroup}の(3)は満たされたが、$x y = 1_{H} = 1_{G}$となるような$1_{H}$が$S$に含まれていないため、二項演算が閉じていない。
+
+これより、$S$に$1_{G}$を加えて、$S=\{x, y, 1_{G}\}$となり、$G$の最小の部分群となる$\langle S \rangle$を生成できた。
+
+\exam{整数における群の生成}
+
+$\mathbb{G}$を群として、その部分集合を$H$とする。
+例\ref{exam:gen1}より
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 逆元を加える
+\item 各元を有限回演算して得られた元を加える
+\end{enumerate}
+
+を繰り返し行うことで、群が生成できた。
+
+これらを使い、整数全体の集合$\mathbb{Z}$から最小の部分群$\langle S \rangle$を生成する。
+
+$\mathbb{Z}$は加法に関して群、$S = \{6, 9\} \subset \mathbb{Z}$とする。
+$6, 9$の逆元はそれぞれ$-6, -9$より、これらを$S$に加え$S_{1} = \{-9, -6, 6, 9\}$とする。
+
+ここで、まだ$S_{1}$には$6-6$、$9-9$の演算結果である単位元$0$が入っていないため、これを加え、
+$S_{2} = \{-9, -6, 0, 6, 9\}$とする。
+
+しかし、まだこの集合は二項演算が閉じていない。なぜなら、$9-6 = 3$やその逆元$-3$が入っていないためである。
+
+このように、有限回この演算を繰り返し行うことで、$S_{n} = \{..., -6, 0, 6, ...\}$という集合が生成され、この集合は命題\ref{sec:propSubGroup}の(1)-(3)を満たすことにより、$\mathbb{Z}$の最小の部分群$\langle S \rangle$となる。
+
+\subsubsection{巡回群}
+
+\defi 一つの元で生成される群を巡回群という。
+または、集合$S$が位数nの巡回群であるとは、任意の$s \in S$に対して、$s^n = 1$が言えることである。
+
+$\newline$
+※ TODO その他は線形代数後にまた詳しく
+
+\subsection{元の位数}
+
+\defi $G$を群、$x \in G$とする。$x^{n} =  1_{G}$となる正の整数が存在すれば、その中で最小なもののことをxの{\bf 位数}という。反対に、$x^n = 1_{G}$となる正の整数が存在しなければ、xの位数は$∞$である。
+
+\exam 
+$G$が群であれば、その単位元の位数は1となる。あるいは、$x$の位数が1であるということは、$x = x^1 = 1_{G}$より、単位元$1_{G}$はG上で位数が1のただ一つの元と言える。
+
+$\newline$
+※ TODO その他は線形代数後にまた詳しく
+
+\section{準同型}
+
+二つの群$G_1, G_2$が与えられた時、$G_1, G_2$が本質的に同じかどうかということを定式化するために用いるのが準同型・同型という概念である。
+群は単なる集合ではなく、群における演算がその群の構造を決定する。そのため、二つの群を比較するときに集合として対応していることを調べるだけでは不十分であり、演算自体も対応していることを考えなければならない。
+
+\subsection{準同型と同型の定義}
+
+\defi $G_1, G_2$を群とし、$\phi: G_1 \to G_2$を写像とする。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\boldsymbol{\phi(xy) = \phi(x)(y)}$がすべての$x, y \in G_1$に対して成り立つ時、$\phi$を{\bf 準同型}という
+\item $\phi$が準同型で逆写像を持ち、逆写像も準同型であるなら、$\phi$を{\bf 同型}という
+\item $\phi$が準同型の時、$\boldsymbol{Ker(\phi) = \{x \in G_1 | \phi(x) = 1G_2}\}$を$\phi$の{\bf 核(Kernel)}という(言い換えると、$Ker(\phi)$は$\phi$に入れると、$G_2$の単位元となる$G_1$の元の集合である)
+\item $\phi$が準同型の時、$\boldsymbol{Im(\phi) = \{\phi(x) | x \in G_1\}}$を$\phi$の{\bf 像(Image)}という
+\end{enumerate}
+
+\prop{全単射写像$\phi: G_1 \to G_2$が群の準同型なら、同型である。}\label{prop:isomorphic}
+
+{\bf 証明}
+
+$\phi$の逆写像を$\psi$とおく。$x, y \in G_2$とすると、$\phi$は準同型より、
+$$
+\phi(\psi(x)\psi(y)) = \phi(\psi(x))\phi(\psi(y)) = xy = \phi(\psi(xy))
+$$
+となる。
+$\phi$は単射より、$\phi(x)\phi(y) = \phi(xy)$。これより、$\psi$は準同型である。
+
+
+\prop{$\phi : G_1 \to G_2$を群の準同型とする時、次の命題が成り立つ。}\label{prop:homomorphism}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\phi(1G_1) = 1G_2$である。
+\item 任意の$x \in G_1$に対し、$\phi(x^{-1}) = \phi(x)^{-1}$
+\item $Ker(\phi)$は$G_1$の部分群である
+\item $Im(\phi)$は$G_2$の部分群である
+\end{enumerate}
+
+{\bf 証明}
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\phi(1G_1) = \phi(1G_1 1G_1) = \phi(1G_1)\phi(1G_1)$なので、両辺に左から$\phi(1G_1)^{-1}$をかけて、$\phi(1G_1) = 1G_2$ ($\phi(1G_1)\phi(1G_1)\phi(1G_1)^{-1} = \phi(1G_1), \phi(1G_1)\phi(1G_1)^{-1} = 1G_2$より)
+
+\item $x \in G_1$なら$1G_2 = \phi(1G_1) = \phi(xx^{-1}) = \phi(x)\phi(x^{-1})$より、$\phi(x)(\phi(x))^{-1} = \phi(1G_1) = 1G_2$となる。したがって、$\phi(x^{-1}) = \phi(x)^{-1}$
+
+\item $1G_1 \in Ker(\phi)$と$1G \ni x^{-1} \in Ker(\phi)$を示す。 $Ker(\phi)$は行き先が$1G_2$となる$G_1$の元から構成されているため、 $(1)より、1G_1 \in Ker(\phi)$である。$x, y \in Ker(\phi)$なら$\phi(xy) = \phi(x)\phi(y) = 1G_21G_2 = 1G_2$なので、$xy \in Ker(\phi)$である。
+$\phi$は準同型なので、$\phi(x^{-1}) = \phi(x)^{-1} = 1G_2^{-1} = 1G_2$より、$x^{-1} \in Ker(\phi)$である。したがって、$Ker(\phi)$は$G_1$の部分群である。
+
+\item $1G_1 \in Im(\phi)$と$\phi(x)^{-1} \in Im(\phi) \quad (x \in Im(\phi))$を示す。$1G_2 = \phi(1G_1)$なので、像の定義より、$1G_2 \in Im(\phi)$である。任意の$x, y \in G_1$を取り、$\phi(x)\phi(y) = \phi(xy)$が準同型より言え、像の定義より、$\phi(x), \phi(y), \phi(xy) \in G_2$である。また、$x^{-1} \in G_1$より、$\phi(x^{-1}) = \phi(x)^{-1}$も同様に$Im(\phi)$の元となる。 したがって、$Im(\phi)$は$G_2$の部分群である。
+\end{enumerate}
+
+\exam $G$を群、$x \in G$とする。$\mathbb{Z}$を加法により群とし、写像$\phi: \mathbb{Z} \to G$を$\phi(n) = x^n$と定義する。任意の$m, n \in \mathbb{Z}$に対し、$\phi(n + m) = x^{n + m} = x^nx^m = \phi(m)\phi(n)$なので、$\phi$は準同型である。
+
+\exam $\mathbb{R}_{>0} = \{r \in \mathbb{R} | r > 0\}$とおく。$\mathbb{R}_{>0}$を乗法により群、$\mathbb{R}$を加法により群とする。写像$\phi:\mathbb{R} \to \mathbb{R}_{>0}$を$\phi(x) = e^x$と定義する。$x, y \in \mathbb{R}$なら$\phi(x+y) = e^{x+y} = e^x \cdot e^y = \phi(x)\phi(y)$なので、$\phi$は準同型である。指数関数は$\mathbb{R}$から$\mathbb{R}_{>0}$への全単射より、$\phi$は同型である。(命題\ref{prop:isomorphic}より)
+
+
+\section{剰余類}
+
+\subsection{同値関係の復習}
+
+まずは、剰余類の定義や証明に必要な同値関係や合同関係、同値類などに関して簡単に復習する。
+
+\subsubsection{同値関係}
+
+集合$S$上の関係$\sim$が次の条件を満たすとき、同値関係と呼ぶ。
+
+\defi{同値関係}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item {\bf 反射律}: $a \sim a$
+\item {\bf 対称律}: $a \sim b$ならば$b \sim a$
+\item {\bf 推移律}: $a \sim b, b \sim c$なら$a \sim c$
+\end{enumerate}
+
+\exam 集合$S$があり、$x, y \in S$のとき、$x = y$(等号)は同値関係である。
+
+\exam $x, y \in \mathbb{Z}$における通常の不等号、$x \leqq y$は、$0 \leqq 1$ではあるが、$1 \leqq 0$とはならず、対称律を満たさないため、同値関係ではない。
+
+\subsubsection{合同関係}
+
+合同とは、ある正の整数$p$を法として、$x,y \in \mathbb{Z}$を$p$で割ったときの剰余(余り)が等しいときの$x$と$y$の関係を言い、$x \equiv y \quad (mod \quad p)$と書く。
+
+あるいは、正の整数$p$を固定する。$x, y \in \mathbb{Z}$に対し、$x - y$が$p$で割り切れる時も$x$と$y$は同号関係にあり、$x \equiv y \quad (mod \quad p)$と書く。
+
+\exam $7$と$1$は$3$を法として、合同である。$7 \equiv 1 \quad (mod \quad 3)$
+
+$7 - 1$が$3$で割り切れることも確認できる。
+
+\exam $29$と$15$は$7$を法として、合同である。$29 \equiv 15 \quad (mod \quad 7)$
+
+$29 - 15$が$7$で割り切れることも確認できる。
+
+\prop 合同関係は同値関係である。
+
+{\bf 証明}
+
+正の整数$p$を固定し、$x, y \in \mathbb{Z}$とする。$x - y$が$p$で割り切れれば、$y - x$も$p$で割り切れることより、$x \equiv y \quad (mod \quad p)$なら、$y \equiv x \quad (mod \quad p)$である。これより、対称律を満たす。また、$x \equiv x \quad (mod \quad p)$は明らかなので、反射律を満たす。$x, y, z \in \mathbb{Z}$で、$x \equiv y \quad (mod \quad p), \quad y \equiv z \quad (mod \quad p)$であるなら、$x-y = ap,\quad y-z=bp$となるような$a, b \in \mathbb{Z}$があるので、$x - z = (x - y) + (y - z) = (a + b)p$も$p$で割り切れる。よって、$x \equiv z \quad (mod \quad p)$より、推移律を満たす。
+これらより、合同関係は同値関係である。
+
+\subsubsection{同値類}
+
+\defi{$\sim$を集合$S$上の同値関係とする。$x \in S$に対し、$C(x) = \{y \in S | y \sim x\}$を$x$の同値類という。}\label{defi:equivClass}
+
+\prop{集合S上の同値関係、$C(X)$を$x \in S$の同値類とすると、以下の命題が成り立つ。}\label{prop:equivClass}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 任意の$y,z \in C(X)$に対し、$y \sim z$
+\item もし$y \in C(x)$なら$C(x) = C(y)$である。
+\item もし$x,y \in S$で$C(x) \cap C(y) \neq \phi$なら$C(x) = C(y)$である。
+\end{enumerate}
+
+{\bf 証明}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 同値類は同値関係を満たしているので明らか。$z \sim x$なので、$x \sim z$である。$y \sim x$でもあるので、推移律より$y \sim z$となる。
+\item $y \in C(X)$とする。(1)より、$x \sim z$なら、$y \sim x$であり、$y \sim z$となるので、$C(x) \subset C(y)$である。ここで、$x \in C(y)$なので、$y$と$x$を入れ替えて、
+$C(y) \subset C(x)$も言える。こより、$C(x) = C(y)$である。
+\item $x,y \in S, z \in C(x) \cap C(y)$なら、(2)より、$C(x) = C(z), C(y) = C(z)$となり、$C(x) = C(y)$である。
+\end{enumerate}
+
+\exam nを正の整数とする。$x, y \in \mathbb{Z}$であり、$x \in \mathbb{Z}$の同値類は$y - x$が$n$で割り切れるような$y$全体となる。これは、$y - x \in n\mathbb{Z}$と同値であるので、
+
+$$
+C(x) = \{x + z | z \in n\mathbb{Z}\} = x + n\mathbb{Z}
+$$
+
+となる。命題\ref{prop:equivClass}より、任意の$y \in n\mathbb{Z}$に対し、$x + n\mathbb{Z} = y + n\mathbb{Z}$である。
+
+\subsubsection{同値類の類別}
+集合$S$に同値関係$\sim$が与えられると、同値類によって$S$が互いに素な空でない部分集合に分割されることになる。これを$S$の同値関係$\sim$による{\bf 同値類別}という。
+
+\defi{\bf 商集合}\label{defi:quotientSet}
+
+同値類別された同値類の集合を{\bf 商集合}といい、
+\begin{eqnarray*}
+S/{\sim}  = \{C(x)| x ∈ S\}
+\end{eqnarray*}
+と表す。
+
+このとき、同値類(各元)を$\overline{x}$と書く。
+
+\exam 正の整数nを法として合同な整数全体の商集合を$\mathbb{Z}/n\mathbb{Z} = \{\overline{0}, ...., \overline{n - 1}\}$と書く。
+2を法として合同な整数の商集合は$\mathbb{Z}/2\mathbb{Z} = \{\overline{0}, \overline{1}\}$であり、
+3を法として合同な整数の商集合は$\mathbb{Z}/3\mathbb{Z} = \{\overline{0}, \overline{1}, \overline{2}\}$となる。
+
+(ここで、$\mathbb{Z}/2\mathbb{Z}$のとき、$\overline{0} = \{x \in \mathbb{Z}|x = 2n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 2n + 1\}$。$\mathbb{Z}/3\mathbb{Z}$のとき、$\overline{0} = \{x \in \mathbb{Z}|x = 3n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 3n + 1\}, \overline{2} = \{x \in \mathbb{Z}|x = 3n + 2\}$)
+
+\defi{自然な写像}
+
+$S$を商集合とする。以下のような写像を、{\bf 自然な写像}と呼ぶ。
+
+$$
+\begin{array}{ccc}
+S & \stackrel{\pi}{\longrightarrow} & S/{\sim} \\
+\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
+x & \longmapsto & C(x)
+\end{array}
+$$
+
+
+\defi{代表元}
+
+$S$を商集合とする。$S$の元$C$に対して、$x \in C$となる$S$の元を代表元という
+
+\exam $\mathbb{Z}/2\mathbb{Z}$の代表元は、$\overline{0} = \{x \in \mathbb{Z}|x = 2n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 2n + 1\}$の中からそれぞれ自由に選んでよい。
+
+\defi{完全代表系}
+
+商集合$S$の部分集合$R$が$S/{\sim}$の各代表元をちょうど一つづつ含む時、$R$を同値関係$\sim$の完全代表系という。
+
+\exam $\mathbb{Z}/2\mathbb{Z}$の完全代表系は、$R = \{0, 1\}$である。
+
+\subsection{剰余類}
+
+\defi $H$を$G$の部分群、$x, y \in G$とする。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $x^{-1}y \in H$であるとき$x \sim y$と定義する。このとき、$x \in G$の同値類を$xH$と書き、$x$の$H$による{\bf 左剰余類}という。この集合を$G/H$と書く。
+\item $y^{-1}x \in H$であるとき$y \sim x$と定義する。このとき、$x \in G$の同値類を$Hx$と書き、$x$の$H$による{\bf 右剰余類}という。この集合を$H/G$と書く。
+\end{enumerate}
+
+$xH = Hx$のとき、これらを単に{\bf 剰余類}と呼ぶ。
+
+\section{正規部分群}
+
+\defi $H$を群$G$の部分群とする。$H$が$G$の正規部分群であるとは
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item すべての$g \in G$に対し$gHg^{-1} = H$
+\item すべての$g \in G, h \in H$に対し$ghg^{-1} \in H$
+\end{enumerate}
+
+が成り立つことであり、(1)と(2)は同値である。
+これを、$H \triangleleft G$、あるいは$G \triangleright H$と書く。
+
+\exam $G$が可換群で、$H$が任意の部分群なら、$gHg^{-1} = gg^{-1}H = g^{-1}gH = H$となり、$H$は正規部分群である。
+
+\prop $G_1, G_2$を群とし、$\phi: G_1 \to G_2$が準同型の時、$Ker(\phi)$は$G_1$の正規部分群である。
+
+{\bf 証明}
+
+命題\ref{prop:homomorphism}(3)より、$Ker(\phi)$は$G_1$の部分群である。
+$Ker(\phi)$は$G_1$の正規部分群であるあることを示す。
+
+$g \in G_1, h \in Ker(\phi)$なら、
+$$
+\phi(ghg^{-1}) = \phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1} = 1G_2
+$$
+(※$Ker(\phi)$の定義より、$\phi(h) = 1G_2$なので、$\phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1}$となる)
+
+これより、$ghg^{-1} \in Ker(\phi)$となり、$Ker(\phi)$は$G_1$の正規部分群である。
+
+\section{群の直積}
+
+\rem{中国式剰余定理}
+
+
+\section{準同型定理}
+
+\rem{準同型定理(第一同型定理)}
+
+$\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が可換図式となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$\psi$は$G/Ker(\phi)$から$Im(\phi)$への同型となる。
+
+
+
+\begin{thebibliography}{n}
+\bibitem[1]{key2} 雪江明彦 [代数学1 群論入門] 日本評論社
+\end{thebibliography}
+
+\end{document}
+
+
+
+
