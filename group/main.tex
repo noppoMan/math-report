@@ -9,6 +9,7 @@
 \newtheorem{exercise}[theo]{例題}
 \newtheorem{prop}[theo]{命題}
 \newtheorem{ques}[theo]{問}
+\newtheorem{lemm}[theo]{補題}
 
 \title{群論}
 
@@ -203,7 +204,7 @@ $\newline$
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \item $\boldsymbol{\phi(xy) = \phi(x)(y)}$がすべての$x, y \in G_1$に対して成り立つ時、$\phi$を{\bf 準同型}という
 \item $\phi$が準同型で逆写像を持ち、逆写像も準同型であるなら、$\phi$を{\bf 同型}という
-\item $\phi$が準同型の時、$\boldsymbol{Ker(\phi) = \{x \in G_1 | \phi(x) = 1G_2}\}$を$\phi$の{\bf 核(Kernel)}という(言い換えると、$Ker(\phi)$は$\phi$に入れると、$G_2$の単位元となる$G_1$の元の集合である)
+\item $\phi$が準同型の時、$\boldsymbol{Ker(\phi) = \{x \in G_1 | \phi(x) = 1_{G2}}\}$を$\phi$の{\bf 核(Kernel)}という(言い換えると、$Ker(\phi)$は$\phi$に入れると、$G_2$の単位元となる$G_1$の元の集合である)
 \item $\phi$が準同型の時、$\boldsymbol{Im(\phi) = \{\phi(x) | x \in G_1\}}$を$\phi$の{\bf 像(Image)}という
 \end{enumerate}
 
@@ -223,7 +224,7 @@ $\phi$は単射より、$\phi(x)\phi(y) = \phi(xy)$。これより、$\psi$は�
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $\phi(1G_1) = 1G_2$である。
+\item $\phi(1_{G1}) = 1_{G2}$である。
 \item 任意の$x \in G_1$に対し、$\phi(x^{-1}) = \phi(x)^{-1}$
 \item $Ker(\phi)$は$G_1$の部分群である
 \item $Im(\phi)$は$G_2$の部分群である
@@ -232,26 +233,57 @@ $\phi$は単射より、$\phi(x)\phi(y) = \phi(xy)$。これより、$\psi$は�
 {\bf 証明}
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $\phi(1G_1) = \phi(1G_1 1G_1) = \phi(1G_1)\phi(1G_1)$なので、両辺に左から$\phi(1G_1)^{-1}$をかけて、$\phi(1G_1) = 1G_2$ ($\phi(1G_1)\phi(1G_1)\phi(1G_1)^{-1} = \phi(1G_1), \phi(1G_1)\phi(1G_1)^{-1} = 1G_2$より)
+\item $\phi(1_{G1}) = \phi(1_{G1} 1_{G1}) = \phi(1_{G1})\phi(1_{G1})$なので、両辺に左から$\phi(1_{G1})^{-1}$をかけて、$\phi(1_{G1}) = 1_{G2}$ ($\phi(1_{G1})\phi(1_{G1})\phi(1_{G1})^{-1} = \phi(1_{G1}), \phi(1_{G1})\phi(1_{G1})^{-1} = 1_{G2}$より)
 
-\item $x \in G_1$なら$1G_2 = \phi(1G_1) = \phi(xx^{-1}) = \phi(x)\phi(x^{-1})$より、$\phi(x)(\phi(x))^{-1} = \phi(1G_1) = 1G_2$となる。したがって、$\phi(x^{-1}) = \phi(x)^{-1}$
+\item $x \in G_1$なら$1_{G2} = \phi(1_{G1}) = \phi(xx^{-1}) = \phi(x)\phi(x^{-1})$より、$\phi(x)(\phi(x))^{-1} = \phi(1_{G1}) = 1_{G2}$となる。したがって、$\phi(x^{-1}) = \phi(x)^{-1}$
 
-\item $1G_1 \in Ker(\phi)$と$1G \ni x^{-1} \in Ker(\phi)$を示す。 $Ker(\phi)$は行き先が$1G_2$となる$G_1$の元から構成されているため、 $(1)より、1G_1 \in Ker(\phi)$である。$x, y \in Ker(\phi)$なら$\phi(xy) = \phi(x)\phi(y) = 1G_21G_2 = 1G_2$なので、$xy \in Ker(\phi)$である。
-$\phi$は準同型なので、$\phi(x^{-1}) = \phi(x)^{-1} = 1G_2^{-1} = 1G_2$より、$x^{-1} \in Ker(\phi)$である。したがって、$Ker(\phi)$は$G_1$の部分群である。
+\item $1_{G1} \in Ker(\phi)$と$1_G \ni x^{-1} \in Ker(\phi)$を示す。 $Ker(\phi)$は行き先が$1_{G2}$となる$G_1$の元から構成されているため、 $(1)より、1_{G1} \in Ker(\phi)$である。$x, y \in Ker(\phi)$なら$\phi(xy) = \phi(x)\phi(y) = 1_{G2}1_{G2} = 1_{G2}$なので、$xy \in Ker(\phi)$である。
+$\phi$は準同型なので、$\phi(x^{-1}) = \phi(x)^{-1} = 1_{G2}^{-1} = 1_{G2}$より、$x^{-1} \in Ker(\phi)$である。したがって、$Ker(\phi)$は$G_1$の部分群である。
 
-\item $1G_1 \in Im(\phi)$と$\phi(x)^{-1} \in Im(\phi) \quad (x \in Im(\phi))$を示す。$1G_2 = \phi(1G_1)$なので、像の定義より、$1G_2 \in Im(\phi)$である。任意の$x, y \in G_1$を取り、$\phi(x)\phi(y) = \phi(xy)$が準同型より言え、像の定義より、$\phi(x), \phi(y), \phi(xy) \in G_2$である。また、$x^{-1} \in G_1$より、$\phi(x^{-1}) = \phi(x)^{-1}$も同様に$Im(\phi)$の元となる。 したがって、$Im(\phi)$は$G_2$の部分群である。
+\item $1_{G1} \in Im(\phi)$と$\phi(x)^{-1} \in Im(\phi) \quad (x \in Im(\phi))$を示す。$1_{G2} = \phi(1_{G1})$なので、像の定義より、$1_{G2} \in Im(\phi)$である。任意の$x, y \in G_1$を取り、$\phi(x)\phi(y) = \phi(xy)$が準同型より言え、像の定義より、$\phi(x), \phi(y), \phi(xy) \in G_2$である。また、$x^{-1} \in G_1$より、$\phi(x^{-1}) = \phi(x)^{-1}$も同様に$Im(\phi)$の元となる。 したがって、$Im(\phi)$は$G_2$の部分群である。
 \end{enumerate}
 
 \exam $G$を群、$x \in G$とする。$\mathbb{Z}$を加法により群とし、写像$\phi: \mathbb{Z} \to G$を$\phi(n) = x^n$と定義する。任意の$m, n \in \mathbb{Z}$に対し、$\phi(n + m) = x^{n + m} = x^nx^m = \phi(m)\phi(n)$なので、$\phi$は準同型である。
 
 \exam $\mathbb{R}_{>0} = \{r \in \mathbb{R} | r > 0\}$とおく。$\mathbb{R}_{>0}$を乗法により群、$\mathbb{R}$を加法により群とする。写像$\phi:\mathbb{R} \to \mathbb{R}_{>0}$を$\phi(x) = e^x$と定義する。$x, y \in \mathbb{R}$なら$\phi(x+y) = e^{x+y} = e^x \cdot e^y = \phi(x)\phi(y)$なので、$\phi$は準同型である。指数関数は$\mathbb{R}$から$\mathbb{R}_{>0}$への全単射より、$\phi$は同型である。(命題\ref{prop:isomorphic}より)
 
+\section{正規部分群}
 
-\section{剰余類}
+\defi{$H$を群$G$の部分群とする。$H$が$G$の正規部分群であるとは
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item すべての$g \in G$に対し$gHg^{-1} = H$
+\item すべての$g \in G, h \in H$に対し$ghg^{-1} \in H$
+\end{enumerate}}\label{defi:normalGroup}
+
+が成り立つことであり、(1)と(2)は同値である。
+これを、$H \triangleleft G$、あるいは$G \triangleright H$と書く。
+
+\exam $G$が可換群で、$H$が任意の部分群なら、$gHg^{-1} = gg^{-1}H = g^{-1}gH = H$となり、$H$は正規部分群である。
+
+\exam $G$を群、$H$を$G$の部分群とする。このとき、$\{1_G\}$は正規部分群である。
+なぜなら単位元は可換で、$1_GH = H1_G = H$となるから。ｔ
+
+\prop $G_1, G_2$を群とし、$\phi: G_1 \to G_2$が準同型の時、$Ker(\phi)$は$G_1$の正規部分群である。
+
+{\bf 証明}
+
+命題\ref{prop:homomorphism}(3)より、$Ker(\phi)$は$G_1$の部分群である。
+$Ker(\phi)$は$G_1$の正規部分群であるあることを示す。
+
+$g \in G_1, h \in Ker(\phi)$なら、
+$$
+\phi(ghg^{-1}) = \phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1} = 1_{G2}
+$$
+(※$Ker(\phi)$の定義より、$\phi(h) = 1_{G2}$なので、$\phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1}$となる)
+
+これより、$ghg^{-1} \in Ker(\phi)$となり、$Ker(\phi)$は$G_1$の正規部分群である。
+
+\section{剰余群}
 
 \subsection{同値関係の復習}
 
-まずは、剰余類の定義や証明に必要な同値関係や合同関係、同値類などに関して簡単に復習する。
+まずは、剰余群の定義や証明に必要な同値関係や合同関係、同値類などに関して簡単に復習する。
 
 \subsubsection{同値関係}
 
@@ -320,7 +352,7 @@ $$
 C(x) = \{x + z | z \in n\mathbb{Z}\} = x + n\mathbb{Z}
 $$
 
-となる。命題\ref{prop:equivClass}より、任意の$y \in n\mathbb{Z}$に対し、$x + n\mathbb{Z} = y + n\mathbb{Z}$である。
+となる。命題\ref{prop:equivClass}(2)より、任意の$y \in n\mathbb{Z}$に対し、$x + n\mathbb{Z} = y + n\mathbb{Z}$である。
 
 \subsubsection{同値類の類別}
 集合$S$に同値関係$\sim$が与えられると、同値類によって$S$が互いに素な空でない部分集合に分割されることになる。これを$S$の同値関係$\sim$による{\bf 同値類別}という。
@@ -331,20 +363,12 @@ $$
 \begin{eqnarray*}
 S/{\sim}  = \{C(x)| x ∈ S\}
 \end{eqnarray*}
-と表す。
+と表す。整数の商を使った具体的なケースを定義\ref{defi:IntegerCoset}で示す。
 
-このとき、同値類(各元)を$\overline{x}$と書く。
-
-\exam 正の整数nを法として合同な整数全体の商集合を$\mathbb{Z}/n\mathbb{Z} = \{\overline{0}, ...., \overline{n - 1}\}$と書く。
-2を法として合同な整数の商集合は$\mathbb{Z}/2\mathbb{Z} = \{\overline{0}, \overline{1}\}$であり、
-3を法として合同な整数の商集合は$\mathbb{Z}/3\mathbb{Z} = \{\overline{0}, \overline{1}, \overline{2}\}$となる。
-
-(ここで、$\mathbb{Z}/2\mathbb{Z}$のとき、$\overline{0} = \{x \in \mathbb{Z}|x = 2n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 2n + 1\}$。$\mathbb{Z}/3\mathbb{Z}$のとき、$\overline{0} = \{x \in \mathbb{Z}|x = 3n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 3n + 1\}, \overline{2} = \{x \in \mathbb{Z}|x = 3n + 2\}$)
-
-\defi{自然な写像}
-
-$S$を商集合とする。以下のような写像を、{\bf 自然な写像}と呼ぶ。
-
+\defi $\sim$を集合S上の同値関係とする。
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $S$の元$x$に対して、$C(x) \in S/{\sim}$を対応させた写像$\pi$とする。このとき、$\pi$を{\bf 自然な写像}と呼び、定義は以下である。
 $$
 \begin{array}{ccc}
 S & \stackrel{\pi}{\longrightarrow} & S/{\sim} \\
@@ -353,68 +377,105 @@ x & \longmapsto & C(x)
 \end{array}
 $$
 
+\item $S/{\sim}$の元$C$に対して、$x \in C$となる$S$の元を{\bf 代表元}という
 
-\defi{代表元}
+\item $S$の部分集合$R$が$S/{\sim}$の各代表元をちょうど一つづつ含む時、$R$を同値関係$\sim$の{\bf 完全代表系}という。
 
-$S$を商集合とする。$S$の元$C$に対して、$x \in C$となる$S$の元を代表元という
-
-\exam $\mathbb{Z}/2\mathbb{Z}$の代表元は、$\overline{0} = \{x \in \mathbb{Z}|x = 2n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 2n + 1\}$の中からそれぞれ自由に選んでよい。
-
-\defi{完全代表系}
-
-商集合$S$の部分集合$R$が$S/{\sim}$の各代表元をちょうど一つづつ含む時、$R$を同値関係$\sim$の完全代表系という。
-
-\exam $\mathbb{Z}/2\mathbb{Z}$の完全代表系は、$R = \{0, 1\}$である。
+\end{enumerate}
 
 \subsection{剰余類}
+
+\defi{整数の商集合と剰余類}\label{defi:IntegerCoset}
+
+正の整数nを法として合同な整数全体の商集合を$\mathbb{Z}/n\mathbb{Z} = \{\overline{0}, ...., \overline{n - 1}\}$と書き、{\bf 剰余環}という。このとき各元を$\overline{x}$のように書き、$\overline{x}$をnを法とする{\bf 剰余類}という。(剰余類の各元は同値関係を満たしているので、同値類である。)
+
+\exam 2を法として合同な整数の商集合は$\mathbb{Z}/2\mathbb{Z} = \{\overline{0}, \overline{1}\}$であり、
+3を法として合同な整数の商集合は$\mathbb{Z}/3\mathbb{Z} = \{\overline{0}, \overline{1}, \overline{2}\}$となる。
+
+各ケースにおける剰余類は、以下のようになる。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\mathbb{Z}/2\mathbb{Z}$のとき
+\begin{eqnarray*}
+&\overline{0} &= \{x \in \mathbb{Z}|x = 2n\} \\
+&\overline{1} &= \{x \in \mathbb{Z}|x = 2n + 1\}
+\end{eqnarray*}
+
+\item $\mathbb{Z}/3\mathbb{Z}$のとき
+\begin{eqnarray*}
+&\overline{0} &= \{x \in \mathbb{Z}|x = 3n\} \\
+&\overline{1} &= \{x \in \mathbb{Z}|x = 3n + 1\} \\
+&\overline{2} &= \{x \in \mathbb{Z}|x = 3n + 2\}
+\end{eqnarray*}
+\end{enumerate}
+
+\exam{$\mathbb{Z}/2\mathbb{Z}$の代表元}
+
+$\mathbb{Z}/2\mathbb{Z}$の代表元は、$\overline{0} = \{x \in \mathbb{Z}|x = 2n + 0\}, \overline{1} = \{x \in \mathbb{Z}|x = 2n + 1\}$の中からそれぞれ自由に選んでよい。
+
+\exam {$\mathbb{Z}/2\mathbb{Z}$の完全代表系}
+
+$\mathbb{Z}/2\mathbb{Z}$の完全代表系は、$R = \{0, 1\}$である。
 
 \defi $H$を$G$の部分群、$x, y \in G$とする。
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $x^{-1}y \in H$であるとき$x \sim y$と定義する。このとき、$x \in G$の同値類を$xH$と書き、$x$の$H$による{\bf 左剰余類}という。この集合を$G/H$と書く。
-\item $y^{-1}x \in H$であるとき$y \sim x$と定義する。このとき、$x \in G$の同値類を$Hx$と書き、$x$の$H$による{\bf 右剰余類}という。この集合を$H/G$と書く。
+\item $x^{-1}y \in H$であるとき$x \sim y$と定義する。このとき、$x \in G$の同値類を$xH$と書き($xH = \{xh | h \in H\}$)、$x$の$H$による{\bf 左剰余類}という。この集合を$G/H$と書く。
+\item $y^{-1}x \in H$であるとき$y \sim x$と定義する。このとき、$x \in G$の同値類を$Hx$と書き($Hx = \{hx | h \in H\}$)、$x$の$H$による{\bf 右剰余類}という。この集合を$H/G$と書く。
 \end{enumerate}
 
-$xH = Hx$のとき、これらを単に{\bf 剰余類}と呼ぶ。
+$xH = Hx$のとき、これらを単に先に上げた、{\bf 剰余類}と呼ぶ。
 
-\section{正規部分群}
+\prop $N$が群$G$の正規部分群で、$g \in G$なら、$gN = Ng$である。
+$\newline$
+{\bf 証明}
 
-\defi $H$を群$G$の部分群とする。$H$が$G$の正規部分群であるとは
-\begin{enumerate}
-\renewcommand{\labelenumi}{(\arabic{enumi})}
-\item すべての$g \in G$に対し$gHg^{-1} = H$
-\item すべての$g \in G, h \in H$に対し$ghg^{-1} \in H$
-\end{enumerate}
+$n \in N$なら、$n' = gng^{-1}$とおくと、定義\ref{defi:normalGroup}(2)より、$n' \in N$である。よって、$gn = n'g \in Ng$である。これがすべての$n \in N$に成り立つことより、$gN \subset Ng$。同様の議論で$Ng \subset gN$も成り立つことが言えるため、$gN = Ng$である。
 
-が成り立つことであり、(1)と(2)は同値である。
-これを、$H \triangleleft G$、あるいは$G \triangleright H$と書く。
+これより、$N$が正規部分群であれば、$gN = Ng$が成り立ち左剰余類と右剰余類が一致する。
 
-\exam $G$が可換群で、$H$が任意の部分群なら、$gHg^{-1} = gg^{-1}H = g^{-1}gH = H$となり、$H$は正規部分群である。
+\subsection{剰余群}
 
-\prop $G_1, G_2$を群とし、$\phi: G_1 \to G_2$が準同型の時、$Ker(\phi)$は$G_1$の正規部分群である。
+剰余類の集合、$G/H, H/G$にはまだ演算が導入されておらず、まだ群とは言えない。
+ここでは、これらの商集合に演算を導入し、群とみなすまでの過程を見ていく。
+
+\lemm{$G/N$への演算の導入}\label{lemm:quotientGroup}
+
+$G$を群、$N$を$G$の正規部分群とする。
+$\pi$を自然な写像$G \to G/N$とする。$g \in G$に対し、$\pi(g) = gN \in G/N$である。
+$G/N$の二つの元を剰余類の代表元$g, h \in G$により、$gN, hN$と表す。この時、$gN, hN$の積を
+
+$$
+(gN)(hN) := ghN
+$$
+と定義する。この定義が代表元$g, h$の取り方によらない(well-definedである)ことを示す。
 
 {\bf 証明}
 
-命題\ref{prop:homomorphism}(3)より、$Ker(\phi)$は$G_1$の部分群である。
-$Ker(\phi)$は$G_1$の正規部分群であるあることを示す。
+$gN, hN$の任意の元はそれぞれ$n, n' \in N$により$gn, hn'$と言える。ここで、$gnhn' = ghh^{-1}nhn'$であるが、$h^{-1}nh \in N$なので、$h^{-1}nhn' \in N$である。
+これより、$gnhn', gh$の剰余類は等しい。したがって、これらの定義は以下のwell-definedな写像
 
-$g \in G_1, h \in Ker(\phi)$なら、
 $$
-\phi(ghg^{-1}) = \phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1} = 1G_2
+\begin{array}{ccc}
+G/N \times G/N & {\longrightarrow} & ghN/{\sim} \\
+\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
+(gN, hN) & \longmapsto & G/N
+\end{array}
 $$
-(※$Ker(\phi)$の定義より、$\phi(h) = 1G_2$なので、$\phi(g)\phi(h)\phi(g)^{-1} = \phi(g)\phi(g)^{-1}$となる)
+を定義する。
 
-これより、$ghg^{-1} \in Ker(\phi)$となり、$Ker(\phi)$は$G_1$の正規部分群である。
+\defi{$G/N$}に補題\ref{lemm:quotientGroup}の演算を考えたものを、$G$の$N$による剰余群あるいは商群という。
 
-\section{群の直積}
+\prop 自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
 
-\rem{中国式剰余定理}
-
+$\pi$が全射であることは、$G/Ker(\pi)$の定義より明らか。
+TODO 証明続き
 
 \section{準同型定理}
 
-\rem{準同型定理(第一同型定理)}
+\rem{準同型定理}
 
 $\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が可換図式となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$\psi$は$G/Ker(\phi)$から$Im(\phi)$への同型となる。
 
