@@ -1,6 +1,7 @@
 \documentclass[dvipdfmx,autodetect-engine]{jsarticle}
 \usepackage{tikz}
 \usepackage{graphicx,fancybox,ascmac, amsmath, amssymb}
+\usepackage[all]{xy}
 
 \newtheorem{theo}{定理}[section]
 \newtheorem{defi}[theo]{定義}
@@ -470,15 +471,45 @@ $$
 
 \prop 自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
 
+{\bf 証明}
+
+$G/Ker(\pi) = N$とおく。
+
 $\pi$が全射であることは、$G/Ker(\pi)$の定義より明らか。
-TODO 証明続き
+
+$\pi(1_G) = \pi(1_G1_G) = \pi(1_G)\pi(1_G)$なので、$\pi(1_G)^{-1}$をかけて、$\pi(1_G) = 1_N$である。
+
+$x \in G$なら$1_N = \pi(1_G) = \pi(xx^{-1}) = \pi(x)\pi(x^{-1})$より、$\pi(x)\pi(x)^{-1} = \pi(1_G) = 1_N$となる。
+
+したがって、$\pi(x^{-1}) = \pi(x)^{-1}$より、自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
 
 \section{準同型定理}
 
 \rem{準同型定理}
 
-$\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が可換図式となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$\psi$は$G/Ker(\phi)$から$Im(\phi)$への同型となる。
+$\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が{\bf 可換図式}となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$\psi$は$G/Ker(\phi)$から$Im(\phi)$への同型となる。
 
+\[
+\xymatrix{
+G \ar[r]^{\phi} \ar[d]_{\pi} & H \\
+G/ker(\phi) \ar@{.>}[ru]_{\psi}
+}
+\]
+
+※ 可換図式とは複数の写像がある図で、同じ集合の間の異なった経路の写像の合成が等しくなる時、図は可換図式であるという。
+
+{\bf 証明}
+
+$N = Ker(\phi)$とおく。$g \in G$に対し、$\psi(gN) = \phi(g)$と定義する。$n \in N$なら、$\phi(gn) = \phi(g)\phi(n) = \phi(g)1_H = \phi(g)$となるので、$\psi$は剰余類$gN$の代表元の取り方に依存しない。($N$の全ての元は$\phi$に入れると$H$の単位元になるという性質から)
+したがって、$\psi$は$G/N$から$H$へのwell-definedな写像となる。
+
+$g, h \in G$なら、
+$$
+\psi((gN)(hN)) = \psi(ghN) = \psi(gh) = \psi(g)\psi(h) =\psi(gN)\psi(hN)
+$$
+となるので、$\psi$は準同型である。ここで、$\phi = \psi \circ \pi$となることは、$\psi$の定義から明らかである。
+
+$\psi(gN) = 1_H$なら、$\pi(g) = 1_H$であるから、$g \in N$となり、$gN = N$は$G/N$の単位元となる。
 
 
 \begin{thebibliography}{n}
