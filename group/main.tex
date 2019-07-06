@@ -131,7 +131,7 @@ $G$が群なら、$\{1\}, G$は$G$の部分群であるのは明らか。これ�
 \item $nx \in n\mathbb{Z}$の逆元を$-nx = n(-x) \in \mathbb{Z}$である。$nx + (-nx) = 1_{\mathbb{Z}} = 1_{n\mathbb{Z}} = 0$より、$-nx = nx^{-1} \in n\mathbb{Z}$。
 \end{enumerate}
 
-\ques $H = \{1, -1\} \in \mathbb{R}^{x}$とする。$H$が$\mathbb{R}^{x}$の部分群であることを、命題\ref{sec:propSubGroup}を使って示せ。
+\ques $H = \{1, -1\} \in \mathbb{R}^{\times} = \mathbb{R} \setminus \{0\}$とする。$H$が$\mathbb{R}^{\times}$の部分群であることを、命題\ref{sec:propSubGroup}を使って示せ。
 
 
 \subsection{群の生成}
@@ -248,6 +248,21 @@ $\phi$は準同型なので、$\phi(x^{-1}) = \phi(x)^{-1} = 1_{G2}^{-1} = 1_{G2
 
 \exam $\mathbb{R}_{>0} = \{r \in \mathbb{R} | r > 0\}$とおく。$\mathbb{R}_{>0}$を乗法により群、$\mathbb{R}$を加法により群とする。写像$\phi:\mathbb{R} \to \mathbb{R}_{>0}$を$\phi(x) = e^x$と定義する。$x, y \in \mathbb{R}$なら$\phi(x+y) = e^{x+y} = e^x \cdot e^y = \phi(x)\phi(y)$なので、$\phi$は準同型である。指数関数は$\mathbb{R}$から$\mathbb{R}_{>0}$への全単射より、$\phi$は同型である。(命題\ref{prop:isomorphic}より)
 
+
+\prop{$\phi: G_1 \to G_2$が準同型なら、以下は同値である。}\label{prop:hommSingkeUnitKerAndInjective}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\phi$は単射である
+\item $Ker(\phi) = \{1_{G_1}\}$
+\end{enumerate}
+
+{\bf 証明}
+
+{\bf (1) $\Rightarrow$ (2):} $\phi$は単射とする。命題\ref{prop:homomorphism}(1)より、$1_{G_1} \in Ker({\phi})$である。$g \in Ker(\phi)$なら、$\phi(g) = 1_{G_2} = \phi(1_{G_1})$である。$\phi$が単射なので、$g = 1_{G_1}$であるから、$Ker(\phi) = \{1_{G_1}\}$となる。
+
+{\bf (2) $\Rightarrow$ (1):} $Ker(\phi) = \{1_{G_1}\}$と仮定する。$g, h \in G_1$で、$\phi(g) = \phi(h)$であれば、$\phi(gh^{-1}) = \phi(g)\phi(h)^{-1} = 1_{G_2}$なので、$gh^{-1} \in Ker(\phi) = {1_{G_1}}$である。これより、$g = h$なので、$\phi$は単射である。
+
 \section{正規部分群}
 
 \defi{$H$を群$G$の部分群とする。$H$が$G$の正規部分群であるとは
@@ -309,13 +324,9 @@ $$
 
 あるいは、正の整数$p$を固定する。$x, y \in \mathbb{Z}$に対し、$x - y$が$p$で割り切れる時も$x$と$y$は同号関係にあり、$x \equiv y \quad (mod \quad p)$と書く。
 
-\exam $7$と$1$は$3$を法として、合同である。$7 \equiv 1 \quad (mod \quad 3)$
+\exam $7$と$1$は$3$を法として、合同である。あるいは、$7 \equiv 1 \quad (mod \quad 3)$と書く。$7 - 1$が$3$で割り切れることも確認できる。
 
-$7 - 1$が$3$で割り切れることも確認できる。
-
-\exam $29$と$15$は$7$を法として、合同である。$29 \equiv 15 \quad (mod \quad 7)$
-
-$29 - 15$が$7$で割り切れることも確認できる。
+\exam $29$と$15$は$7$を法として、合同である。あるいは、$29 \equiv 15 \quad (mod \quad 7)$と書く。$29 - 15$が$7$で割り切れることも確認できる。
 
 \prop 合同関係は同値関係である。
 
@@ -389,6 +400,8 @@ $$
 \defi{整数の商集合と剰余類}\label{defi:IntegerCoset}
 
 正の整数nを法として合同な整数全体の商集合を$\mathbb{Z}/n\mathbb{Z} = \{\overline{0}, ...., \overline{n - 1}\}$と書き、{\bf 剰余環}という。このとき各元を$\overline{x}$のように書き、$\overline{x}$をnを法とする{\bf 剰余類}という。(剰余類の各元は同値関係を満たしているので、同値類である。)
+
+\exam 準同型写像$\phi$における$Ker(\phi)$は剰余類を用いて、$g \in Ker(\phi)$に対し、$Ker(\phi) = \{1_H\} = \{\overline{g}\}$と表せる。
 
 \exam 2を法として合同な整数の商集合は$\mathbb{Z}/2\mathbb{Z} = \{\overline{0}, \overline{1}\}$であり、
 3を法として合同な整数の商集合は$\mathbb{Z}/3\mathbb{Z} = \{\overline{0}, \overline{1}, \overline{2}\}$となる。
@@ -469,25 +482,18 @@ $$
 
 \defi{$G/N$}に補題\ref{lemm:quotientGroup}の演算を考えたものを、$G$の$N$による剰余群あるいは商群という。
 
-\prop 自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
+\prop{自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。}\label{prop:wellDefinedHom}
 
 {\bf 証明}
 
-$G/Ker(\pi) = N$とおく。
-
-$\pi$が全射であることは、$G/Ker(\pi)$の定義より明らか。
-
-$\pi(1_G) = \pi(1_G1_G) = \pi(1_G)\pi(1_G)$なので、$\pi(1_G)^{-1}$をかけて、$\pi(1_G) = 1_N$である。
-
-$x \in G$なら$1_N = \pi(1_G) = \pi(xx^{-1}) = \pi(x)\pi(x^{-1})$より、$\pi(x)\pi(x)^{-1} = \pi(1_G) = 1_N$となる。
-
-したがって、$\pi(x^{-1}) = \pi(x)^{-1}$より、自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
+$Ker(\pi) = K$とする。$\pi$が全射であることは、$G/Ker(\pi)$の定義より明らか。$\pi$が準同型であることを示す。
+$\pi$は補題\ref{lemm:quotientGroup}より、積について閉じている。 $\pi(1_G) = \pi(1_G1_G) = \pi(1_G)\pi(1_G)$なので、$\pi(1_G)^{-1}$をかけて、$\pi(1_G) = 1_{G/K}$である。$x \in G$なら$\pi(1_G) = \pi(xx^{-1}) = \pi(x)\pi(x^{-1}) = \pi(x)\pi(x)^{-1} = 1_{G/K}$となる。したがって、$\pi(x^{-1}) = \pi(x)^{-1}$より、自然な写像$\pi: G \to G/Ker(\pi)$は群の全射準同型である。
 
 \section{準同型定理}
 
 \rem{準同型定理}
 
-$\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が{\bf 可換図式}となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$\psi$は$G/Ker(\phi)$から$Im(\phi)$への同型となる。
+$\phi: G \to H$を群の準同型とする。$\pi: G \to G/Ker(\phi)$を自然な準同型写像とするとき、下図が{\bf 可換図式}となるような準同型写像$\psi: G/Ker(\phi) \to H$がただ一つ存在し、$G/Ker(\phi) \simeq Im(\phi)$となる。
 
 \[
 \xymatrix{
@@ -500,17 +506,40 @@ G/ker(\phi) \ar@{.>}[ru]_{\psi}
 
 {\bf 証明}
 
-$N = Ker(\phi)$とおく。$g \in G$に対し、$\psi(gN) = \phi(g)$と定義する。$n \in N$なら、$\phi(gn) = \phi(g)\phi(n) = \phi(g)1_H = \phi(g)$となるので、$\psi$は剰余類$gN$の代表元の取り方に依存しない。($N$の全ての元は$\phi$に入れると$H$の単位元になるという性質から)
+% prop:wellDefinedHom
+% psiが単射であることを証明。
+% psiが準同型であることを証明。
+
+$N = Ker(\phi)$とおく。$g \in G$に対し、$\psi(gN) = \phi(g)$と定義する。$n \in N$なら、$\phi(gn) = \phi(g)\phi(n) = \phi(g)1_H = \phi(g)$となるので、$\psi$は剰余類$gN$の代表元の取り方に依存しない。($N$の全ての元は$\phi$に写すと$H$の単位元になる)
 したがって、$\psi$は$G/N$から$H$へのwell-definedな写像となる。
 
 $g, h \in G$なら、
 $$
-\psi((gN)(hN)) = \psi(ghN) = \psi(gh) = \psi(g)\psi(h) =\psi(gN)\psi(hN)
+\psi((gN)(hN)) = \psi(ghN) = \phi(gh)1_H = \phi(g)\phi(h) =\psi(gN)\psi(hN)
 $$
 となるので、$\psi$は準同型である。ここで、$\phi = \psi \circ \pi$となることは、$\psi$の定義から明らかである。
 
-$\psi(gN) = 1_H$なら、$\pi(g) = 1_H$であるから、$g \in N$となり、$gN = N$は$G/N$の単位元となる。
+$\psi$が全単射であることを示す。
+任意の$g \in G$に対して、$\psi(gN) = \phi(g)$なので、$\psi$は全射である。
+任意の$g, h \in G$で$\psi(gN) = \psi(hN)$ならば、$\phi(g) = \phi(h)$である。$\phi(gh^{-1}) = \phi(g)\phi(h)^{-1} = 1_H$より、$gh^{-1} \in Ker(\phi)$となり、$gN = hN$だから、$\psi$は単射である。これらより、$\psi$は同型である。したがって、$Im(\phi)$は$H$の部分群より、$G/Ker(\phi) \simeq Im(\phi)$となる。
 
+$\psi$が$\psi \circ \pi = \phi$という条件を満たせば、$g \in G$に対し、$\psi(gN) = \phi(g)$と値が定まってしまうので、$\psi$は一意に定まる。
+
+
+\exam{$\phi: \mathbb{Z} \to \mathbb{Z}/5\mathbb{Z}は準同型で、\mathbb{Z}/Ker(\phi) \simeq Im(\phi)$である。}
+
+$K = Ker(\phi) = \{x \in \mathbb{Z}| \phi(\mathbb{Z}) = \overline{0}\} = 5\mathbb{Z}$とおく。これより、$\phi$は自然な写像と言えるので、全射準同型。
+
+写像$\psi$を以下のように定義する。(但し、$x \in \mathbb{Z}$)
+$$
+\begin{array}{ccc}
+\mathbb{Z}/K & {\longrightarrow}  & \mathbb{Z}/5\mathbb{Z} \\
+\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
+(xK) & \longmapsto & \phi(x)
+\end{array}
+$$
+
+$Ker(\phi)$の定義より、$\psi$は$\mathbb{Z}/5\mathbb{Z}$から$\mathbb{Z}/5\mathbb{Z}$への写像なので、同型である。よって、$\mathbb{Z}/Ker(\phi) \simeq Im(\phi)$。
 
 \begin{thebibliography}{n}
 \bibitem[1]{key2} 雪江明彦 [代数学1 群論入門] 日本評論社
