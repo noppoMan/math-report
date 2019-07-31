@@ -224,9 +224,9 @@ $\phi$は単射より、$\psi(x)\psi(y) = \psi(xy)$。これより、$\psi$は�
 {\bf 証明}
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $\phi(1_{G1}) = \phi(1_{G1} 1_{G1}) = \phi(1_{G1})\phi(1_{G1})$なので、両辺に左から$\phi(1_{G1})^{-1}$をかけると、$\phi(1_{G1}) = 1_{G2}$ ($\phi(1_{G1})\phi(1_{G1})\phi(1_{G1})^{-1} = \phi(1_{G1}), \phi(1_{G1})\phi(1_{G1})^{-1} = 1_{G2}$より)
+\item $\phi(1_{G1}) = \phi(1_{G1} 1_{G1}) = \phi(1_{G1})\phi(1_{G1})$なので、両辺に左から$\phi(1_{G1})^{-1}$をかけると、$\phi(1_{G1}) = 1_{G2}$
 
-\item $x \in G_1$なら$1_{G2} = \phi(1_{G1}) = \phi(xx^{-1}) = \phi(x)\phi(x^{-1})$である。また、$\phi(x)(\phi(x))^{-1} = \phi(1_{G1}) = 1_{G2}$が常に成立する。したがって、この2式より、$\phi(x^{-1}) = \phi(x)^{-1}$
+\item $x \in G_1$なら$1_{G2} = \phi(1_{G1}) = \phi(xx^{-1}) = \phi(x)\phi(x^{-1})$である。両辺に$\phi(x)^{-1}$をかけると、$\phi(x)^{-1}1_{G2} = \phi(x)^{-1}\phi(x)\phi(x^{-1})$となり、$\phi(x)^{-1} = \phi(x^{-1})$が成立。
 
 \item $1_{G1} \in Ker(\phi)$と$x \in Ker(\phi) \Rightarrow x^{-1} \in Ker(\phi)$及び、$x, y \in Ker(\phi) \Rightarrow xy \in Ker(\phi)$を示す。
 $Ker(\phi)$は行き先が$1_{G2}$となる$G_1$の元から構成されているため、 $(1)より、1_{G1} \in Ker(\phi)$である。$x, y \in Ker(\phi)$なら$\phi(xy) = \phi(x)\phi(y) = 1_{G2}1_{G2} = 1_{G2}$なので、$xy \in Ker(\phi)$である。
@@ -529,3 +529,7 @@ $Ker(\phi)$の定義より、$\psi$は$\mathbb{Z}/5\mathbb{Z}$から$\mathbb{Z}/
 \end{thebibliography}
 
 \end{document}
+
+
+
+
