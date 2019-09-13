@@ -1,0 +1,1229 @@
+\documentclass[dvipdfmx,autodetect-engine]{jsarticle}
+\usepackage{tikz}
+\usepackage{graphicx,fancybox,ascmac, amsmath, amssymb}
+\usepackage[all]{xy}
+\usepackage{bm}
+\usepackage{cases}
+
+\newtheorem{theo}{定理}[section]
+\newtheorem{defi}[theo]{定義}
+\newtheorem{rem}[theo]{定理}
+\newtheorem{exam}[theo]{例}
+\newtheorem{exercise}[theo]{例題}
+\newtheorem{prop}[theo]{命題}
+\newtheorem{ques}[theo]{問}
+\newtheorem{lemm}[theo]{補題}
+
+% functions %
+\newcommand{\innerProduct}[2]{\langle \bm{#1}, \bm{#2} \rangle}
+\newcommand{\tensorProduct}[2]{\bm{#1} \otimes \bm{#2}}
+\newcommand{\transposeMat}[1]{{}^t\!{#1}}
+\newcommand{\transposeVec}[1]{{}^t\!{\bm{#1}}}
+\newcommand{\vecSet}[0]{\mathbb{R}^n}
+
+\title{線形代数}
+
+\author{武井優己}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{2次行列の演算}
+
+線形代数では、数の拡張としてベクトル、行列という高次元の数を考える。いきなりn次元に目を向けるのは難しいので、ウォーミングアップとして2次元の行列に対して、通常の数と同様の加法と乗法を天下り的に定義する。ここでは、行列は我々の知る実数に似た代数的構造を持つ（実数のような演算ができる）ということが単に分かればよい。なぜそうなるかはこのレポートを読み進めていくうちに自ずと理解できるようになってくる。
+
+$A, A'$をそれぞれ以下の2次（正方）行列とし、行列の演算を進めていくことにする。2次正方行列とは行と列がそれぞれ$2 \times 2$の形をした行列のことである。
+
+$$
+A = \begin{pmatrix}
+a & b \\
+c & d \\
+\end{pmatrix},
+A' = \begin{pmatrix}
+a' & b' \\
+c' & d' \\
+\end{pmatrix}
+$$
+
+$A$であれば、$(a, b), (c, d)$の横の並びが行、$\begin{pmatrix}
+a \\
+c \\
+\end{pmatrix}, \begin{pmatrix}
+b \\
+d \\
+\end{pmatrix}$の縦の並びが列に該当する。
+
+
+\subsection{2次行列の加法}
+
+$A, A'$に対し、その和を
+
+$$
+A + A' = \begin{pmatrix}
+a + a' & b + b' \\
+c + c' & d = d'\\
+\end{pmatrix}
+$$
+
+によって定義する。
+
+$A,A'$の他に、
+
+$$
+A'' = \begin{pmatrix}
+a'' & b'' \\
+c'' & d'' \\
+\end{pmatrix}
+$$
+
+があるとすれば、これらの和は
+
+$$
+(A + A') + A'' = \begin{pmatrix}
+(a + a') + a'' & (b + b') + b'' \\
+(c + c') + c'' & (d + d') + d'' \\
+\end{pmatrix}
+$$
+
+$$
+A + (A' + A'') = \begin{pmatrix}
+a + (a' + a'') & b + (b' + b'') \\
+c + (c' + c'') & d + (d') + d'') \\
+\end{pmatrix}
+$$
+
+と書くことができる。
+
+ここで、和で表される各成分は実数における加法の形になっているため、
+
+$$
+(A + A') + A'' = A + (A' + A'')
+$$
+
+と結合法則が成立する。同様に、
+$$
+A + A' = A' + A
+$$
+
+と交換法則も成立する。
+
+\subsubsection{零行列}
+
+すべての成分が0である行列を{\bf 零行列}といい
+
+$$
+0 = \begin{pmatrix}
+0 & 0 \\
+0 & 0 \\
+\end{pmatrix}
+$$
+
+と書く。演算において零行列は単に$0$として表し、$A + 0 = 0 + A = A$が成立する。
+
+\subsubsection{2次行列の減法}
+
+加法の逆演算として減法も可能である。$X + A = A'$となる2次行列
+
+$$
+X = \begin{pmatrix}
+x & y \\
+z & w \\
+\end{pmatrix}
+$$
+
+が存在する。このような$X$があったとすれば、$A'$のそれぞれの成分は
+
+\begin{eqnarray*}
+x + a = a', \quad y + b = b' \\
+z + c = c', \quad w + d = d' \\
+\end{eqnarray*}
+
+であるから、$X$の成分はそれぞれ
+
+\begin{eqnarray*}
+x = a' - a, \quad y = b' - b \\
+z = c' - c, \quad w = d' - d \\
+\end{eqnarray*}
+
+でなければならない。これより、$X$の成分は$A, A'$の差の唯一の解
+
+
+$$
+X = \begin{pmatrix}
+a' - a & b' - b \\
+c' - c & d' - d \\
+\end{pmatrix}
+$$
+
+をもつ。この$X$を$A'-A$とするのが行列の減法である。
+
+\subsubsection{2次行列の乗法}\label{subsubsection:matrixMultiple}
+
+二つの2次行列$A, A'$の積を次のように定義する。
+
+$$
+AA' = \begin{pmatrix}
+aa' + bc' & ab' + bd' \\
+ca' + dc' & cb' + dd' \\
+\end{pmatrix}
+$$
+
+$A$の$i$行と$A'$の$j$列の対応する成分の積の和を$AA'$の$(i, j)$成分と定義するのが行列の積である。なぜ加法のような対応ではないのかと疑問に思うが、それは本レポートを読み進めるうちに理解できるようになる。
+
+積についても、結合法則が成立する。
+
+$$
+A'' = \begin{pmatrix}
+a'' & b'' \\
+c'' & d'' \\
+\end{pmatrix}
+$$
+
+とすると、
+
+$$
+(AA')A'' = A(A'A'')
+$$
+
+である。しかし、2次行列の積に関しては交換法則
+
+$$
+AA' = A'A
+$$
+
+は一般には成立しない。実際、$AA'$の$(1, 1)$成分は$aa' + bc'$であるが、$A'A$の$(1, 1)$成分は、$a'a + b'c$となり、$AA' \neq A'A$である。
+
+加法と乗法を組み合わせると、
+
+\begin{eqnarray*}
+A(A' + A'') = AA' + AA'' \\
+(A' + A'')A = A'A + A''A
+\end{eqnarray*}
+
+のような分配法則が成立する。また、
+
+\begin{eqnarray*}
+&A0 &= 0A = 0 \\
+&A(-A') &= (-A)A' = -AA'
+\end{eqnarray*}
+
+のような実数における演算の法則が同様に成立する。このように、2次正方行列は一部の例外を除きほぼ実数と同じような振る舞いをすることが分かる。（これは、群・環・体といった代数的構造の賜である）
+
+\section{一般の行列とベクトル}
+
+\subsection{行列の成分表示}
+
+$m \times n$個の数を矩形に並べ括弧で囲んだものを{\bf $m$行$n$列の行列}あるいは、{\bf $m \times n$行列}という。$m \times n$行列の全体の集合を$M_{m,n}(\mathbb{R})$と書き、$m = n$であるとき、{\bf $n$次正方行列}といい、$M_n(\mathbb{R})$と書く。行列を構成するそれぞれの数を{\bf 成分}と呼ぶ。
+
+\defi {一般の行列の成分表示}
+
+上述の例より、一般の $m \times n$行列$A$を成分表示すると次のようになる。 $A$の $(i, j)$成分を $(aij)$とするとき
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix}
+$$
+
+である。
+
+多くの場合これを省略して、$A = (a_{ij})$と表記する。ただし、
+$(1 \leq i \leq m), (1 \leq j \leq n)$
+
+\exam {$2 \times 2$行列の表示}
+
+$m = 2, n = 2$のとき、2次正方行列Aは以下のように表示される
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22} \\
+\end{pmatrix}
+$$
+
+\exam {$4 \times 5$行列の表示}
+
+$m = 4, n = 5$のとき、$4 \times 5$行列Aは以下のように表示される
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & a_{13} & a_{14} & a_{15} \\
+a_{21} & a_{22} & a_{23} & a_{24} & a_{25} \\
+a_{31} & a_{32} & a_{33} & a_{34} & a_{35} \\
+a_{41} & a_{42} & a_{43} & a_{44} & a_{45} \\
+\end{pmatrix}
+$$
+
+\subsection{一般の行列の加法、スカラー倍}\label{subsection:generalMatrixAdditionAndScalarMultiple}
+
+\defi{一般の行列の加法、スカラー倍}\label{defi:additionAndScalarMultiple}
+
+$A, B \in M_{m,n}(R), A = (a_{ij}), B = (b_{ij})$とし、加法、スカラー倍を以下のように定義する。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $A + B = (a_{ij}) + (b_{ij})$
+\item $cA = (ca_{ij}) \quad (c \in \mathbb{R})$
+\item $(-1)A = -A, \quad A + (-B) = A - B$
+\end{enumerate}
+
+\prop{定義\ref{defi:additionAndScalarMultiple}より、以下の法則を満たす}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $(A + B) + C = A + (B + C)$ \quad (結合法則)
+\item $A + B = B + A$ \quad (交換法則)
+\item $c(A+B) = cA + cB$ \quad (分配法則)
+\end{enumerate}
+
+である。
+
+{\bf 証明}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $a_{ij}とb_{ij}の各成分どうしに結合法則が成り立つことより明らか$
+\item $a_{ij}とb_{ij}の各成分どうしに交換法則が成り立つことより明らか$
+\item $A + B = a_{ij} + b_ij$より、$c(A + B) = c(a_{ij} + b_ij)$である。
+$cA = ca_{ij}, cB = cb_{ij}$であるから、$cA + cB = ca_{ij} + cb_{ij}$となる。
+ここで実数における分配法則により、$c(a_{ij} + b_{ij}) = ca_{ij} + cb_{ij}$より、すべての(i, j)について分配法則が適用されるから、$c(A+B) = cA + cB$である。
+\end{enumerate}
+
+\defi{零行列との加法、スカラー倍}
+
+$A \in M_{m,n}(R)$とするとき、零行列$0$との加法、スカラー倍で以下が成立する。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $A + 0 = 0 + A = A$
+\item $A + (-A) = (-A) + A = 0$
+\item $1A = A$
+\item $0A = 0$
+\end{enumerate}
+
+
+\subsection{一般の行列の積}
+
+\defi{$l, m, n \in \mathbb{Z}$とし、$A \in M_{l,m}(R), B \in M_{m,n}(R)$とするとき、積ABを以下のように定義する。}\label{defi:matrixMultiple}
+
+$$
+AB = \sum_{1 \leq k \leq m} a_{ik}b_{kj} \in M_{l, n}(\mathbb{R})
+\quad (ただし、1 \leq i \leq l, 1 \leq j \leq n)
+$$
+
+\ref{subsubsection:matrixMultiple}で紹介した$2 \times 2$行列の積がまさにこのようになっている。このように行列の積を定義する理由は、線形写像の章で説明する。
+
+\prop{一般の行列の積について以下の法則が成立する}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $A(BC) = (AB)C$
+\item $A(B+C) = AB + AC$
+\item $(B+C)A = BA + CA$
+\end{enumerate}
+
+これらも$AB$の各成分どうしが実数の積と和の形をしていることから、実数の演算における法則が適用できる。これにより、実際に演算することでこれらの証明は容易である。
+(2)と(3)が同値でない理由として、行列の積は非可換なことが挙げられる。
+実際、$AB$と$BA$を行列の積の定義に従い演算すると、それぞれ異なる行列が得られ、$AB \neq BA$となる。そのため、$A(B+C) \neq (B+C)A$となる。
+
+\subsection{単位行列}
+
+\defi
+
+$A \in M_n(\mathbb{R})$に対して$AE = EA = A$となるような行列を{\bf $n$次単位行列}という。単に、単位行列ということもある。
+
+単位行列は、
+
+$$
+E = \begin{pmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots \\
+0 & 0 & \cdots & 1 \\
+\end{pmatrix}
+$$
+
+のように対角成分が$1$でそれ以外が$0$から構成される行列である。
+
+
+\subsection{逆行列}
+
+n次行列Aに対し$AX = E, \quad YA = E$を満たすようなn次行列$X, Y$が存在するとき、$A$は{\bf 可逆}である、または{\bf 正則行列}という。
+
+\rem{n次行列Aが可逆であれば、$AX=E$および$YA=E$はそれぞれ唯一の解を持ち、それらの解は一致する。そのような$X, Y$を$A^{-1}$と書き、{\bf 逆行列}という。}
+
+{\bf 証明}
+
+$AX = XA = E, AY = YA = E$となる行列$X, Y$があるとする。このとき、結合法則により
+
+\begin{eqnarray*}
+X &= &XE \\
+  &= &X(AY) \\
+  &= &(XA)Y \\
+  &= &EY \\
+  &= &Y
+\end{eqnarray*}
+
+となり、$X = Y$である。仮に、$AB = BA = E, AC = CA = E$となる行列$B, C$があったとすれば、同様の理由により$X = Y = B = C$とこれらの方程式の解は一意に定まる。
+
+\exam{単位行列の逆行列}
+
+単位行列Eは可逆で、$E^{-1} = E$である。実際、$EE = E$であるから、$A, B \in M_n(\mathbb{R})$が可逆ならば、$AB$も可逆で$(AB)^{-1} = B^{-1}A^{-1}$である。
+これが言える理由として、$(AB)(B^{-1}A^{-1}) = (B^{-1}A^{-1})(AB) = E$より、$A$が可逆であれば$A^{-1}$も可逆であり、$(A^{-1})^{-1} = A$。つまり、$(A^{-1})A = A(A^{-1}) = E$である。
+
+これは、$M_n(\mathbb{R})$の可逆元全体が群の性質を持つことを言っており、この行列全体の集合を一般線形群といい、$GL_n(\mathbb{R})$と表される。
+
+\subsection{列ベクトルと行ベクトル}
+
+\subsubsection{(n, 1)型行列}
+
+$$
+B = \begin{pmatrix}
+b_{11} \\
+\vdots \\
+b_{n1}
+\end{pmatrix}
+$$
+
+を{\bf n-dim列ベクトル}という。
+
+本レポートでは、n-dim列ベクトルを
+
+$$
+\bm{b} = \begin{pmatrix}
+b_1 \\
+\vdots \\
+b_n
+\end{pmatrix}
+$$
+
+のようにボールドのアルファベットで表記する。
+
+\subsubsection{(1, n)型行列}
+
+$(b_{11}, \cdots, b_{n1})$を{\bf n-dim行ベクトル}という。
+
+\subsubsection{ベクトルの演算}
+
+n-dim列ベクトルは(n,1)型の行列であるから、やはり加法と乗法が成立する。以降の節の理解を円滑に進めるに当たり、ここではベクトルの演算に関する細かな定義や性質の説明は飛ばす。(3章のベクトル空間にて、この辺りの細かい議論を行う) よって、予めベクトルの演算はできるものとして気楽に考えてほしい。
+
+2次元ベクトルにおいて、
+
+$$
+\bm{a} = \begin{pmatrix}
+x \\
+y
+\end{pmatrix},
+\bm{b} = \begin{pmatrix}
+x' \\
+y'
+\end{pmatrix}
+$$
+を取ってくる。
+
+このとき、$a + b$は
+
+$$
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix} + 
+\begin{pmatrix}
+x' \\
+y'
+\end{pmatrix}
+= \begin{pmatrix}
+x + x' \\
+y + y'
+\end{pmatrix}
+$$
+
+である。
+
+また、$c \in \mathbb{R}$に対して、
+
+$$
+c\bm{a} =
+c\begin{pmatrix}
+x \\
+y
+\end{pmatrix}
+= \begin{pmatrix}
+cx \\
+cy
+\end{pmatrix}
+$$
+
+である。
+
+\subsection{連立一次方程式と行列}
+
+$$
+A = \begin{pmatrix}
+a & b \\
+c & d \\
+\end{pmatrix} \in M_2(\mathbb{R}),
+\bm{x} = c\begin{pmatrix}
+x \\
+y
+\end{pmatrix}
+$$
+とすれば、
+
+$$
+A\bm{x} = \begin{pmatrix}
+a & b \\
+c & d \\
+\end{pmatrix}
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}
+= \begin{pmatrix}
+ax + by \\
+cx + dy \\
+\end{pmatrix}
+$$
+
+のように、2次元ベクトル$\bm{x}$に2次行列$A$を差乗することができる。この行列算の応用として$A\bm{x}$を連立一次方程式として表示することを考える。$ax + by$と$cx + dy$の和をそれぞれ$z, w$とすると
+
+\begin{numcases}
+  {}
+  ax + by = z & \\
+  cx + dy = w &
+\end{numcases}
+
+のような連立方程式で表すことができる。これより、もし$A$が逆行列を持つなら、
+
+$$
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}
+= A^{-1}
+\begin{pmatrix}
+z \\
+w
+\end{pmatrix}
+$$
+と計算することができる。
+
+\subsection{転置行列}
+
+(m, n)行列
+
+$$
+A = \begin{pmatrix}
+a_{11} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots \\
+a_{m1} & \cdots & a_{mn} \\
+\end{pmatrix}
+$$
+
+に対し対角線$a_{aa} a_{22} \cdots$に対して、折返してできる(n, m)行列を${}^t\!A$と書き、$A$の転置行列という。
+
+${}^t\!A$を表示すると以下の通りである。
+
+$$
+{}^t\!A = \begin{pmatrix}
+a_{11} & \cdots & a_{m1} \\
+\vdots & \vdots & \vdots \\
+a_{1n} & \cdots & a_{mn} \\
+\end{pmatrix}
+$$
+
+\prop{$A, B \in M_{m, n}(R)$に対して、明らかに${}^t(A + B) = \transposeMat{A} + \transposeMat{B}, {}^t{}^t\!A = A$が成立する。}
+
+\subsubsection{対称と交代}
+
+$A \in M_n(\mathbb{R})$とする。$A = {}^t\!A$ つまり、$a_{ij} = a_{ji} \quad (1 \leq i, j \leq n)$であるとき、$A$を対称または対称行列という。
+
+$A = -{}^t\!A$ つまり、$a_{ij} = -a_{ji} \quad (1 \leq i, j \leq n)$であるとき、$A$を交代(的)または交代行列という。
+
+\subsubsection{内積とテンソル積}
+
+後の計量ベクトル空間の章で内積について詳しく説明するが、ここでは内積の定義とその意味についてだけ軽く触れておく。
+
+二つのn次元ベクトル
+
+$$
+\bm{a} = \begin{pmatrix}
+a_1 \\
+\vdots \\
+a_n
+\end{pmatrix}, 
+\bm{b} = \begin{pmatrix}
+b_1 \\
+\vdots \\
+b_n
+\end{pmatrix}
+$$
+
+に対し、
+
+
+$$
+{}^t\!\bm{a}\bm{b} = \sum_{1 \leq i \leq n} a_ib_i = (a_1, \cdots, a_n)\begin{pmatrix}
+b_1 \\
+\vdots \\
+b_n
+\end{pmatrix}
+$$
+
+を{\bf 内積}といい$\langle \bm{a}, \bm{b} \rangle$と書く。
+
+また、
+$$
+\bm{a}{}^t\!\bm{b} = \begin{pmatrix}
+a_1b_1 & \cdots & a_1b_n \\
+\vdots & \vdots & \vdots \\
+a_bb1 & \cdots & a_nb_n \\
+\end{pmatrix}
+$$
+
+を$\bm{a}, \bm{b}$の{\bf テンソル積}といい、 $\bm{a} \otimes \bm{b}$と書く。
+
+\exercise{$\bm{a}, \bm{b}, \bm{c}, \bm{d}$をn次元ベクトルとするとき、次の等式を証明せよ}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item ${}^t(\tensorProduct{a}{b}) = \tensorProduct{b}{a}$
+\item $(\tensorProduct{a}{b})\bm{c} = \innerProduct{b}{c}\bm{a}$
+\item $\innerProduct{c}{(\tensorProduct{a}{b})\bm{d}} = \innerProduct{a}{c}\innerProduct{b}{d}$
+\end{enumerate}
+
+{\bf 解答}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item ${}^t(\tensorProduct{a}{b}) = {}^t(\bm{a}{}^t\bm{b}) = {}^t{}^t\bm{b}{}^t\bm{a} = \bm{b}{}^t\bm{a} = \tensorProduct{b}{a}$
+\item $(\tensorProduct{a}{b})\bm{c} = (\bm{a}{}^t\bm{b})\bm{c} = \innerProduct{b}{c}\bm{a}$
+\item $\innerProduct{c}{(\tensorProduct{a}{b})\bm{d}} = {}^t\bm{c}(\bm{a}{}^t\bm{b})\bm{d} = \innerProduct{c}{a}\innerProduct{b}{d} = \innerProduct{a}{c}\innerProduct{b}{d}$
+\end{enumerate}
+
+
+\section{ベクトル空間(線形空間)}
+
+ベクトル空間はベクトルを元とする集合であり、そこに演算が加わった代数的な構造のことである。
+n次元ベクトル全体の集合を$\vecSet$と書く。以後、n次元ベクトル$\bm{x}$と書く代わりに$\bm{x} \in \vecSet$と表記することがある。$\vecSet$はこの時点では、単なるベクトルの集合であるが、これに演算を考えたものを{\bf n次元ベクトル空間}あるいは、単に{\bf ベクトル空間}という。
+
+2章の時点ですでに$\mathbb{R}^2$(2次元ベクトル)におけるベクトルやベクトルと行列間に演算を導入していたが、本題のベクトル空間に入る前に、一般的な$\vecSet$に次元を上げてそれぞれの演算を改めて定義する。
+
+\defi{
+$$
+\bm{x} = \begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix},
+\bm{y} = \begin{pmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{pmatrix} \in \vecSet, a \in \mathbb{R}
+$$
+とするとき、これらの加法(減法)、スカラー倍はそれぞれ次のように定義される。
+}
+
+$$
+\bm{x} + \bm{y} = \begin{pmatrix}
+x_1 + y_1 \\
+\vdots \\
+x_n + y_n
+\end{pmatrix},
+\bm{x} - \bm{y} = \bm{x} + -(\bm{y}) \begin{pmatrix}
+x_1 + -(y_1) \\
+\vdots \\
+x_n + -(y_n)
+\end{pmatrix},
+a\bm{x} = \begin{pmatrix}
+ax_1 \\
+\vdots \\
+ax_n
+\end{pmatrix}
+$$
+
+\defi{$V = \vecSet$とするとき、$V$は以下の条件のもと、ベクトル空間となる}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 任意の$\bm{x}, \bm{y}, \bm{z} \in V$に対して、$(\bm{x}+\bm{y}) + \bm{z} = \bm{x}+ (\bm{y} + \bm{z}) $ \quad (結合法則)
+\item 任意の$\bm{x}, \bm{y}\in V$に対して、$\bm{x} + \bm{y} = \bm{y} + \bm{x}$ \quad (交換法則)
+\item 任意の$\bm{x} \in V$に対して、$\bm{0} + \bm{x} = \bm{x} + \bm{0} = \bm{x}$ \quad $(零ベクトルの存在)$
+\item 任意の$\bm{x} \in V$に対して、逆ベクトル$-\bm{x}$が存在して、$\bm{x} + (-\bm{x}) = (-\bm{x}) + \bm{x} = \bm{0}$ \quad (逆ベクトルの存在)
+\item{
+    任意の$\bm{x}, \bm{y} \in V, a, b \in \mathbb{R}$に対して
+    \begin{enumerate}
+    \item $a(\bm{x}+\bm{y}) = a\bm{x}+a\bm{y}$
+    \item $(a+b)\bm{x} = a\bm{x} + b\bm{x}$
+    \item $a(b\bm{x}) = ab(\bm{x})$
+    \end{enumerate}
+}
+\item 任意の$\bm{x} \in V$に対して$1 \cdot \bm{x} = \bm{x} \quad (1 \in \mathbb{R})$
+\end{enumerate}
+
+\prop{これらをベクトル空間の公理と認めると、以下が成り立つ}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\bm{0}\bm{x} = \bm{0}$
+\item $(-1)\bm{x} = -\bm{x}$
+\end{enumerate}
+
+{\bf 証明}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item (5)より、$\bm{0}\bm{x} = (\bm{0} + \bm{0})\bm{x} = \bm{0}\bm{x} + \bm{0}\bm{x}$となり、両辺から$\bm{0}\bm{x}$を引くと、$\bm{0} = \bm{0}\bm{x}$
+\item $\bm{0} = \bm{0}\bm{x} = (1 + -(1))\bm{x} = 1 \cdot \bm{x} + (-1) \cdot \bm{x} = \bm{x} + (-1)\bm{x}$となり、両辺から$-\bm{x}$を引くと、$-\bm{x} = (-1)\bm{x}$
+\end{enumerate}
+
+\subsubsection{単位ベクトル}
+
+特殊なベクトルとして$\bm{e}_1, \cdots \bm{e}_n \in V$があり、それぞれが
+
+$$
+\bm{e}_1 = \begin{pmatrix}
+1 \\
+0 \\
+\vdots \\
+0
+\end{pmatrix},
+\bm{e}_2 = \begin{pmatrix}
+0 \\
+1 \\
+\vdots \\
+0
+\end{pmatrix}, 
+\cdots, 
+\bm{e}_n = \begin{pmatrix}
+0 \\
+0 \\
+\vdots \\
+1
+\end{pmatrix}
+$$
+
+のように大きさが1になるようなベクトルを、{\bf 単位ベクトル}という。この単位ベクトル$\bm{e}_1, \cdots \bm{e}_n$を使えば、任意の$V$に対して
+
+$$
+\bm{x} = \sum_{1 \leq i \leq n} x_ie_i
+$$
+
+と一意に表現できる。
+
+\subsection{部分空間}
+
+\defi{$V$をn次元ベクトル空間とする。$V \supset W \neq \phi$とする。$W$が以下の条件を満たすとき、$W$を$V$の部分空間という}\label{defi:subspace}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\bm{x}, \bm{y} \in W \Rightarrow \bm{x} + \bm{y} \in W$
+\item $\bm{x} \in W, a \in \mathbb{R} \Rightarrow a\bm{x} \in W$
+\end{enumerate}
+
+これらの条件は、Wの中で演算が閉じていることを示している。
+
+\lemm{$W$が$V$の部分空間であれば、$W$もベクトル空間である}
+
+{\bf 証明}
+
+仮定により$\bm{x} \in W$であるから、定義\ref{defi:subspace}(2)を使うと、$0 \in \mathbb{R}, 0 \cdot \bm{x} = \bm{0} \in W$と$-1 \in \mathbb{R}, (-1)\bm{x} = -\bm{x} \in W$である。したがって、任意の$\bm{x}, \bm{y}$に対して、$\bm{x} - \bm{y} = \bm{x} + (-\bm{y}) \in W$である。ベクトルの演算の公理が$V$で成立しているので、$W$においても成立することは明らか。また零ベクトルと任意のベクトル$\bm{x}の$逆ベクトルも$W$に存在することは分かっているので、$W$もまたベクトル空間である。
+
+つまり、部分空間はベクトル空間として扱うことができるということである。
+
+\prop{$\{\bm{0}\}$、$V(=\vecSet)$は部分空間である}
+
+{\bf 証明}
+
+$\bm{0} + \bm{0} = \bm{0}, \quad a\bm{0} = \bm{0} \quad (\forall a \in \mathbb{R}, \bm{0} \in \{\bm{0}\})$より、$\{\bm{0}\}$は部分空間である。また、$V$はベクトル空間なので、部分空間の条件を満たすことは明らか。これらの部分空間を{\bf 自明な部分空間}と呼ぶ。
+
+\exercise{$V = \mathbb{R}^3$において、以下は部分空間か判定せよ}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $$
+W_1 = \left\{ 
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{pmatrix} \mid x_1 + x_2 + x_3 = 0
+\right\}
+$$
+\item $$
+W_2 = \left\{ 
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{pmatrix} \mid 2x_1 + x_2 = 5
+\right\}
+$$
+\end{enumerate}
+
+{\bf 解答}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 部分空間である。実際、
+$$
+\bm{x} = \begin{pmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{pmatrix},
+\bm{y} = \begin{pmatrix}
+y_1 \\
+y_2 \\
+y_3
+\end{pmatrix} \in W_1
+$$
+
+をとってきて、$\bm{x} + \bm{y}$を計算すると、$(x_1 + x_2 + x_3) = 0, (y_1 + y_2 + y_3) = 0$より、$\bm{0} + \bm{0} = \bm{0} \in W_1$である。同様に、$\forall a \in \mathbb{R}$を取ってきて、$a\bm{x} = \bm{0} \in W_1$である。
+
+\item 部分空間ではない。凡例をあげる。
+
+$$
+\bm{x} = \begin{pmatrix}
+1 \\
+3 \\
+0
+\end{pmatrix},
+\bm{y} = \begin{pmatrix}
+\dfrac{1}{2} \\[1.5ex]
+4 \\
+0
+\end{pmatrix} \in W_2
+$$をとってくる。
+
+$$
+\bm{x} + \bm{y} = \begin{pmatrix}
+\dfrac{3}{2} \\[1.5ex]
+7 \\
+0
+\end{pmatrix}
+$$であるが、$2 \cdot \dfrac{3}{2} + 7 \neq 5$であるため、$\bm{x} + \bm{y} \notin W_2$となり、部分空間の必要十分条件に反する。
+\end{enumerate}
+
+\defi{
+$V = \vecSet$とする。任意の$\bm{x} \in V$に対し、そのスカラー倍全体の集合$\{a\bm{x}\mid a \in \mathbb{R}\}$は明らかに$V$の部分空間になる。さらに一般的に、$\bm{x_1}, \cdots, \bm{x_r} \in V$が与えられたとき、
+
+$$
+\bm{x} = \sum_{1 \leq i \leq r} a_{i}\bm{x}_i \quad (a_1, \cdots, a_r \in \mathbb{R})
+$$
+
+のような形で$\bm{x}$が表されるとき、これを$\bm{x_1}, \cdots, \bm{x_r}$の{\bf 線形結合}(linear combination)または{\bf 1次結合}という。
+}\label{defi:linearCombination}
+
+$\bm{x_1}, \cdots, \bm{x_r}$の線形結合全体の集合を$W = \{a_1\bm{x_1}, \cdots, a_r\bm{x_r} \mid a_1, \cdots, a_2 \in \mathbb{R} \}$とすると、$W$は$V$の一組の部分空間になる。これを$\bm{x_1}, \cdots, \bm{x}_r$によって張られる部分空間といい、$\langle \bm{x_1}, \cdots, \bm{x_r} \rangle$のように書く。(内積と混同しないように注意したい。)
+$\newline$
+
+{\bf 証明}
+
+$$
+\bm{0} = \sum_{1 \leq i \leq r} 0\bm{x}_i \in W
+$$
+
+より$W \neq \phi$である。$\bm{x}, \bm{y} \in W$とすれば、
+
+$$
+\bm{x} = \sum_{1 \leq i \leq r} a_i\bm{x}_i, \quad \bm{y} = \sum_{1 \leq i \leq r} b_i\bm{x}_i \quad (a_i, b_i \in \mathbb{R})
+$$
+
+と書くことができる。これより、
+
+$$
+\bm{x} + \bm{y} = \sum_{1 \leq i \leq r} (a_i + b_i)\bm{x}_i
+$$
+
+とそれぞれのベクトルを$\bm{x}_i$の線形結合で表すことができる。
+
+また、$c \in \mathbb{R}$に対し、
+
+$$
+c\bm{x} = c \left( \sum_{1 \leq i \leq r} a_i\bm{x}_i \right) = \sum_{1 \leq i \leq r} (ca_i)\bm{x}_i
+$$とこれも$\bm{x}_i$の線形結合で表すことができる。
+
+したがって、$\bm{x} + \bm{y}, \quad c\bm{x} \in W$となることから、Wは部分空間である。
+
+\subsubsection{部分空間の共通部分}
+
+\prop{$W_1, W_2$を$V$の二つの部分空間とするとき、その共通部分$W_1 \cap W_2$は部分空間になる。}
+
+{\bf 証明}
+
+$\bm{0} \in W_1 \cap W_2$であるから、$W_1 \cap W_2 \neq \phi$である。$\bm{x}, \bm{y} \in W_1 \cap W_2$とすれば、$\bm{x} + \bm{y} \in W_1$であり、$\bm{x} + \bm{y} \in W_2$である。（$\bm{x}, \bm{y} \in W_1, \bm{x}, \bm{y} \in W_2$だから。）したがって、$\bm{x} + \bm{y} \in W_1 \cap W_2$。同様に、$a \in \mathbb{R}$に対して、$a\bm{x} \in W_1 \cap W_2$である。
+
+
+\subsection{部分空間の和}
+
+部分空間の共通部分を考えたときに、今度は和集合（ベクトル空間どうしの和）も部分空間になるかを考えたくなるものである。$W_1, W_2$を$V = \mathbb{R}^3$の部分空間とし、$W_1$と$W_2$の和集合$W_1 \cup W_2$を考えてみる。
+
+$W_1 = \langle \bm{e}_1 \rangle, \quad W_2 = \langle \bm{e}_2 \rangle$とおくと、
+$$
+\begin{pmatrix}
+1 \\
+0 \\
+0
+\end{pmatrix}, 
+\begin{pmatrix}
+0 \\
+1 \\
+0
+\end{pmatrix}
+\in W_1 \cup W_2
+$$
+
+であるが、すべての$a, b \in \mathbb{R}$に対して、
+
+$$
+a\bm{e}_1 + b\bm{e}_2 = 
+\begin{pmatrix}
+a \\
+b \\
+0
+\end{pmatrix}
+\notin W_1 \cup W_2
+$$
+
+となる。（厳密に言うと、和集合の構成次第で含まれているところもあるかもしれないが、含まれていないところもある。）
+
+そこで、$a\bm{e}_1 + b\bm{e}_2$をすべて含むようにすることを考えるために、$\langle \bm{e}_1, \bm{e}_2 \rangle$で張られる空間を考えると良さそうである。
+
+\defi{一般に二つの部分空間$W_1, W_2$の和を以下のように定義する。}\label{defi:VecSpaceUnion}
+
+$$
+W_1 + W_2 = \{ \bm{x} + \bm{y} \mid \bm{x} \in W_1, \bm{y} \in W_2 \}
+$$
+
+この演算で定義される部分空間は$V$の最小の部分空間となる。それを次の定理で示す。
+
+\rem{$V = \vecSet$とし、$W_1, W_2$を$V$の部分空間とする。$W_1 + W_2$は$W_1$と$W_2$を含む最小の部分空間となる。}
+
+{\bf 証明}
+
+まず、$W_1 + W_2$が部分空間であることを示す。
+
+$\bm{0} =\bm{0} + \bm{0} \in W_1 + W_2$より、$W_1 + W_2 \neq \phi$。$\bm{x}, \bm{y} \in W_1 + W_2$とすれば、定義\ref{defi:VecSpaceUnion}により、$\bm{x} = \bm{x}' + \bm{x}'', \quad \bm{y} = \bm{y}' + \bm{y}''$と書くことができる。（\ref{defi:linearCombination}で示した形式を思い出すと良い。）よって、$\bm{x} + \bm{y} = (\bm{x}' + \bm{x}'') + (\bm{y}' + \bm{y}'') = (\bm{x}' + \bm{y}') + (\bm{x}'' + \bm{y}'')$であり、$a \in \mathbb{R}$に対して、$a\bm{x} = a(\bm{x}' + \bm{x}'') = a\bm{x}' + a\bm{x}''$である。
+
+これらより、$\bm{x}' + \bm{y}' \in W_1, \bm{x}'' + \bm{y}'' \in W_2$であるから、$\bm{x} + \bm{y} \in W_1 \cup W_2$であり、$a\bm{x} \in W_1 \cup W_2$である。($a\bm{x} \in W_1$であるから、和集合である$W_1 \cup W_2$に属するのは当然) よって、$W_1 + W_2$は$V$の部分空間である。
+
+次に、$W_1 + W_2$が最小の部分空間であることを示す。
+
+$\bm{x} \in W_1$とすれば、$\bm{x} = \bm{x} + \bm{0} \quad (\bm{x} \in W_1, \bm{0} \in W_2)$より、$\bm{x} \in W_1 + W_2$である。よって、$W_1 \subset W_1 + W_2$。同様に$W_2 \subset W_1 + W_2$が言え、$W_1 + W_2$は$W_1$と$W_2$を含むことが分かる。ここで、$W$を$W1, W_2$を含む部分空間とすれば、任意の$\bm{x} \in W_1, \bm{y} \in W_2$に対し、$\bm{x}, \bm{y} \in W$であるから、$\bm{x} + \bm{y} \in W$。よって、$W_1 + W_2 \subset W$となり、$W_1 + W_2$は$W_1$と$W_2$を含む最小の部分空間である。
+
+\exercise{
+一般に二つの部分空間$W_1, W_2$に対し、$W_1 \subset W_2 \Longleftrightarrow W_1 + W_2 = W_2$であることを示せ。
+}
+
+$W_1 \subset W_2$とすれば、$W_1 + W_2 \subset W_2 + W_2 = W_2$。$W_1 + W_2 \supset W_2$は自明であるから、$W_1 + W_2 = W_2$。逆に、$W_1 + W_2 = W_2$とすると、$W_1 \subset W_1 + W_2$であるから、$W_1 \subset W_2$である。
+
+\exercise{
+$W_1, W_2, W_3$を$V = \vecSet$の部分空間とするとき、$W_1 \cap W_3 + W_2 \cap W_3 \subset (W_1 + W_2) \cap W_3$を示せ。
+}
+
+$W_1 + W_2$は$W_1$と$W_2$により張られる空間なので、$W_1 \subset W_1 + W_2, \quad W_2 \subset W_1 + W_2$である。$\bm{x}, \bm{y} \in W_1 + W_2$であれば、部分空間の定義により$\bm{x}, \bm{y} \in (W_1 + W_2) \cap W_3$とできるので、
+
+\setcounter{equation}{0}
+\begin{equation}
+\bm{x} + \bm{y} \in (W_1 + W_2) \cap W_3, \quad a\bm{x} \in (W_1 + W_2) \cap W_3 \quad (a \in \mathbb{R})
+\end{equation}
+
+これより$W_1 \cap W_3, W_2 \cap W_3 \subset (W_1 + W_2) \cap W_3$である。したがって、(1)より$W_1 \cap W_3 + W_2 \cap W_3 \subset (W_1 + W_2) \cap W_3$である。
+
+\subsection{線形独立と線形従属}
+
+\defi{r個のベクトル$\bm{x}_1, \cdots \bm{x}_r$は、次の条件が満たされるとき{\bf 線形独立}(linearly independent)または{\bf 一次独立}であるという。}\label{defi:linearlyIndependent}
+
+$$
+\sum_{1 \leq i \leq r} a_i\bm{x}_i = 0 \quad (a_i \in \mathbb{R}) \Longrightarrow a_1 = \cdots = a_i = 0
+$$
+
+一方、線形独立ではない$\bm{x}, \cdots \bm{x}_r$を{\bf 線形従属}(linearly dependent)または{\bf 1次従属}であるという。$\bm{x}, \cdots \bm{x}_r$が線形従属であるとき以下の1次関係式が成立する。
+
+$$
+\sum_{1 \leq i \leq r} a_i\bm{x}_i = 0, \quad a_i \in \mathbb{R}, \quad \exists a_i \neq 0
+$$
+
+\subsubsection{線形独立と線形従属の定義の成り立ち}
+
+線形独立と線形従属の定義は初見では理解が難しいので、この定義の成り立ちを考えてみることにする。
+
+$V = \mathbb{R}^3$において3つの基本ベクトル
+
+$$
+\bm{e}_1 = \begin{pmatrix}
+1 \\
+0 \\
+0
+\end{pmatrix}, 
+\bm{e}_2 = \begin{pmatrix}
+0 \\
+1 \\
+0
+\end{pmatrix}, 
+\bm{e}_3 = \begin{pmatrix}
+0 \\
+0 \\
+1
+\end{pmatrix}
+$$
+
+はそれぞれ独立した方向を向いていると考えられる。つまり、$\langle \bm{e}_1, \bm{e}_2 \rangle$を$xy$平面とすると、$\bm{e}_3$はそれに属さない、つまり$z$軸と考えることができる。これは$\bm{e}_3$は$\bm{e_1}, \bm{e_2}$の線形結合で表されないということである。同様に$\bm{e}_1, \bm{e}_2$のいずれかと$\bm{e}_3$が張る部分空間を考えたときに、残りの単位ベクトルはその部分空間に属さない。つまりこれは
+
+\begin{equation}
+    a\bm{e}_1 + b\bm{e}_2 + c\bm{e}_3 = 0 \quad (a, b, c, \in \mathbb{R}) 
+\end{equation}
+
+ならば$a = b = c = 0$と言い換えることができる。これは定義\ref{defi:linearlyIndependent}そのものである。なぜ$a = b = c = 0$であれば線形独立なのかを考えたいのであれば、逆に$c \neq 0$とすれば式(2)から
+
+$$
+\bm{e}_3 = \left(-\frac{a}{c}\right)\bm{e}_1 + \left(-\frac{b}{c}\right)\bm{e}_2
+$$
+
+のように$\bm{e}_3$を$\bm{e}_1$と$\bm{e}_2$の線形結合で表すことが出来てしまう。つまり、$\langle \bm{e}_1, \bm{e}_2 \rangle$に$\bm{e}_3$が含まれていることを意味する。$a \neq 0, b \neq 0$のときも同様である。
+
+\prop{$\bm{x}_1, \bm{x}_2, \cdots \bm{x}_r$が線形独立ならばその1部分も線形独立である。}
+線形独立の定義よりこれは明らかなので証明は割愛する。
+
+\exercise{
+$V = \mathbb{R}^3$において
+
+$$
+\bm{x} = \begin{pmatrix}
+1 \\
+-1 \\
+0
+\end{pmatrix}, 
+\bm{y} = \begin{pmatrix}
+1 \\
+0 \\
+-1
+\end{pmatrix}, 
+\bm{z} = \begin{pmatrix}
+1 \\
+1 \\
+1
+\end{pmatrix}
+$$
+
+が線形独立であることを示せ。
+}
+
+$a\bm{x} + b\bm{y} + c\bm{z} = 0 \quad (a, b, c \in \mathbb{R})$であれば、$a = b = c = 0$を示す。
+
+\begin{numcases}
+  {}
+  a + (-b) = 0 & \\
+  a + (-c) = 0 & \\
+  a + b + c = 0 &
+\end{numcases}
+
+という連立1自方程式を解けば、$a = b = c = 0$が唯一の解となるので、$\bm{x}, \bm{y}, \bm{z}$は線形独立である。
+
+\exercise{
+$V = \mathbb{R}^3$において
+
+$$
+\bm{x} = \begin{pmatrix}
+1 \\
+-1 \\
+0
+\end{pmatrix}, 
+\bm{y} = \begin{pmatrix}
+0 \\
+1 \\
+-1
+\end{pmatrix}, 
+\bm{z} = \begin{pmatrix}
+1 \\
+0 \\
+-1
+\end{pmatrix}
+$$
+は線形独立であるか調べよ。
+}
+
+$a\bm{x} + b\bm{y} + c\bm{z} = 0 \quad (a, b, c \in \mathbb{R})$とすると、$a, b, c$は
+
+\begin{numcases}
+  {}
+  a + c = 0 \\
+ -a + b = 0 \\
+ -b + c = 0 
+\end{numcases}
+
+を満たす。このときこの連立一次方程式は$a = 1, b = 1, c = -1$の解を持つため、$\bm{x}, \bm{y}, \bm{z}$は線形従属である。
+
+\lemm{$\bm{x}_1, \bm{x}_2, \cdots \bm{x}_r \in V$に関して次の2つの条件は同値である。}\label{lemm:linearlyIndependent}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\bm{x}_1, \cdots \bm{x}_r$は線形独立である
+\item $\bm{x}_1, \cdots \bm{x}_{r-1}$は線形独立で、$\bm{x}_r \notin \langle \bm{x}_1, \cdots \bm{x}_{r-1} \rangle$
+\end{enumerate}
+
+{\bf 証明}
+
+(1) $\Rightarrow$ (2)を示す。(1)を仮定すると、$a_1\bm{x}_1 + \cdots + a_{r-1}\bm{x}_{r-1} + a_r\bm{x}_r = 0$ならば、$a_i = 0 \quad (1 \leq i \leq r)$である。(2)が成り立たないとすれば、$\bm{x}_r \in \langle \bm{x}_1, \cdots \bm{x}_{r-1} \rangle$であるから$\bm{x}_r = a_1\bm{x}_1 + \cdots + a_{r-1}\bm{x}_{r-1} = 0$と表せる。よって、$a_1\bm{x}_1 + \cdots + a_{r-1}\bm{x}_{r-1} + (-1)\bm{x}_r = 0$が成立し$a_r \neq 0$であるから(1)に反する。
+
+
+(2) $\Rightarrow$ (1)を示す。$\bm{x}_1, \cdots \bm{x}_r$が線形独立でないとすると、$a_1\bm{x}_1 + \cdots + a_{r}\bm{x}_{r} = 0$が成立し、$\exists a_i \neq 0 \quad (1 \leq i \leq r)$である。もし$a_r = 0$とすると$a_1\bm{x}_1 + \cdots + a_{r-1}\bm{x}_{r-1} = 0$であっても$\exists a_i \neq 0 \quad (1 \leq i \leq r -1)$となり(2)の$\bm{x}_1, \cdots \bm{x}_{r-1}$が線形独立であるという仮定に反する。よって、$a_r \neq 0$でなければならない。しかしこのとき、
+
+$$
+ \left(-\frac{a_1}{a_r}\right)\bm{x}_1 + \cdots +  \left(-\frac{a_{r-1}}{a_r}\right)\bm{x}_{r-1} = \bm{x}_r \in \langle \bm{x}_1 + \cdots + \bm{x}_{r-1} \rangle
+$$
+となり(2)の仮定に反する。$\bm{x}_1, \cdots, \bm{x}_{r}$は線形従属である。
+
+\rem{
+$\bm{x}_1, \cdots \bm{x}_r$が線形独立であるための必要十分条件は$\bm{x}_1 \neq 0, \quad \bm{x}_i \notin \langle \bm{x}_1, \cdots \bm{x}_{i-1} \rangle \quad (2 \leq i \leq r)$である。
+}\label{rem:independent}
+
+{\bf 証明}
+
+($\Rightarrow$): 補題\ref{lemm:linearlyIndependent}により、$\bm{x}_1, \cdots, \bm{x}_r$が線形独立であれば、$\bm{x}_1, \cdots \bm{x}_i$も線形独立であるから、この主張が成立する。
+
+($\Leftarrow$): この主張が成立すると仮定する。$\bm{x}_1, \cdots, \bm{x}_i$が線形独立であることは、補題\ref{lemm:linearlyIndependent}を再帰的に行うことで判断できる。まず$\bm{x}_1 \neq 0$から$\bm{x}_1$は線形独立である。次に、$\langle \bm{x}_1 \rangle$に$\bm{x}_2$が含まれていないか、さらにその次に$\langle \bm{x}_1, \bm{x}_2 \rangle$に$\bm{x}_3$が含まていないかといった判定を${}_{i-1}$まで再帰的に行っていく。このとき、$\bm{x}_1, \cdots \bm{x}_{i-1}$が線形独立であるとすれば、補題\ref{lemm:linearlyIndependent}により、$\bm{x}_1, \cdots \bm{x}_i$も線形独立である。この判定方法は$i = r$まで成立する。(この操作は高々r回で終わる。)
+
+\subsection{部分空間の基底}
+
+基底の定義をする前に、以下の補題にて空間を張る線形独立なベクトルは置き換えることができることを示す。
+
+\lemm{$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$とする。$\bm{y}_1, \cdots, \bm{y}_s \in W$が線形独立であるとすれば、$s \leq r$である。}\label{lemm:basisReplacing}
+
+{\bf 証明}
+
+$\{i_1, \cdots, i_s\} \subset \{1, \cdots, t\}$をとってくる。($\{i_1, \cdots, i_s\}$は高々加算だが、この時点では順不同である。) Wを張る$\bm{x}_1, \cdots, \bm{x}_t$のうち、$\bm{x}_{i_1}, \cdots, \bm{x}_{i_s}$を$\bm{y}_1, \cdots, \bm{y}_s$に置き換える、つまり各$\bm{y}_i$は
+
+$$
+\bm{y}_i = \sum_{1 \leq j \leq s} a_j\bm{x}_{i_j}
+$$
+
+とかけることを帰納的に示す。まず、$s = 0$のときは自明である。$s \geq 1$($= 1, 2, \cdots, r$)として、$\bm{y}_1, \cdots, \bm{y}_{s-1}$に対してこの主張が言えたとする。つまり$\{i_1, \cdots, i_s\} \subset \{1, \cdots, t\}$をとってきて、$\bm{x}_1, \cdots, \bm{x}_t$の中の$\bm{x}_{i_1}, \cdots, \bm{x}_{i_{s-1}}$が$\bm{y}_1, \cdots, \bm{y}_{s-1}$に替えられたとする。これを、
+
+\begin{eqnarray*}
+  x_i' = \left\{
+    \begin{array}{l}
+      \bm{y}_k \quad i = i_k (1 \leq k \leq s -1) \\
+      \bm{x}_i \quad otherwise
+    \end{array}
+  \right.
+\end{eqnarray*}
+
+とおく。このとき、$W = \langle \bm{x}_1', \cdots, \bm{x}_t' \rangle, \bm{y}_s \in W$であるから、$\bm{y}_s = a_1\bm{x}_1' + \cdots + a_t\bm{x}_t'$と表される。しかし、補題\ref{lemm:linearlyIndependent}により$\bm{y}_s \notin \langle \bm{y}_1, \cdots, \bm{y}_{s-1} \rangle = \langle \bm{x}_{i_1}', \cdots, \bm{x}_{i_{s-1}}' \rangle$であるから、ある$i \notin \{i_s, \cdots, i_{s-1} \}$に対して$a_i = 0$である。そのような$i$の1つを$i_s$とする。そのとき、$\bm{x}_{i_s}' = \bm{x}_{i_s}$は、$\bm{x}_1', \cdots, \bm{x}_{i_{s-1}}', \bm{y}_s, \bm{x}_{i_{s + 1}}', \cdots, \bm{x}_t'$の線形結合で表される。よって、$x_{i_s}'$を$\bm{y}_s$で置き換えることができる。
+
+この補題により、$r = s$回この置き換えを行うことで、次の定理が得られる。
+
+\rem{$W$を$V = \vecSet$の部分空間とする。$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle = \langle \bm{y}_1, \cdots, \bm{y}_s \rangle$}で、$\bm{x}_1, \cdots, \bm{x}_r$と$\bm{y}_1, \cdots, \bm{y}_s$がともに線形独立であるとすれば、$r = s$である。
+
+\defi{$W$を$V = \vecSet$の部分空間とする。$W$に対し、次の条件を満たす順序付けられたベクトルの集合をWの{\bf 基底}(basis)という。}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$
+\item $\bm{x}_1, \cdots, \bm{x}_r$は線形独立である。
+\end{enumerate}
+
+\rem{$V = \vecSet$の任意の部分空間$W$に対して基底${x_1, \cdots, x_r}$が存在する。基底をなすベクトルの個数は一定で、$r \leq n$となる}
+
+{\bf 証明}
+
+$W \subset V = \langle \bm{e}_1, \cdots, \bm{e}_n \rangle$であるから、補題\ref{lemm:basisReplacing}により$W$に含まれる線形独立なベクトルの個数は高々nである。$\bm{x}_1, \cdots, \bm{x}_r$をWに含まれる最大個数の線形独立なベクトルの集合とする。そのとき、$r \leq n$で任意の$\bm{x} \in W$に対し、$\bm{x} \in \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$が成立する。よって、$W \subset \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$である。$\langle \bm{x}_1, \cdots, \bm{x}_r \rangle \subset W$は明らかであるから、$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$。よって、$\{\bm{x}_1, \cdots, \bm{x}_r \}$は$W$の基底である。補題\ref{lemm:basisReplacing}により、rは一意的に定まる。
+
+この定理により部分空間Wに対して定まるr($\in \mathbb{R}$)をWの{\bf 次元}(dimension)といい、$dim W$と書く。
+
+\exam{
+基本ベクトルの集合, $\langle \bm{e}_1, \cdots, \bm{e}_n \rangle$は明らかに$V = \vecSet$の基底であるから、$dim V = n$である。これを$\vecSet$の{\bf 標準基底}という。
+}
+
+\exam{
+$\{0\}$は線形独立なベクトルを含まないから、$dim \{0\} = 0$である
+}
+
+\exam{  
+$V = \vecSet$とする。$W, W' \in V$のとき、$W \subset W', dim W = dim W' \Longrightarrow W = W'$
+}
+
+\exercise{
+$V = \mathbb{R}^3$において、$V$の部分空間
+$$
+W = \left\{
+\begin{pmatrix}
+x \\
+y \\
+z
+\end{pmatrix} \mid x + 2y + z = 0
+\right\}
+$$
+の一組の基底を求めよ。
+}
+
+$\newline$
+$x + 2y + z = 0$を$x$について解くと、$x = -2y - z$であるから、Wの元は
+
+$$
+\begin{pmatrix}
+-2y -z \\
+y \\
+z
+\end{pmatrix} = 
+y \begin{pmatrix}
+-2 \\
+1 \\
+0
+\end{pmatrix} + 
+z \begin{pmatrix}
+-1 \\
+0 \\
+1
+\end{pmatrix} 
+$$
+
+と表すことができる。
+ここで、
+
+$$
+\begin{pmatrix}
+-2 \\
+1 \\
+0
+\end{pmatrix}, \begin{pmatrix}
+-1 \\
+0 \\
+1
+\end{pmatrix} 
+$$
+
+は線形独立であり、$\mathbb{R}^2$を張ることから、基底である。
+
+\section{線形写像}
+
+線形写像とはベクトル空間からベクトル空間への（準同型）写像である。
+% （準同型写像は群の概念であり、このあと説明するベクトル空間からベクトル空間への線形性を考える上で非常に重要な概念である。詳しく知りたい方は、群のレポート(https://github.com/noppoMan/math-report/blob/master/group/group.pdf)を読むことを推奨する。）
+
+\defi{
+$V = \mathbb{R}^n, V' = \mathbb{R}^m$とする。$V$から$V$'への写像を$f$とし、以下の2つの性質を満たす時$f$は{\bf 線形}(一次)であるという。
+}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $f(\bm{x} + \bm{y}) = f(\bm{x}) + f(\bm{y}) \quad (\bm{x}, \bm{y} \in V)$
+\item $f(c\bm{x}) = cf(\bm{x}) \quad (\bm{x} \in V, c \in \mathbb{R})$
+\end{enumerate}
+
+これらの性質は$f$がベクトル空間上の加法とスカラー倍の2つの演算を保存することを意味する。
+（つまり線形性とは、$f$が加法とスカラー倍において準同型であるということである。準同型は群の概念であるため、詳しい話は割愛する。詳しく知りたい方は、群のレポート: https://github.com/noppoMan/math-report/blob/master/group/group.pdfを読まれることを推奨する。)
+
+
+$\newline$
+-- TODO 1部はここまで --
+
+\begin{thebibliography}{n}
+\bibitem[1]{key2} 佐武一郎 [線形代数] 共立出版株式会社
+\end{thebibliography}
+
+\end{document}
