@@ -20,6 +20,7 @@
 \newcommand{\transposeMat}[1]{{}^t\!{#1}}
 \newcommand{\transposeVec}[1]{{}^t\!{\bm{#1}}}
 \newcommand{\vecSet}[1]{\mathbb{R}^{#1}}
+\newcommand{\polynomialVecSet}[1]{\mathbb{R}[x]_{#1}}
 
 \setcounter{tocdepth}{3}
 
@@ -1240,6 +1241,185 @@ $$
 
 は線形独立であり、$\vecSet{2}$を張ることから、基底である。
 
+\subsection{基底の変換}
+
+$V = \vecSet{n}$の基底として、$\{\bm{a}_1, \cdots, \bm{a}_2\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$があったとする。これら2組の基底が、
+
+$$
+\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix} =
+\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}P
+$$
+
+というような関係式であれば、行列$P = (p_{ij}) \in M_n(\mathbb{R})$を$\{\bm{a}_1, \cdots, \bm{a}_2\}$から$\{\bm{b}_1, \cdots, \bm{b}_n\}$への{\bf 基底の変換行列}という。基底の変換行列は次のように求められる。
+
+まず、それぞれの基底は$V$に属しているので、$\{\bm{a}_1, \cdots, \bm{a}_2\}$の各ベクトルは、$\{\bm{a}_1, \cdots, \bm{a}_2\}$の線形結合で表すことができる。
+
+$$
+\bm{b}_j = \sum_{1 \leq i \leq n} p_{ij}\bm{a}_j \quad (1 \leq j \leq n)
+$$
+
+である。具体的に書くと、
+
+\begin{eqnarray*}
+&\bm{b}_1 = P_{11}\bm{a}_1 + \cdots P_{n1}\bm{a}_n = 
+\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}
+\begin{pmatrix}
+P_{11} \\
+\vdots \\
+P_{n1}
+\end{pmatrix} \\
+&\vdots \\
+&\bm{b}_n = P_{1n}\bm{a}_1 + \cdots P_{nn}\bm{a}_n = 
+\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}
+\begin{pmatrix}
+P_{1n} \\
+\vdots \\
+P_{nn}
+\end{pmatrix}
+\end{eqnarray*}
+
+となり、これらをまとめると
+
+$$
+\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix} = 
+\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}
+\begin{pmatrix}
+P_{11} & \cdots & P_{1n} \\
+\vdots & \vdots & \vdots \\
+P_{n1} & \cdots & P_{nn} \\
+\end{pmatrix}
+$$
+
+だから、
+
+$$
+\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix} = 
+\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}P
+$$
+
+が得られた。
+
+\rem{
+$V = \vecSet{n}$の基底$\{\bm{a}_1, \cdots, \bm{a}_n\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$に関する成分をそれぞれ
+
+$$
+\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_n
+\end{pmatrix}, 
+\begin{pmatrix}
+\beta_1 \\
+\vdots \\
+\beta_n
+\end{pmatrix}
+$$
+
+とし、$\{\bm{a}_1, \cdots, \bm{a}_n\}$から$\{\bm{b}_1, \cdots, \bm{b}_n\}$への基底の変換行列を$P$とするとき
+
+$$
+\begin{pmatrix}
+\beta_1 \\
+\vdots \\
+\beta_n
+\end{pmatrix} = 
+P^{-1}\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_n
+\end{pmatrix}
+$$
+
+が成立する。
+}
+
+{\bf 証明}
+
+基底の変換行列の定義式$$
+\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix} = \begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}P
+$$
+
+に対し、右から$P^{-1}$を掛けて
+
+$$
+\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix}P^{-1} = \begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}
+$$
+
+が成立する。
+
+\begin{eqnarray*}
+\alpha_1\bm{a}_1 + \cdots + \alpha_n\bm{a}_n &= &\begin{pmatrix}
+\bm{a}_1 & \cdots & \bm{a}_n
+\end{pmatrix}
+\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_n
+\end{pmatrix} \\
+&= &\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix}
+P^{-1}\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_n
+\end{pmatrix}
+\end{eqnarray*}
+
+また、別の基底を用いると
+
+\begin{eqnarray*}
+\beta\bm{b}_1 + \cdots + \beta_n\bm{b}_n &= &\begin{pmatrix}
+\bm{b}_1 & \cdots & \bm{b}_n
+\end{pmatrix}
+\begin{pmatrix}
+\beta_1 \\
+\vdots \\
+\beta_n
+\end{pmatrix}
+\end{eqnarray*}
+
+より、
+
+$$
+\begin{pmatrix}
+\beta_1 \\
+\vdots \\
+\beta_n
+\end{pmatrix} = 
+P^{-1}\begin{pmatrix}
+\alpha_1 \\
+\vdots \\
+\alpha_n
+\end{pmatrix}
+$$
+
+となる。
+
 \section{線形写像}
 
 線形写像とはベクトル空間からベクトル空間への（準同型）写像である。
@@ -1488,8 +1668,170 @@ $$
 定理\ref{rem:VectorExpressionUniquness}より明らか。表現行列を表すベクトル$a_1, \cdots, a_n$はすべて一意的に表せるので、表現行列も一意的である。
 
 \exercise{
-TODO 何問か例題
+$\vecSet{2}$のベクトル$\bm{x}, \bm{y}$と線形変換$f$の標準基底での表現行列$A$を
+$$
+\bm{x} = \begin{pmatrix}
+2 \\
+5
+\end{pmatrix}, 
+\bm{y} = \begin{pmatrix}
+1 \\
+3
+\end{pmatrix}, 
+A = \begin{pmatrix}
+-3 & 1 \\
+2 & -2
+\end{pmatrix}
+$$
+
+とする。この線形変換$f$で$f(a\bm{x} + b\bm{y}) = a'\bm{x} + b'\bm{y}$となるとき、
+
+$$
+B\begin{pmatrix}
+a \\
+b
+\end{pmatrix} = 
+\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix}
+$$
+となる行列を求めよ。
 }
+
+$\bm{x}, \bm{y}$は$\vecSet{2}$を張る標準基底${\bm{e}_1, \bm{e}_2}$で
+
+$$
+\begin{pmatrix} 
+\bm{x} & \bm{y} 
+\end{pmatrix} = 
+\begin{pmatrix} 
+\bm{e}_1 & \bm{e}_2
+\end{pmatrix}
+\begin{pmatrix}
+2 & 1 \\
+5 & 3
+\end{pmatrix}
+$$
+と表すことができる。
+
+$$
+P = \begin{pmatrix}
+2 & 1 \\
+5 & 3
+\end{pmatrix}
+$$とする。
+
+
+与式$f(a\bm{x} + b\bm{y}) = a'\bm{x} + b'\bm{y}$より、
+
+$$
+f(a\bm{x} + b\bm{y}) = A\begin{pmatrix} \bm{x} & \bm{y} \end{pmatrix}
+\begin{pmatrix}
+a \\
+b
+\end{pmatrix} = 
+AP\begin{pmatrix}
+a \\
+b
+\end{pmatrix}
+$$
+
+また、
+
+$$
+a'\bm{x} + b'\bm{y} = 
+\begin{pmatrix}
+\bm{x} & \bm{y}
+\end{pmatrix}
+\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix} =
+P\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix}
+$$
+
+の関係式が得られる。これより、
+
+$$
+P\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix} = 
+AP\begin{pmatrix}
+a \\
+b
+\end{pmatrix}
+$$
+
+である。これに左から$P^{-1}$を掛けて（ここでは、$P$が可逆であることを前提に解答を進める。可逆の判定は行列式の章で解説する。）
+
+$$
+P^{-1}P\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix} =
+P^{-1}AP\begin{pmatrix}
+a \\
+b
+\end{pmatrix}
+\Longleftrightarrow
+\begin{pmatrix}
+a' \\
+b'
+\end{pmatrix} =
+P^{-1}AP\begin{pmatrix}
+a \\
+b
+\end{pmatrix}
+$$
+
+つまり、
+
+$$
+P^{-1}AP = 
+\frac{1}{2 \cdot 3 -5 \cdot 1}\begin{pmatrix}
+3 & -1 \\
+-5 & 2
+\end{pmatrix}
+\begin{pmatrix}
+-3 & -1 \\
+2 & -2
+\end{pmatrix}
+\begin{pmatrix}
+2 & 1 \\
+5 & 3
+\end{pmatrix} = 
+\begin{pmatrix}
+3 & 4 \\
+-7 & -8
+\end{pmatrix}
+$$
+
+この例題より以下の定理が得られる。
+
+\rem{
+標準基底での$\vecSet{n}$上の線形変換$f$の表現行列を$A$とする。標準基底$\{\bm{e}_1, \cdots, \bm{e}_n\}$を、基底$\{\bm{x}_1, \cdots, \bm{x}_n\}$に取り替えたとする。
+基底の変換行列をPとおくと、基底$\{\bm{x}_1, \cdots,  \bm{x}_n\}$を座標系とした新座標での線形変換$f$の表現行列は$P^{-1}AP$である。
+}
+
+\defi{
+実数係数を持つ$x$の多項式全体の集合もベクトル空間である。これを
+
+$$
+\polynomialVecSet{n} = \{ a_nx^n + a_{n-1} + \cdots + a_1x + a_0 \mid n \in \mathbb{N}, a_i \in \mathbb{R} (1 \leq i \leq n)\}
+$$
+と表記する。
+}
+
+\exercise{
+ベクトル空間$\polynomialVecSet{2} = \{ax^2 + bx + x \mid a,b,c \in \mathbb{R}\}$を実数係数の2次以下の多項式全体とする。線形写像$F: \polynomialVecSet{2} \to \polynomialVecSet{2}$を$F(f) = \frac{df}{dx}$とするとき、基底$\{1, \bm{x}, \bm{x}^2\}$に関する$F$の表現行列を求めよ。
+}
+
+TODO
 
 \subsection{線形写像の合成と行列の積}
 
@@ -1609,6 +1951,28 @@ cf(\bm{x}) = f(c\bm{x}) = \bm{0} \in Ker(f)
 \subsection{次元定理}
 
 TODO
+
+% \exercise{
+% $$
+% A = \begin{pmatrix}
+% -2 & 1 & 1 \\
+% 1 & -2 & 1 \\
+% 1 & 1 & -2 
+% \end{pmatrix}
+% $$
+% によって定義される線形写像$f_A: \bm{x} \mapsto A\bm{x} \quad (\bm{x} \in \vecSet{3})$に対する$Ker(f_A)$と$Im(f_A)$を求めよ。
+% }
+
+% $$
+% Im(f_A) = \left\{ \bm{x} = 
+% \begin{pmatrix} 
+% x
+% y
+% z
+% \end{pmatrix}
+% \mid x = y = z
+% \right\}
+% $$
 
 \begin{thebibliography}{n}
 \bibitem[1]{key2} 佐武一郎 [線形代数] 共立出版株式会社
