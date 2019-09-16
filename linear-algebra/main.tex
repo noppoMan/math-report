@@ -19,8 +19,12 @@
 \newcommand{\tensorProduct}[2]{\bm{#1} \otimes \bm{#2}}
 \newcommand{\transposeMat}[1]{{}^t\!{#1}}
 \newcommand{\transposeVec}[1]{{}^t\!{\bm{#1}}}
-\newcommand{\vecSet}[1]{\mathbb{R}^{#1}}
+\newcommand{\vecSpace}[1]{\mathbb{R}^{#1}}
 \newcommand{\polynomialVecSet}[1]{\mathbb{R}[x]_{#1}}
+\newcommand{\vecSet}[1]{\{\bm{#1}_1, \cdots, \bm{#1}_n\}}
+\newcommand{\linearCombination}[2]{\langle #1, \cdots, #2\rangle}
+\newcommand{\rank}[1]{{\rm rank}\,#1}
+\newcommand{\img}[1]{{\rm Im}(#1)}
 
 \setcounter{tocdepth}{3}
 
@@ -629,9 +633,9 @@ $$
 \section{ベクトル空間(線形空間)}
 
 ベクトル空間はベクトルを元とする集合であり、そこに演算が加わった代数的な構造のことである。
-n次元ベクトル全体の集合を$\vecSet{n}$と書く。以後、n次元ベクトル$\bm{x}$と書く代わりに$\bm{x} \in \vecSet{n}$と表記することがある。$\vecSet{n}$はこの時点では、単なるベクトルの集合であるが、これに演算を考えたものを{\bf n次元ベクトル空間}あるいは、単に{\bf ベクトル空間}という。
+n次元ベクトル全体の集合を$\vecSpace{n}$と書く。以後、n次元ベクトル$\bm{x}$と書く代わりに$\bm{x} \in \vecSpace{n}$と表記することがある。$\vecSpace{n}$はこの時点では、単なるベクトルの集合であるが、これに演算を考えたものを{\bf n次元ベクトル空間}あるいは、単に{\bf ベクトル空間}という。
 
-2章の時点ですでに$\vecSet{2}$(2次元ベクトル)におけるベクトルやベクトルと行列間に演算を導入していたが、本題のベクトル空間に入る前に、一般的な$\vecSet{n}$に対して、演算を改めて定義する。
+2章の時点ですでに$\vecSpace{2}$(2次元ベクトル)におけるベクトルやベクトルと行列間に演算を導入していたが、本題のベクトル空間に入る前に、一般的な$\vecSpace{n}$に対して、演算を改めて定義する。
 
 \defi{
 $$
@@ -644,7 +648,7 @@ x_n
 y_1 \\
 \vdots \\
 y_n
-\end{pmatrix} \in \vecSet{n}, a \in \mathbb{R}
+\end{pmatrix} \in \vecSpace{n}, a \in \mathbb{R}
 $$
 とするとき、これらの加法(減法)、スカラー倍はそれぞれ次のように定義される。
 }
@@ -667,7 +671,7 @@ ax_n
 \end{pmatrix}
 $$
 
-\defi{$V = \vecSet{n}$とするとき、$V$は以下の条件のもと、ベクトル空間となる}
+\defi{$V = \vecSpace{n}$とするとき、$V$は以下の条件のもと、ベクトル空間となる}
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
@@ -756,13 +760,13 @@ $$
 
 つまり、部分空間はベクトル空間として扱うことができるということである。
 
-\prop{$\{\bm{0}\}$、$V(=\vecSet{n})$は部分空間である}
+\prop{$\{\bm{0}\}$、$V(=\vecSpace{n})$は部分空間である}
 
 {\bf 証明}
 
 $\bm{0} + \bm{0} = \bm{0}, \quad a\bm{0} = \bm{0} \quad (\forall a \in \mathbb{R}, \bm{0} \in \{\bm{0}\})$より、$\{\bm{0}\}$は部分空間である。また、$V$はベクトル空間なので、部分空間の条件を満たすことは明らか。これらの部分空間を{\bf 自明な部分空間}と呼ぶ。
 
-\exercise{$V = \vecSet{3}$において、以下は部分空間か判定せよ}
+\exercise{$V = \vecSpace{3}$において、以下は部分空間か判定せよ}
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
@@ -831,7 +835,7 @@ $$であるが、$2 \cdot \dfrac{3}{2} + 7 \neq 5$であるため、$\bm{x} + \b
 \end{enumerate}
 
 \defi{
-$V = \vecSet{n}$とする。任意の$\bm{x} \in V$に対し、そのスカラー倍全体の集合$\{a\bm{x}\mid a \in \mathbb{R}\}$は明らかに$V$の部分空間になる。さらに一般的に、$\bm{x_1}, \cdots, \bm{x_r} \in V$が与えられたとき、
+$V = \vecSpace{n}$とする。任意の$\bm{x} \in V$に対し、そのスカラー倍全体の集合$\{a\bm{x}\mid a \in \mathbb{R}\}$は明らかに$V$の部分空間になる。さらに一般的に、$\bm{x_1}, \cdots, \bm{x_r} \in V$が与えられたとき、
 
 $$
 \bm{x} = \sum_{1 \leq i \leq r} a_{i}\bm{x}_i \quad (a_1, \cdots, a_r \in \mathbb{R})
@@ -882,7 +886,7 @@ $\bm{0} \in W_1 \cap W_2$であるから、$W_1 \cap W_2 \neq \phi$である。$
 
 \subsection{部分空間の和}
 
-部分空間の共通部分を考えたときに、今度は和集合（ベクトル空間どうしの和）も部分空間になるかを考えたくなるものである。$W_1, W_2$を$V = \vecSet{3}$の部分空間とし、$W_1$と$W_2$の和集合$W_1 \cup W_2$を考えてみる。
+部分空間の共通部分を考えたときに、今度は和集合（ベクトル空間どうしの和）も部分空間になるかを考えたくなるものである。$W_1, W_2$を$V = \vecSpace{3}$の部分空間とし、$W_1$と$W_2$の和集合$W_1 \cup W_2$を考えてみる。
 
 $W_1 = \langle \bm{e}_1 \rangle, \quad W_2 = \langle \bm{e}_2 \rangle$とおくと、
 $$
@@ -923,7 +927,7 @@ $$
 
 この演算で定義される部分空間は$V$の最小の部分空間となる。それを次の定理で示す。
 
-\rem{$V = \vecSet{n}$とし、$W_1, W_2$を$V$の部分空間とする。$W_1 + W_2$は$W_1$と$W_2$を含む最小の部分空間となる。}
+\rem{$V = \vecSpace{n}$とし、$W_1, W_2$を$V$の部分空間とする。$W_1 + W_2$は$W_1$と$W_2$を含む最小の部分空間となる。}
 
 {\bf 証明}
 
@@ -944,7 +948,7 @@ $\bm{x} \in W_1$とすれば、$\bm{x} = \bm{x} + \bm{0} \quad (\bm{x} \in W_1, 
 $W_1 \subset W_2$とすれば、$W_1 + W_2 \subset W_2 + W_2 = W_2$。$W_1 + W_2 \supset W_2$は自明であるから、$W_1 + W_2 = W_2$。逆に、$W_1 + W_2 = W_2$とすると、$W_1 \subset W_1 + W_2$であるから、$W_1 \subset W_2$である。
 
 \exercise{
-$W_1, W_2, W_3$を$V = \vecSet{n}$の部分空間とするとき、$W_1 \cap W_3 + W_2 \cap W_3 \subset (W_1 + W_2) \cap W_3$を示せ。
+$W_1, W_2, W_3$を$V = \vecSpace{n}$の部分空間とするとき、$W_1 \cap W_3 + W_2 \cap W_3 \subset (W_1 + W_2) \cap W_3$を示せ。
 }
 
 $W_1 + W_2$は$W_1$と$W_2$により張られる空間なので、$W_1 \subset W_1 + W_2, \quad W_2 \subset W_1 + W_2$である。$\bm{x}, \bm{y} \in W_1 + W_2$であれば、部分空間の定義により$\bm{x}, \bm{y} \in (W_1 + W_2) \cap W_3$とできるので、
@@ -974,7 +978,7 @@ $$
 
 線形独立と線形従属の定義は初見では理解が難しいので、この定義の成り立ちを考えてみることにする。
 
-$V = \vecSet{3}$において3つの基本ベクトル
+$V = \vecSpace{3}$において3つの基本ベクトル
 
 $$
 \bm{e}_1 = \begin{pmatrix}
@@ -1012,7 +1016,7 @@ $$
 線形独立の定義よりこれは明らかなので証明は割愛する。
 
 \exercise{
-$V = \vecSet{3}$において
+$V = \vecSpace{3}$において
 
 $$
 \bm{x} = \begin{pmatrix}
@@ -1047,7 +1051,7 @@ $a\bm{x} + b\bm{y} + c\bm{z} = 0 \quad (a, b, c \in \mathbb{R})$であれば、$
 という連立1自方程式を解けば、$a = b = c = 0$が唯一の解となるので、$\bm{x}, \bm{y}, \bm{z}$は線形独立である。
 
 \exercise{
-$V = \vecSet{3}$において
+$V = \vecSpace{3}$において
 
 $$
 \bm{x} = \begin{pmatrix}
@@ -1139,9 +1143,9 @@ $$
 
 この補題により、$r = s$回この置き換えを行うことで、次の定理が得られる。
 
-\rem{$W$を$V = \vecSet{n}$の部分空間とする。$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle = \langle \bm{y}_1, \cdots, \bm{y}_s \rangle$}で、$\bm{x}_1, \cdots, \bm{x}_r$と$\bm{y}_1, \cdots, \bm{y}_s$がともに線形独立であるとすれば、$r = s$である。
+\rem{$W$を$V = \vecSpace{n}$の部分空間とする。$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle = \langle \bm{y}_1, \cdots, \bm{y}_s \rangle$}で、$\bm{x}_1, \cdots, \bm{x}_r$と$\bm{y}_1, \cdots, \bm{y}_s$がともに線形独立であるとすれば、$r = s$である。
 
-\defi{$W$を$V = \vecSet{n}$の部分空間とする。$W$に対し、次の条件を満たす順序付けられたベクトルの集合をWの{\bf 基底}(basis)という。}
+\defi{$W$を$V = \vecSpace{n}$の部分空間とする。$W$に対し、次の条件を満たす順序付けられたベクトルの集合をWの{\bf 基底}(basis)という。}
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
@@ -1149,13 +1153,13 @@ $$
 \item $\bm{x}_1, \cdots, \bm{x}_r$は線形独立である。
 \end{enumerate}
 
-\rem{$V = \vecSet{n}$の任意の部分空間$W$に対して基底${x_1, \cdots, x_r}$が存在する。基底をなすベクトルの個数は一定で、$r \leq n$となる}
+\rem{$V = \vecSpace{n}$の任意の部分空間$W$に対して基底${x_1, \cdots, x_r}$が存在する。基底をなすベクトルの個数は一定で、$r \leq n$となる}
 
 {\bf 証明}
 
 $W \subset V = \langle \bm{e}_1, \cdots, \bm{e}_n \rangle$であるから、補題\ref{lemm:basisReplacing}により$W$に含まれる線形独立なベクトルの個数は高々nである。$\bm{x}_1, \cdots, \bm{x}_r$をWに含まれる最大個数の線形独立なベクトルの集合とする。そのとき、$r \leq n$で任意の$\bm{x} \in W$に対し、$\bm{x} \in \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$が成立する。よって、$W \subset \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$である。$\langle \bm{x}_1, \cdots, \bm{x}_r \rangle \subset W$は明らかであるから、$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$。よって、$\{\bm{x}_1, \cdots, \bm{x}_r \}$は$W$の基底である。補題\ref{lemm:basisReplacing}により、rは一意的に定まる。
 
-この定理により部分空間Wに対して定まるr($\in \mathbb{R}$)をWの{\bf 次元}(dimension)といい、$dim W$と書く。
+この定理により部分空間Wに対して定まるr($\in \mathbb{R}$)をWの{\bf 次元}(dimension)といい、$\dim W$と書く。
 
 \rem{
 $\{\bm{x}_1, \cdots, \bm{x}_n\}$を線形独立なベクトルの組とする。このとき、$\{\bm{x}_1, \cdots, \bm{x}_n\}$の線形結合としての表し方は一意的である。すなわち、$\bm{x} = a_1\bm{x}_1 + \cdots + a_n\bm{x}_n \quad (a_i \in \mathbb{R})$において、$a_i$は$\bm{x}$に対して一意的に定まる。
@@ -1178,19 +1182,19 @@ $$
 である。$\{\bm{x}_1, \cdots, \bm{x}_n\}$は線形独立なベクトルの組であるから、$a_1 - a_1' = \cdots = a_n - a_n' = 0$より、$a_1 = a_1', \cdots, a_n = a_n'$である。
 
 \exam{
-基本ベクトルの集合, $\langle \bm{e}_1, \cdots, \bm{e}_n \rangle$は明らかに$V = \vecSet{n}$の基底であるから、$dim V = n$である。これを$\vecSet{n}$の{\bf 標準基底}という。
+基本ベクトルの集合, $\langle \bm{e}_1, \cdots, \bm{e}_n \rangle$は明らかに$V = \vecSpace{n}$の基底であるから、$\dim V = n$である。これを$\vecSpace{n}$の{\bf 標準基底}という。
 }
 
 \exam{
-$\{0\}$は線形独立なベクトルを含まないから、$dim \{0\} = 0$である
+$\{0\}$は線形独立なベクトルを含まないから、$\dim \{0\} = 0$である
 }
 
 \exam{  
-$V = \vecSet{n}$とする。$W, W' \in V$のとき、$W \subset W', dim W = dim W' \Longrightarrow W = W'$
+$V = \vecSpace{n}$とする。$W, W' \in V$のとき、$W \subset W', \dim W = \dim W' \Longrightarrow W = W'$
 }
 
 \exercise{
-$V = \vecSet{3}$において、$V$の部分空間
+$V = \vecSpace{3}$において、$V$の部分空間
 $$
 W = \left\{
 \begin{pmatrix}
@@ -1239,11 +1243,11 @@ $$
 \end{pmatrix} 
 $$
 
-は線形独立であり、$\vecSet{2}$を張ることから、基底である。
+は線形独立であり、$\vecSpace{2}$を張ることから、基底である。
 
 \subsection{基底の変換}
 
-$V = \vecSet{n}$の基底として、$\{\bm{a}_1, \cdots, \bm{a}_2\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$があったとする。これら2組の基底が、
+$V = \vecSpace{n}$の基底として、$\{\bm{a}_1, \cdots, \bm{a}_2\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$があったとする。これら2組の基底が、
 
 $$
 \begin{pmatrix}
@@ -1316,7 +1320,7 @@ $$
 が得られた。
 
 \rem{
-$V = \vecSet{n}$の基底$\{\bm{a}_1, \cdots, \bm{a}_n\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$に関する成分をそれぞれ
+$V = \vecSpace{n}$の基底$\{\bm{a}_1, \cdots, \bm{a}_n\}$と$\{\bm{b}_1, \cdots, \bm{b}_n\}$に関する成分をそれぞれ
 
 $$
 \begin{pmatrix}
@@ -1427,7 +1431,7 @@ $$
 \subsection{線形写像の定義}
 
 \defi{
-$V = \vecSet{n}, V' = \vecSet{m}$とする。$V$から$V$'への写像を$f$とし、以下の2つの性質を満たす時$f$は{\bf 線形}(一次)であるという。
+$V = \vecSpace{n}, V' = \vecSpace{m}$とする。$V$から$V$'への写像を$f$とし、以下の2つの性質を満たす時$f$は{\bf 線形}(一次)であるという。
 }
 
 \begin{enumerate}
@@ -1442,7 +1446,7 @@ $V = \vecSet{n}, V' = \vecSet{m}$とする。$V$から$V$'への写像を$f$と�
 特に、$V$から$V$自身への線形写像を$V$の{\bf 線形変換}(linear transformation)または${\bf 一次変換}$という
 
 \exam{
-$V = \vecSet{3}, V' = \vecSet{2}, V'' = \mathbb{R}$とするとき写像
+$V = \vecSpace{3}, V' = \vecSpace{2}, V'' = \mathbb{R}$とするとき写像
 
 $$
 \begin{array}{ccc}
@@ -1479,7 +1483,7 @@ $\newline$
 }
 
 \exam{
-$\vecSet{2}$（平面ベクトル）の原点を中心とした時計、反時計周りに$\theta$だけ回転させるような写像は線形変換である。($\vecSet{2}$から$\vecSet{2}$への線形写像)
+$\vecSpace{2}$（平面ベクトル）の原点を中心とした時計、反時計周りに$\theta$だけ回転させるような写像は線形変換である。($\vecSpace{2}$から$\vecSpace{2}$への線形写像)
 
 $$
 f_3: \begin{pmatrix}
@@ -1533,7 +1537,7 @@ $$
 
 \subsection{線形写像と行列の対応}
 
-一般に$A = (a_{ij}) \in M_{m,n}\mathbb{R}$が与えられた時、$V = \vecSet{n}, V' = \vecSet{m}$への写像$f_A$を
+一般に$A = (a_{ij}) \in M_{m,n}\mathbb{R}$が与えられた時、$V = \vecSpace{n}, V' = \vecSpace{m}$への写像$f_A$を
 
 $$
 f_A = \bm{x} = \begin{pmatrix}
@@ -1577,7 +1581,7 @@ $$
 
 \subsubsection{表現行列}
 
-$V = \vecSet{n}, V = \vecSet{m}$とする。$f: V \to V'$を線形写像とする。$\{\bm{e}_1, \cdots, \bm{e}_n\}, \{\bm{e}_1', \cdots, \bm{e}_n'\}$をそれぞれ$V, V'$の標準基底とし、
+$V = \vecSpace{n}, V = \vecSpace{m}$とする。$f: V \to V'$を線形写像とする。$\{\bm{e}_1, \cdots, \bm{e}_n\}, \{\bm{e}_1', \cdots, \bm{e}_n'\}$をそれぞれ$V, V'$の標準基底とし、
 
 $$
 f(\bm{e}_j) = \sum_{1 \leq i \leq n} a_{ij}\bm{e}_{i}'
@@ -1668,7 +1672,7 @@ $$
 定理\ref{rem:VectorExpressionUniquness}より明らか。表現行列を表すベクトル$a_1, \cdots, a_n$はすべて一意的に表せるので、表現行列も一意的である。
 
 \exercise{
-$\vecSet{2}$のベクトル$\bm{x}, \bm{y}$と線形変換$f$の標準基底での表現行列$A$を
+$\vecSpace{2}$のベクトル$\bm{x}, \bm{y}$と線形変換$f$の標準基底での表現行列$A$を
 $$
 \bm{x} = \begin{pmatrix}
 2 \\
@@ -1699,7 +1703,7 @@ $$
 となる行列を求めよ。
 }
 
-$\bm{x}, \bm{y}$は$\vecSet{2}$を張る標準基底${\bm{e}_1, \bm{e}_2}$で
+$\bm{x}, \bm{y}$は$\vecSpace{2}$を張る標準基底${\bm{e}_1, \bm{e}_2}$で
 
 $$
 \begin{pmatrix} 
@@ -1814,12 +1818,12 @@ $$
 この例題より以下の定理が得られる。
 
 \rem{
-標準基底での$\vecSet{n}$上の線形変換$f$の表現行列を$A$とする。標準基底$\{\bm{e}_1, \cdots, \bm{e}_n\}$を、基底$\{\bm{x}_1, \cdots, \bm{x}_n\}$に取り替えたとする。
+標準基底での$\vecSpace{n}$上の線形変換$f$の表現行列を$A$とする。標準基底$\{\bm{e}_1, \cdots, \bm{e}_n\}$を、基底$\{\bm{x}_1, \cdots, \bm{x}_n\}$に取り替えたとする。
 基底の変換行列をPとおくと、基底$\{\bm{x}_1, \cdots,  \bm{x}_n\}$を座標系とした新座標での線形変換$f$の表現行列は$P^{-1}AP$である。
 }
 
 \defi{
-実数係数を持つ$x$の多項式全体の集合もベクトル空間である。これを
+実数係数を持つ$x$の多項式全体の集合も、通常の加法・スカラー倍に関してベクトル空間である。これを
 
 $$
 \polynomialVecSet{n} = \{ a_nx^n + a_{n-1} + \cdots + a_1x + a_0 \mid n \in \mathbb{N}, a_i \in \mathbb{R} (1 \leq i \leq n)\}
@@ -1828,14 +1832,77 @@ $$
 }
 
 \exercise{
-ベクトル空間$\polynomialVecSet{2} = \{ax^2 + bx + x \mid a,b,c \in \mathbb{R}\}$を実数係数の2次以下の多項式全体とする。線形写像$F: \polynomialVecSet{2} \to \polynomialVecSet{2}$を$F(f) = \frac{df}{dx}$とするとき、基底$\{1, \bm{x}, \bm{x}^2\}$に関する$F$の表現行列を求めよ。
+$\polynomialVecSet{4} = \{a_4x^4 + a_3x^3 + a_2x^2 + a_1x + a_0 \mid a_i \in \mathbb{R}\}$を実数係数の4次以下の多項式全体とする。線形写像$F: \polynomialVecSet{4} \to \polynomialVecSet{4}$を
+
+$$
+F(f) = \frac{df(\bm{x})}{dx}
+$$
+とするとき、基底$\{1, x, x^2, x^3, x^4\}$に関する$F$の表現行列を求めよ。
 }
 
-TODO
+$\newline$
+
+$$
+\bm{a} = \begin{pmatrix}
+a_1 \\
+a_2 \\
+a_3 \\
+a_4 \\
+a_5
+\end{pmatrix}
+$$を$\vecSpace{5}$の標準基底とする。写像$g: \vecSpace{5} \to \polynomialVecSet{4}$を
+
+$$
+g(\bm{a}) = a_1 + a_2 \cdot x + a_3 \cdot x^2 + a_4 \cdot x^3 + a_5 \cdot x^4
+$$
+
+と定めると、これは$\vecSpace{5}$の標準基底に$\polynomialVecSet{4}$の基底$\{1, x, x^2, x^3, x^4\}$を対応させる線形写像である。線形写像$g$に対し、$F$を適用すると
+
+\begin{eqnarray*}
+F(g(\bm{a})) &= &F(a_1 + a_2 \cdot x + a_3 \cdot x^2 + a_4 \cdot x^3 + a_5 \cdot x^4) \\
+&= &a_1F(1) + a_2F(x) + a_3F(x^2) + a_4F(x^3) + a_5F(x^4) \\
+&= &a_1 \cdot 0 + a_2 \cdot 1 + a_3 \cdot 2x + a_4 \cdot 3x^2 + a_5 \cdot 4x^3
+\end{eqnarray*}
+
+となる。この結果を書き直すと
+
+$$
+\begin{pmatrix}
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 2 & 0 & 0 \\
+0 & 0 & 0 & 3 & 0 \\
+0 & 0 & 0 & 0 & 4 \\
+0 & 0 & 0 & 0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+0 & 1 & x & x^2 & x^3
+\end{pmatrix}\bm{a}
+$$
+
+となっているので、Fの表現行列
+
+$$
+\begin{pmatrix}
+0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 2 & 0 & 0 \\
+0 & 0 & 0 & 3 & 0 \\
+0 & 0 & 0 & 0 & 4 \\
+0 & 0 & 0 & 0 & 0
+\end{pmatrix}
+$$
+
+が得られる。この表現行列より、
+
+$$
+(F(1), F(x), F(x^2), F(x^3), F(x^4)) = (0, 1, x, x^2, x^3)F
+$$
+
+の関係式が成立する。
+
 
 \subsection{線形写像の合成と行列の積}
 
-線形写像$f_A$と$f_B$があるとき、$f_A \circ f_B = f_{AB}$が成立する。実際、任意の$\bm{x} \in \vecSet{n}$に対して
+線形写像$f_A$と$f_B$があるとき、$f_A \circ f_B = f_{AB}$が成立する。実際、任意の$\bm{x} \in \vecSpace{n}$に対して
 
 $$
 f_A \circ f_B(\bm{x}) = f_A(f_B(\bm{x})) = A(B\bm{x}) = (AB)\bm{x} = f_{AB}(\bm{x})
@@ -1903,76 +1970,209 @@ y
 
 \subsection{線形写像の核と像}
 
-$V = \vecSet{n}, V' = \vecSet{m}$とし、線形写像$f: V \to V'$が与えられたとする。
+$V = \vecSpace{n}, V' = \vecSpace{m}$とし、線形写像$f: V \to V'$が与えられたとする。
 $f$によって、$V'$のベクトル$0_{V'}$に移される$V$のベクトル全体の集合
 
 $$
-Ker(f) = \{\bm{x} \in V \mid f(\bm{x}) = \bm{0}\}
+\ker(f) = \{\bm{x} \in V \mid f(\bm{x}) = \bm{0}\}
 $$
 
-を$f$の{\bf 核}(Kernel)という。また、$V$の$f$による像全体の集合
+を$f$の{\bf 核}(Kernel, カーネル)という。また、$V$の$f$による像全体の集合
 
 $$
-Im(f) = \{f(\bm{x}) \mid \bm{x} \in V\}
+\img{f} = \{f(\bm{x}) \mid \bm{x} \in V\}
 $$
 
-を$f$の像という。
+を$f$の{\bf 像}(Image, イメージ)という。
 
-この定義から、$f$が全射$\Longleftrightarrow Im(f) = V'$である。また、$f$が単射であれば、$Ker(f) = \{0\}$である。これを証明する。
+この定義から、$f$が全射$\Longleftrightarrow \img{f} = V'$である。また、$f$が単射であれば、$\ker(f) = \{0\}$である。これを証明する。
 
-$f$が単射であるとする。$\forall \bm{x} \in Ker(f)$をとると、$f(\bm{x}) = \bm{0}$.ここで、$f$は線形写像より、$f(\bm{0}) = \bm{0}$.よって、$f(\bm{x}) = \bm{0}$ .仮定より、$f$は単射なので$\bm{x} = \bm{0}$.よって、$Ker(f) = \{0\}$となる。
+$f$が単射であるとする。$\forall \bm{x} \in \ker(f)$をとると、$f(\bm{x}) = \bm{0}$.ここで、$f$は線形写像より、$f(\bm{0}) = \bm{0}$.よって、$f(\bm{x}) = \bm{0}$ .仮定より、$f$は単射なので$\bm{x} = \bm{0}$.よって、$\ker(f) = \{0\}$となる。
 
-逆に、$f(\bm{x}) = f(\bm{y})$となる$\forall \bm{x}, \bm{y} \in V$に対し、$f(\bm{x}) = f(\bm{y}) = 0$。ここで$f$は線形写像なので、$f(\bm{x} - \bm{y}) = \bm{0}$が言え、$\bm{x} - \bm{y} \in Ker(f) = \{0\}$である。したがって、$\bm{x} - \bm{y} = \bm{0}$より、$\bm{x} = \bm{y}$.
+逆に、$f(\bm{x}) = f(\bm{y})$となる$\forall \bm{x}, \bm{y} \in V$に対し、$f(\bm{x}) = f(\bm{y}) = 0$。ここで$f$は線形写像なので、$f(\bm{x} - \bm{y}) = \bm{0}$が言え、$\bm{x} - \bm{y} \in \ker(f) = \{0\}$である。したがって、$\bm{x} - \bm{y} = \bm{0}$より、$\bm{x} = \bm{y}$.
 
 \rem{
-$Im(f), Ker(f)$はそれぞれ$V', V$の部分空間である。
+$\img{f}, \ker(f)$はそれぞれ$V', V$の部分空間である。
 }
 
 {\bf 証明}
 
-$Im(f) \subset V'$を示す。$\bm{x}, \bm{y} \in Im(f)$とすれば、ある$\bm{x}, \bm{y} \in V$があって、$\bm{x}' = f(\bm{x}), \bm{y}' = f(\bm{y})$と表せる。よって、
+$\img{f} \subset V'$を示す。$\bm{x}, \bm{y} \in \img{f}$とすれば、ある$\bm{x}, \bm{y} \in V$があって、$\bm{x}' = f(\bm{x}), \bm{y}' = f(\bm{y})$と表せる。よって、
 
 \begin{eqnarray*}
-\bm{x}' + \bm{y}' = f(\bm{x}) + f(\bm{y}) = f(\bm{x} + \bm{y}) \in Im(f) \\
-c\bm{x}' = cf(\bm{x}) = f(c\bm{x}) \in Im(f)
+\bm{x}' + \bm{y}' = f(\bm{x}) + f(\bm{y}) = f(\bm{x} + \bm{y}) \in \img{f} \\
+c\bm{x}' = cf(\bm{x}) = f(c\bm{x}) \in \img{f}
 \end{eqnarray*}
 
-より、$Im(f)$は$V'$の部分空間である。
+より、$\img{f}$は$V'$の部分空間である。
 
-$Ker(f) \subset V$を示す。$\bm{x}, \bm{y} \in Ker(f)$とすれば、$f(\bm{x}) = f(\bm{y}) = 0$であるから
+$\ker(f) \subset V$を示す。$\bm{x}, \bm{y} \in Ker(f)$とすれば、$f(\bm{x}) = f(\bm{y}) = 0$であるから
 
 \begin{eqnarray*}
 f(\bm{x} + \bm{y}) = f(\bm{x}) + f(\bm{y}) = \bm{0} \in Ker(f) \\
 cf(\bm{x}) = f(c\bm{x}) = \bm{0} \in Ker(f)
 \end{eqnarray*}
 
-より、$Ker(f)$は$V$の部分空間である。
+より、$\ker(f)$は$V$の部分空間である。
 
 \subsection{次元定理}
 
-TODO
+\rem{
+$V = \vecSpace{n}, \dim V = n$のとき、次の等式が成立する。
 
-% \exercise{
-% $$
-% A = \begin{pmatrix}
-% -2 & 1 & 1 \\
-% 1 & -2 & 1 \\
-% 1 & 1 & -2 
-% \end{pmatrix}
-% $$
-% によって定義される線形写像$f_A: \bm{x} \mapsto A\bm{x} \quad (\bm{x} \in \vecSet{3})$に対する$Ker(f_A)$と$Im(f_A)$を求めよ。
-% }
+$$
+\dim \img{f} = n - \dim \ker(f)
+$$
+}
 
-% $$
-% Im(f_A) = \left\{ \bm{x} = 
-% \begin{pmatrix} 
-% x
-% y
-% z
-% \end{pmatrix}
-% \mid x = y = z
-% \right\}
-% $$
+{\bf 証明}
+
+$\dim \ker(f) = s$とし、$\{\bm{x}_1, \cdots, \bm{x}_s\}$を$\ker(f)$の1つの基底とする。$s \leq n$で$V$の元$\bm{x}_{s + 1}, \cdots, \bm{x}_n$を適当に選び、$\vecSet{x}$を$V$の基底とすることができる。このとき、$f(\bm{x}_i) = \bm{0} \quad (1 \leq i \leq s)$であるから、
+
+$$
+\img{f} = \linearCombination{f(\bm{x}_1)}{f(\bm{x}_n)} = \linearCombination{f(\bm{x}_{s + 1})}{f(\bm{x}_n)}
+$$
+
+である。$f(\bm{x}_{s + 1}), \cdots, f(\bm{x}_n)$が線形独立であれば、このベクトルの組が$\img{f}$の基底となり、$\dim \img{f} = n - \dim \ker(f)$が証明される。$f(\bm{x}_{s + 1}), \cdots, f(\bm{x}_n)$が線形独立であることを示す。
+
+$$
+\sum_{s + 1 \leq j \leq n} c_jf(\bm{x}_j) = \bm{0} \quad (c_j \in \mathbb{R})
+$$
+と仮定すると、$f$は線形より、
+
+$$
+f(\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j) = \bm{0}
+$$
+
+であるから、
+
+$$
+\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j \in \ker(f)
+$$
+
+したがって、
+
+$$
+\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j = \sum_{1 \leq i \leq n} k_i\bm{x}_i \quad (k_i \in \mathbb{R})
+$$
+
+とかける。つまり、$\{\bm{x}_1, \cdots, \bm{x}_s\} \subset \vecSet{x}$であるが、$\{\bm{x}_1, \cdots, \bm{x}_s\}$は$f$により$\bm{0}$に潰れてしまうので、$s \leq n$であっても右辺と左辺の$\bm{0}$に移されないベクトルの個数は
+一致するということを言っている。
+
+ここで、$\bm{x}_1, \cdots, \bm{x}_n$は$V$の基底より、線形独立であるから、すべての$j$で$c_j = 0$、すべての$i$で$k_i = 0$でなければならない。よって、$f$によって移される新たな$\img{f}$の基底 $f(\bm{x}_{s + 1}), \cdots, f(\bm{x}_n)$も線形独立である。
+
+また、この定理により次の等式が成立することが直ちに分かる。
+
+$$
+\dim V = \dim \ker(f) + \dim \img{f}
+$$
+
+$\newline$
+
+\exercise{
+$$
+A = \begin{pmatrix}
+-2 & 1 & 1 \\
+1 & -2 & 1 \\
+1 & 1 & -2 
+\end{pmatrix}
+$$
+によって定義される線形写像$f: \bm{x} \mapsto A\bm{x} \quad (\bm{x} \in \vecSpace{3})$に対する$\ker(f)$と$Im(f_A)$とぞれぞれの次元を求めよ。
+}\label{exercise:FindingTheImageAndKernel1}
+
+$\ker(f)$とその次元を求める。$f$のカーネルは$f$に写すと$\bm{0}$になるベクトルの集合であるから、$A\bm{x} = \bm{0}$.
+つまり
+
+$$
+\begin{cases}
+-2x + y + z = 0 \\
+x - 2y + z = 0 \\
+x + y - 2z = 0
+\end{cases}
+$$
+
+を意味する。この連立方程式の解は$x = y = z$であるから
+
+$$
+\ker(f) = \left\{ \bm{x} = 
+\begin{pmatrix} 
+x \\
+y \\
+z
+\end{pmatrix}
+\mid x = y = z
+\right\}
+$$
+
+である。ここから基底を取り出すことを考える。$\bm{x}$の成分はすべて同じ値なので、いずれかの成分を固定する（例えば、$x$で$y,z$を置き換える）ことで
+
+$$
+\bm{x} = x\begin{pmatrix} 
+1 \\
+1 \\
+1
+\end{pmatrix}
+$$
+
+と表すことができる。この1つのベクトル$\bm{x}$は線形独立であり、カーネルを張る基底であるから、$\dim \ker(f) = 1$である。
+
+次に、$\img{f}$とその次元を求める。次元定理を使えば、$\dim \img{f} = 2$となるはずであるから、
+
+$$
+\img{f} = \left\{ \bm{x} = 
+\begin{pmatrix} 
+x \\
+y \\
+z
+\end{pmatrix}
+\mid x + y + z = 0
+\right\}
+$$
+
+と仮定する。ここで、$x$を$x = -y + (-)z$とおけば$y$と$z$で$\bm{x}$を表現できるから、
+$$
+\bm{x} = y\begin{pmatrix} 
+-1 \\
+1 \\
+0
+\end{pmatrix} + z\begin{pmatrix} 
+-1 \\
+0 \\
+1
+\end{pmatrix}
+$$
+
+より、2つの線形独立なベクトル
+$$
+\left\{
+\begin{pmatrix} 
+-1 \\
+1 \\
+0
+\end{pmatrix}, 
+\begin{pmatrix} 
+-1 \\
+0 \\
+1
+\end{pmatrix}
+\right\}
+$$
+
+が得られる。これらは$\vecSpace{2}$を張る基底となるから、仮定は正しいことが証明された。
+
+
+\subsection{行列の階数}
+
+\defi{
+線形写像$f: V \to V'$に対し、$\dim \img{f}$を$f$の{\bf 階数}（rank, ランク）といい、$\rank f$とかく。$\rank f = \dim \img{f}$である。
+
+また、$A \in M_{m,n}\mathbb{R}$に対してその階数を$\rank A = \rank f_A = \dim A \vecSpace{n}$と定義する。したがって、$\rank A$は$A$の列ベクトルの中で線形独立なものの最大個数である。
+}\label{defi:rankOfMatrix}
+
+\exam{
+例題\ref{exercise:FindingTheImageAndKernel1}の行列$A$のランクは$\rank A = 2$である。
+実際、定義\ref{defi:rankOfMatrix}に従えば、$\dim \img{f} = 2$なので、$\rank f = \dim \img{f}$である。
+}
 
 \begin{thebibliography}{n}
 \bibitem[1]{key2} 佐武一郎 [線形代数] 共立出版株式会社
