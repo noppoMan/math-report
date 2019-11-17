@@ -4,6 +4,7 @@
 \usepackage[all]{xy}
 \usepackage{bm}
 \usepackage{cases}
+\usepackage{mathtools}
 
 \newtheorem{theo}{定理}[section]
 \newtheorem{defi}[theo]{定義}
@@ -25,6 +26,8 @@
 \newcommand{\linearCombination}[2]{\langle #1, \cdots, #2\rangle}
 \newcommand{\rank}[1]{{\rm rank}\,#1}
 \newcommand{\img}[0]{{\rm Im}}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 \setcounter{tocdepth}{3}
 
@@ -1212,7 +1215,7 @@ $$
 $$
 
 と表すことができる。これより、$W = \linearCombination{\bm{x}_1}{\bm{x}_n} = W' = \linearCombination{\bm{y}_1}{\bm{y}_r}$とすることができる。
-}
+}\label{rem:dimMatching}
 
 \exercise{
 $V = \vecSpace{3}$において、$V$の部分空間
@@ -1343,7 +1346,7 @@ $$
 $$
 \begin{pmatrix}
 \bm{b}_1 & \cdots & \bm{b}_n
-\end{pmatrix}p^{-1} = 
+\end{pmatrix}P^{-1} = 
 \begin{pmatrix}
 \bm{a}_1 & \cdots & \bm{a}_n
 \end{pmatrix}
@@ -2013,7 +2016,6 @@ $V = \vecSpace{n}, \dim V = n$のとき、次の等式が成立する。
 $$
 \dim \img(f) = n - \dim \ker(f)
 $$
-}
 
 {\bf 証明}
 
@@ -2056,6 +2058,7 @@ $$
 $$
 \dim V = \dim \ker(f) + \dim \img(f)
 $$
+}\label{rem:rankNullity}
 
 $\newline$
 
@@ -2159,15 +2162,21 @@ $$
 また、$A \in M_{m,n}(\mathbb{R})$に対してその階数を$\rank A = \rank f_A = \dim A \vecSpace{n}$と定義する。したがって、$\rank A$は$A$の列ベクトルの中で線形独立なものの最大個数である。
 }\label{defi:rankOfMatrix}
 
+なお、$A \vecSpace{n}$の定義は次である。
+$V = \vecSpace{n}$とする。$f = A$であることに着目すると
+$$
+Im(f) = f(V) = \{f(\bm{x}) \mid \bm{x} \in V\} = AV = \{A\bm{x} \mid \bm{x} \in V\} \subset V'
+$$
+
 \exam{
 例題\ref{exercise:FindingTheImageAndKernel1}の行列$A$のランクは$\rank A = 2$である。
 実際、定義\ref{defi:rankOfMatrix}に従えば、$\dim \img(f) = 2$なので、$\rank f = \dim \img(f)$である。
 }
 
 \exam{
-$A = \bm{x}{}^t\bm{y}, \bm{x} \in \vecSpace{m}, \bm{y} \in \vecSpace{n}, \bm{a}, \bm{b} \neq \bm{0}$とすれば、$\rank A = 1$である。
+$A = \bm{x}{}^t\bm{y}, \bm{x} \in \vecSpace{m}, \bm{y} \in \vecSpace{n}, \bm{x}, \bm{y} \neq \bm{0}$とすれば、$\rank A = 1$である。
 
-$\bm{y} = \bm{y_i}$とすれば、$A$の列ベクトルは$y_1\bm{x}, \cdots, y_n\bm{x}$であるから、
+$\bm{y} = (y_i)$とすれば、$A$の列ベクトルは$y_1\bm{x}, \cdots, y_n\bm{x}$であるから、
 
 $$
 \rank A = \dim \langle y_1\bm{x}, \cdots, y_n\bm{x} \rangle = \dim \langle \bm{x} \rangle = 1
@@ -2180,21 +2189,1229 @@ $A \in M_{m,n}(\mathbb{R}), f_A: V \to V'$とすれば、
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \item $\rank A \leq \min(m, n)$
-\item $\rank A = m \Longleftrightarrow f$は全射で、$n \geq m$
-\item $\rank A = n \Longleftrightarrow f$は単射で、$n \leq m$
+\item $\rank A = m \Longleftrightarrow f$は全射 (このとき、$n \geq m$)
+\item $\rank A = n \Longleftrightarrow f$は単射 (このとき、$n \leq m$)
 \end{enumerate}
-}
 
 {\bf 証明}
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $\img(f_A) \subset V'$であるから、$\dim \img(f_A) \leq \dim V' = m$.よって、$\rank A \leq m$である。しかし、$\dim \img(f_A) = n - \dim \ker(f)$より、$\dim \img(f_A) \leq n$.よって、$\rank A \leq \min(m, n)$
-\item $\rank A = m$ならば、$\img(f) \subset V', \dim \img(f) = \dim V'$
+\item $AV \subset V'$であるから、$\dim AV \leq \dim V' = m$.よって、$\rank A \leq m$である。しかし、$\dim AV = n - \dim \ker(f)$より、$\dim AV \leq n$.よって、$\rank A \leq \min(m, n)$
 
-TODO
+\item $\rank A = m$ならば、
+$$
+AV \subset V', \dim AV = \dim V'
+$$
+であるから、定理\ref{rem:dimMatching}より$AV = V'$となり、$f_A$は全射である。逆に$f_A$が全射であるとすれば、$n \geq m$より、$\rank A = m$は明らか。
+
+\item $\rank A = n$ならば、定理\ref{rem:rankNullity}より
+
+$$
+\dim \ker(f) = 0
+$$
+
+したがって、$\ker(f) = \{0\}$. つまり、$f_A$は単射である。逆に$f_A$が単射とする。$n \leq m$より、$\rank A = n$は明らか。
 
 \end{enumerate}
+}\label{rem:dimentionRule}
+
+\exam{
+$\rank A = m$で$f$は全射の例
+
+$f: V \to V'$を以下の写像とすれば、$f$は全射である。
+
+$$
+A = \begin{pmatrix} 
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{pmatrix} \in M_{2, 3}(\mathbb{R})
+$$
+
+$$
+\begin{array}{ccc}
+\vecSpace{3} & \stackrel{f = A}{\longrightarrow} & \vecSpace{2} \\
+\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{pmatrix} & \longmapsto & \begin{pmatrix}
+x_1  + 2x_2 + 3x_3 \\
+4x_1 + 5x_2 + 6x_3
+\end{pmatrix}
+\end{array}
+$$
+}
+
+\exam{
+$\rank A = n$ならば$f$は単射の例
+
+$f: V \to V'$を以下の写像とすれば、$f$は単射である。
+
+$$
+A = \begin{pmatrix} 
+1 & 4 \\
+2 & 5 \\
+3 & 6
+\end{pmatrix} \in M_{3, 2}(\mathbb{R})
+$$
+
+$$
+\begin{array}{ccc}
+\vecSpace{2} & \stackrel{f = A}{\longrightarrow} & \vecSpace{3} \\
+\rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
+\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix} & \longmapsto & \begin{pmatrix}
+x_1  + 4x_1 \\
+2x_2 + 5x_2 \\
+3(x_1 + x_2) + 6(x_1 + x_2)
+\end{pmatrix}
+\end{array}
+$$
+}
+
+\subsection{基本変形}
+
+具体的な行列の階数は基本変形を用いて求めることができる。ここでは基本変形の定義とそれを使った行列の階数の求め方を示す。
+
+$A = (a_{ij}) \in M_{m,n}(\mathbb{R})$とする。$A$に対する{\bf 基本変形}(初等変形)とは以下の3つの操作とその組み合わせのことである。
+
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $A$のi行(列)を定数倍する。
+$$
+A \longrightarrow cA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots \\
+ca_{i1} & ca_{i2} & \cdots & ca_{in} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix} \quad (c \in \mathbb{R})
+$$
+
+の変換を指す。
+
+\item $A$の第$i$行(列)と第$j$行(列)を入れ替える。
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{i1} & a_{i2} & \cdots & a_{in} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{j1} & a_{j2} & \cdots & a_{jn} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix} \\
+\longrightarrow \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{j1} & a_{j2} & \cdots & a_{jn} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{i1} & a_{i2} & \cdots & a_{in} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix}
+$$
+
+の変換を指す。
+
+\item $A$の第$i$行(列)に第$j$行(列)の定数倍を加える。
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{i1} & a_{i2} & \cdots & a_{in} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{j1} & a_{j2} & \cdots & a_{jn} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix} \\
+\longrightarrow \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{i1} + ca_{j1} & a_{i2} + ca_{j2} & \cdots & a_{in} + ca_{jn} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{j1} & a_{j2} & \cdots & a_{jn} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{pmatrix} \quad (c \in \mathbb{R})
+$$
+
+の変換を指す。
+\end{enumerate}
+
+行に関する基本変形を行基本変形、列に関する基本変形を列基本変形という。
+
+この基本変形を適当な組み合わせで繰り返し$A$に適用することで、$A$を標準形
+
+$$
+\begin{pmatrix}
+E_r & 0 \\
+0 & 0
+\end{pmatrix}
+$$
+
+
+(ここで、$E_r$は$A$の階数における単位行列である)に変換することができる。$E_r$が階数を表すので、標準形に変換する行為は行列の階数を求めることにほかならない。
+
+% $\newline$
+
+% また、この操作を列に適用することを列基本変形という。
+
+\exam{
+行列$A = \begin{pmatrix}
+0 & 1 & 2 \\
+-1 & 0 & 3 \\
+-2 & -3 & 0
+\end{pmatrix}$の階数を基本変形を用いて求める方法は以下である。
+
+
+\begin{eqnarray*}
+\begin{pmatrix}
+0 & 1 & 2 \\
+-1 & 0 & 3 \\
+-2 & -3 & 0
+\end{pmatrix} &\xrightarrow{第1列と第2列を入れ替え} &\begin{pmatrix}
+1 & 0 & 2 \\
+0 & -1 & 3 \\
+-3 & -2 & 0
+\end{pmatrix} \\[1ex]
+&\xrightarrow{第1行を3倍して第3行に加える} &\begin{pmatrix}
+1 & 0 & 2 \\
+0 & -1 & 3 \\
+0 & -2 & 6
+\end{pmatrix} \xrightarrow{第1列を-2倍して第3列に加える} \begin{pmatrix}
+1 & 0 & 0 \\
+0 & -1 & 3 \\
+0 & -2 & 6
+\end{pmatrix} \\[1ex]
+&\xrightarrow{第2行に-1倍する} &\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & -3 \\
+0 & -2 & 6
+\end{pmatrix} \xrightarrow{第2行を-2倍し、第3行に加える} \begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & -3 \\
+0 & 0 & 0
+\end{pmatrix}
+\end{eqnarray*}
+
+この基本変形より、$\rank A = 2$である。
+
+この例より、行列の基本変形は連立方程式の変形であることが分かる。よって、連立方程式の変形の際に出来ないような操作（e.g.行基本変形と列基本変形が同時に行われる）は行基本変形においても行うことが出来ない。
+}
+
+\section{行列式}
+
+\subsection{2次行列における行列式}
+
+\defi{2次行列における行列式を次のように定義する。}
+
+$$
+A = \begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+$$
+に対して、
+
+$$
+\det(A) = \abs{A} = \begin{vmatrix}
+a & b \\
+c & d \\
+\end{vmatrix} = ad - bc
+$$
+
+である。また、Aの列ベクトル
+
+$$
+\bm{a}_1 = \begin{pmatrix}
+a \\
+c
+\end{pmatrix},
+\bm{a}_2 = \begin{pmatrix}
+b \\
+d
+\end{pmatrix}
+$$に対して、
+
+$$
+det(A) = D(\bm{a}_1, \bm{a}_2)
+$$
+とする。
+
+\subsubsection{行列式の性質}
+
+上で定義した行列式$D$を$V = \vecSpace{2}$上の2変数関数と考えると、次の性質を持つ。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item {\bf $\bm{a}_1, \bm{a}_2$について線形(多重線形性)}
+
+$\bm{a}_1$について
+
+\begin{eqnarray*}
+&D(\bm{a}_1 + \bm{a}_1', \bm{a}_2) = D(\bm{a}_1, \bm{a}_2) + D(\bm{a}_1',  \bm{a}_2) \\
+&D(c\bm{a}_1, \bm{a}_2) = cD(\bm{a}_1, \bm{a}_2) \quad (c \in \mathbb{R})
+\end{eqnarray*}
+
+$\bm{a}_2$について
+
+\begin{eqnarray*}
+&D(\bm{a}_1, \bm{a}_2 + \bm{a}_2') = D(\bm{a}_1, \bm{a}_2) + D(\bm{a}_1,  \bm{a}_2') \\
+&D(\bm{a}_1, c\bm{a}_2) = cD(\bm{a}_1, \bm{a}_2) \quad (c \in \mathbb{R})
+\end{eqnarray*}
+
+
+\item {\bf $\bm{a}_1, \bm{a}_2$について交代的}
+
+$$
+D(\bm{a}_2, \bm{a}_1) = -D(\bm{a}_1, \bm{a}_2)
+$$
+
+これは以下のように展開できる。
+
+$$
+D(\bm{a}_2, \bm{a}_1) = \begin{vmatrix}
+b & a \\
+d & c
+\end{vmatrix} = bc - ad = -D(\bm{a}_1, \bm{a}_2)
+$$
+
+\item $\vecSpace{2}$の単位ベクトルを$\bm{e}_1, \bm{e}_2$とすれば、
+
+$$
+D(\bm{e}_1, \bm{e}_2) = 1
+$$
+
+これは以下のように展開できる。
+
+$$
+D(\bm{e}_1, \bm{e}_2) = \begin{vmatrix}
+1 & 0 \\
+0 & 1
+\end{vmatrix} = 1
+$$
+
+\end{enumerate}
+
+この性質から2次行列式はこれらの性質によって導くことができる。$\vecSpace{2}$上の2変数関数$D(\bm{a}_1, \bm{a}_2)$が(1), (2), (3)の性質を持つとすると、(1)より
+
+\begin{eqnarray*}
+D(\bm{a}_1, \bm{a}_2) &= &D(a\bm{e_1} + c\bm{e_2}, b\bm{e_1} + d\bm{e_2}) \\
+&= &aD(\bm{e_1}, b\bm{e_1} + d \bm{e}_2) + cD(\bm{e_2}, b\bm{e_1} + d\bm{e_2}) \\
+&= &abD(\bm{e}_1, \bm{e}_1) + adD(\bm{e}_1, b\bm{e}_2) + cbD(\bm{e}_2, \bm{e}_1) + cdD(\bm{e}_2, \bm{e}_2)
+\end{eqnarray*}
+
+(2), (3)より
+
+$$
+D(\bm{e}_1, \bm{e}_2) = 1, \quad D(\bm{e}_2, \bm{e}_1) = -D(\bm{e}_1, \bm{e}_2) = -1
+$$
+
+$D(\bm{e}_1, \bm{e}_1) = -D(\bm{e}_1, \bm{e}_1)$であるから、$D(\bm{e}_1, \bm{e}_1) = 0$.同様に、$D(\bm{e}_2, \bm{e}_2) = 0$となる。
+
+したがって、(1)で得た関係式に代入すると
+
+\begin{equation*}
+\begin{split}
+D(\bm{a}_1, \bm{a}_2) &= abD(\bm{e}_1, \bm{e}_1) + adD(\bm{e}_1, b\bm{e}_2) + cbD(\bm{e}_2, \bm{e}_1) + cdD(\bm{e}_2, \bm{e}_2) \\
+&= ab \cdot 0 + ad \cdot -1 + cb \cdot + 1 + cd \cdot 0 \\
+&= ad - bc
+\end{split}
+\end{equation*}
+
+である。
+
+\subsection{置換}
+
+前節で、2変数の関数$D(\bm{a}_1, \bm{a}_2)$を紹介したが、一般には2次行列式の性質(1),(2),(3)と類似の性質を持つn変数の関数
+$$
+D(\bm{a}_1, \bm{a}_2, \cdots, \bm{a}_n) \quad (\bm{a}_1, \bm{a}_2, \cdots, \bm{a}_n \in \vecSpace{n})
+$$
+が存在する。これをn次の行列式という。ここでは、このn次の行列式を導くために必要な置換について概説する。
+
+n個の文字の集合
+
+$$
+X = \{1, 2, \cdots, n\}
+$$
+
+を考え、$X$のそれ自身への全単射
+
+$$
+\sigma: X \to X
+$$
+
+をXの{\bf 置換(permutation)}という。($X$は高々加算な有限集合として考える。)
+このn文字の置換の集合を$S_n$とかく。任意の置換$\sigma \in S_n$が$1, 2, \cdots, n$から$i_1, i_2, \cdots, i_n$へ1対1で対応しているとき、つまり$\sigma(k) = i_k \quad (1 \leq k \leq n)$のとき
+
+$$
+\sigma = \begin{pmatrix}
+1 & 2 & \cdots & n \\
+i_1 & i_2 & \cdots &i_n
+\end{pmatrix}
+$$
+
+と書く。特に、$i_1, i_2, \cdots, i_n$が自分自身であるような置換
+
+$$
+\sigma = \begin{pmatrix}
+1 & 2 & \cdots & n \\
+1 & 2 & \cdots & n \\
+\end{pmatrix}
+$$
+
+を{\bf 恒等置換}という。これを単に1と表す。
+$\newline$
+
+置換に対し、$i,j$の2つの文字のみを入れ替え、その他の文字は不変にするような置換
+
+$$
+\sigma = \begin{pmatrix}
+1 & \cdots & i & \cdots & j \cdots & n \\
+1 & \cdots & j & \cdots & i \cdots & n \\
+\end{pmatrix}
+$$
+
+を{\bf 互換(transposition)}といい、(i, j)とかく。具体的には$S_4$であれば、
+
+$$
+\sigma = \begin{pmatrix}
+1 & 2 & 3 & 4 \\
+1 & 3 & 2 & 4 \\
+\end{pmatrix} = (2, 3)
+$$
+のように書き、不変な置換$\sigma(1) = 1, \sigma(4) = 4$は省略することができる。この書き方の理由として、
+$\sigma(i) = j, \sigma(j) = i$と$i \to j, j \to i$のように$i$と$j$の対応のみが交換されており、その他は不変であることから、$i, j$の2つの文字だけで$\sigma$を表現するに十分だからである。
+$\newline$
+
+また、２つの置換$\sigma, \gamma \in S_n$に対し、その合成
+
+$$
+(\sigma\gamma)(k) = (\sigma(\gamma(k))
+$$
+
+によって定義される写像$\sigma\gamma$もまた１つの置換である。これを$\sigma, \gamma$の{\bf 積}という。また$\sigma \in S_n$は全単射であるから、その逆写像$\sigma^{-1}$が存在し、それもまた置換となる。これを$\sigma$の{\bf 逆置換}という。
+
+\exam{置換の積の例}
+
+$$
+\gamma = \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix}, \sigma = \begin{pmatrix}
+1 & 2 & 3 \\
+3 & 2 & 1
+\end{pmatrix}
+$$
+の置換の積を考えると、
+
+$$
+\gamma(\sigma(1)) = 1, \quad \gamma(\sigma(2)) = 3, \quad \gamma(\sigma(3)) = 2
+$$
+
+より、
+
+\begin{equation*}
+\begin{split}
+\gamma\sigma &= \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix} \begin{pmatrix}
+1 & 2 & 3 \\
+3 & 2 & 1
+\end{pmatrix}\\[1ex]
+&= \begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix}\\[1ex]
+&= \begin{pmatrix}
+2 & 3 \\
+3 & 2
+\end{pmatrix}\\[1ex]
+&= (2, 3)
+\end{split}
+\end{equation*}
+
+となる。
+
+\exercise{$S_3$のすべての置換を答えよ。}\label{exercise:permutation1}
+
+{\bf 解答}
+
+置換は自身から自身への対応の並び替えであるから、その総数は$n!$個である。よって、$S_3$では、$3!$個の置換がありそれは以下となる。
+
+\begin{eqnarray*}
+\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 2 & 3
+\end{pmatrix} = 1, \quad \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix}, \quad \begin{pmatrix}
+1 & 2 & 3 \\
+3 & 1 & 2
+\end{pmatrix}, \\[1.5ex]
+\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix} = (2, 3), \quad 
+\begin{pmatrix}
+1 & 2 & 3 \\
+2 & 1 & 3
+\end{pmatrix} = (1, 2), \quad 
+\begin{pmatrix}
+1 & 2 & 3 \\
+3 & 2 & 1
+\end{pmatrix} = (1, 3)
+\end{eqnarray*}
+
+\subsubsection{互換の積}
+
+$\sigma \in S_3$を
+
+$$
+\sigma = \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix}
+$$
+
+とする。この置換はいくつかの{\bf 互換の積}で
+
+$$
+\sigma = (1, 3)(1, 2) = (1,2)(2,3)
+$$
+
+のように表すことができる。実際、
+
+
+$$
+(1, 2) = \begin{pmatrix}
+1 & 2 & 3\\
+2 & 1 & 3
+\end{pmatrix}, \quad 
+(2, 3) = \begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix}
+$$
+
+であるから$\gamma = (1, 2), \rho = (2, 3)$としてその合成$\gamma\rho$を考えると
+
+\begin{eqnarray*}
+\gamma(\rho(1)) = \gamma(1) = 2 \\
+\gamma(\rho(2)) = \gamma(3) = 3 \\
+\gamma(\rho(3)) = \gamma(3) = 1
+\end{eqnarray*}
+
+となることから
+
+$$
+\gamma\rho = \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix} = \sigma
+$$
+
+である。（互換の合成も写像の合成同様に、右側の置換（互換）から評価する。）
+
+\exercise{
+$
+\begin{pmatrix}
+1 & 2 & 3 \\
+3 & 1 & 2
+\end{pmatrix}
+$を互換の積で表わせ。
+}
+
+{\bf 解答}
+
+この置換は
+
+$$
+\begin{pmatrix}
+1 & 2 & 3 \\
+3 & 2 & 1
+\end{pmatrix} = (1, 3),\quad 
+\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix} = (2, 3)
+$$
+および
+
+$$
+\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix} = (2, 3),\quad 
+\begin{pmatrix}
+1 & 2 & 3 \\
+2 & 1 & 3
+\end{pmatrix} = (1, 2)
+$$
+
+の互換の積で
+
+$$
+\begin{pmatrix}
+1 & 2 & 3 \\
+3 & 1 & 2
+\end{pmatrix} = (1,3)(2,3) = (2,3)(1,2)
+$$のように表すことができる。
+$\newline$
+
+実は、任意の$\sigma \in S_n$は表示は一定でないにしろ、互換の個数の偶奇は一定であることが知られている。
+それを示すために、次の補題を証明する。
+
+\lemm{
+$S_n$上に定義された関数$sign(\sigma)$が次の性質のもと一意的に存在する。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $sign(\sigma) \in \{\pm 1\}$
+\item $\sigma$が互換ならば、$sign(\sigma) = -1$
+\item $sign(\sigma\gamma) = sign(\sigma)sign(\gamma)$
+\end{enumerate}
+
+{\bf 証明}
+
+このような関数は
+$$
+sign(\sigma) = \prod_{i \neq j} \frac{\sigma(i) - \sigma(j)}{i-j}
+$$
+によって与えられる。
+
+$\sigma \in S_n$とする。$\sigma$を互換とする。$\sigma$は互換より、$i \neq j$のとき、
+$\sigma(k) = k, \sigma(j) = i, \sigma(i) = j$. それ以外、つまり$i = j$ですべての$sign(k) = k$であるから、右辺の積は
+
+$$
+\frac{i - j}{i - j} = 1
+$$
+
+となる。これより、$i \neq j$のときに
+
+$$
+\frac{j - i}{i - j} = -1
+$$
+
+となることから、(2)を満たす。
+
+したがって、$\sigma$が$k$個の互換の積$\tau_1, \cdots, \tau_k$の積に等しければ、関数$sign$は次のように展開できる。
+
+$$
+sign(\sigma) = sign(\tau_1) \cdots sign(\tau_k) = (-1)^k \quad (k \in \mathbb{N})
+$$
+
+これより(1)を満たす。（この関数はwell-definedであることが分かる。）
+また、$(\tau_1, \cdots, \tau_k) = \sigma$より、$sign(\tau_1, \cdots, \tau_k) = sign(\tau_1) \cdots sign(\tau_k)$であるから、(3)を満たすことも確かめられる。
+
+$sign(\sigma) = 1$のとき互換の数は偶数、$sign(\sigma) = -1$のとき互換の数は奇数である。kの偶奇により、$\sigma$を{\bf 偶置換}、{\bf 奇置換}という。
+}\label{lemm:signFunction}
+$\newline$
+
+この補題より、次の定理が証明される。
+
+\rem{
+任意の$\sigma \in S_n$は高々$n-1$個の互換の積に表される。このような表示は一意的ではないが、互換の個数の偶奇は一定である。
+}
+
+第一の主張はnの帰納法で容易に証明され、第二の主張は補題\ref{lemm:signFunction}により証明される。
+$\newline$
+
+\exam{
+$\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 2 & 3
+\end{pmatrix}, \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1
+\end{pmatrix}, \begin{pmatrix}
+1 & 2 & 3 \\
+3 & 1 & 2
+\end{pmatrix}$
+は偶置換、
+$\begin{pmatrix}
+1 & 2 & 3 \\
+1 & 3 & 2
+\end{pmatrix}, \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 1 & 3
+\end{pmatrix}, \begin{pmatrix}
+1 & 2 & 3 \\
+3 & 2 & 1
+\end{pmatrix}$は奇置換である。
+
+このように$\sigma \in S_n$の遇奇の個数は一致する。（証明は割愛する）
+}
+
+\subsubsection{巡回置換}
+
+相異なる文字$i_1, i_2, \cdots, i_k$を$i_1$を$i_2$に$i_2$を$i_3$に...と順次次の文字に移し、最後の$i_k$を$i_1$に戻すような（ループを描くような）置換を$i_1, i_2, \cdots, i_k$の巡回置換(cycle)といい、$(i_1, i_2, \cdots ,i_k)$とかく。互換はこの特別の場合である。よって、巡回置換は
+
+$$
+(i_1, i_2, \cdots ,i_k) = (i_1, i_k)(i_1, i_{k-1})\cdots(i_1, i_2)
+$$
+のように、互換の積に分解できる。したがって、
+
+$$
+sign(i_1, i_2, \cdots ,i_k) = (-1)^{k-1}
+$$
+である。
+
+\subsection{n次行列式の定義と基本性質}
+
+\rem{$V = \vecSpace{n}$上に次の性質(D1), (D2), (D3)をもつようなn変数の関数$D(\bm{a}_1, \cdots, \bm{a}_n)$が一意的に存在する。
+
+この関数をn次の{\bf 行列式(determinant)}といい、$A = (\bm{a}_1, \cdots, \bm{a}_n)$であるとき、
+
+$$
+D(\bm{a}_1, \cdots, \bm{a}_n) = \det(A) = \abs{A} = \abs{\bm{a}_1, \cdots, \bm{a}_n}
+$$
+などと書く。
+
+この定理の証明の前に、まずは性質(D1), (D2), (D3)を解説する。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(D\arabic{enumi})}
+\item $D(\bm{a}_1, \cdots, \bm{a}_n)$は各変数$\bm{a}_i$に関して線形である。
+\begin{eqnarray*}
+&D(\bm{a}_1 + \bm{a}_1`, \cdots, \bm{a}_n) = D(\bm{a}_1, \cdots, \bm{a}_n) + D(\bm{a}_1`, \cdots, \bm{a}_n), \\
+&D(c\bm{a}_1, \cdots, \bm{a}_n) = cD(\bm{a}_1, \cdots, \bm{a}_n)
+\end{eqnarray*}
+
+\item ２つの変数$\bm{a}_i, \bm{a}_j \hspace{2pt} (i \neq j)$を入れ替えると、Dの符号が変わる。つまり、$\bm{a}_1, \cdots, \bm{a}_n$に関して交代的である。
+
+$$
+D(\cdots, \bm{a}_j, \cdots, \bm{a}_i, \cdots) = -D(\cdots, \bm{a}_i, \cdots, \bm{a}_j, \cdots)
+$$
+
+\item $\vecSpace{n}$の基本ベクトル$\bm{e}_1, \cdots, \bm{e}_n$に対して
+
+$$
+D(\bm{e}_1, \cdots, \bm{e}_n) = 1
+$$
+
+\end{enumerate}
+}\label{rem:detDef}
+
+また、(D2)は(D1)の下に、次の(D2`)と同値である。
+
+(D2') $\quad$ $\bm{a}_i = \bm{a}_j \hspace{1pt} (i \neq j)$のとき、
+
+$$
+D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots) = 0
+$$
+
+実際、(D2)を仮定すると
+
+$$
+D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots) = -D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots)
+$$
+
+であるから、この主張が言える。
+
+逆に(D2')を仮定すると、(D1)により$D(\cdots, \bm{a}_i, \cdots, \bm{a}_j, \cdots)$の第$i, j$番目の変数に$\bm{a}_i + \bm{a}_j$を代入して
+
+
+\begin{eqnarray*}
+D(\cdots, \bm{a}_i + \bm{a}_j, \cdots, \bm{a}_i + \bm{a}_j, \cdots) &= &D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots) + D(\cdots, \bm{a}_i, \cdots, \bm{a}_j, \cdots) \\
+&+ &D(\cdots, \bm{a}_j, \cdots, \bm{a}_i, \cdots) + D(\cdots, \bm{a}_j, \cdots, \bm{a}_j, \cdots) \\
+&= &0 + 1 - 1 + 0 \\
+&= &0
+\end{eqnarray*}
+
+(D2')により
+
+$$
+D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots) = D(\cdots, \bm{a}_j, \cdots, \bm{a}_j, \cdots) = 0
+$$
+
+であるから、右辺の$\bm{a}_j, \bm{a}_j$を入れ替えても
+
+$$
+D(\cdots, \bm{a}_i, \cdots, \bm{a}_i, \cdots) = -D(\cdots, \bm{a}_j, \cdots, \bm{a}_j, \cdots)
+$$
+
+とでき、(D2)の交代式を得る。よって、(D2)と(D2')はこの条件のもと同値である。
+
+$\newline$
+これらの性質より、定理\ref{rem:detDef}は次のように証明される。
+$\newline$
+
+{\bf 定理\ref{rem:detDef}の証明}
+
+(D1), (D2), (D3)の性質をもつ関数$D(\bm{a}_1, \cdots, \bm{a}_n) \quad (\bm{a}_j \in \vecSpace{n})$が存在すると仮定する。
+また、$A = (\bm{a}_1, \cdots, \bm{a}_n) \in M_n(\mathbb{R})$とする。
+
+$A$の各ベクトル$\bm{a}_j$は線形結合により
+
+$$
+\bm{a}_j = \sum_{1 \leq i \leq n} a_{ij}\bm{e}_i \quad (a_{ij} \in \mathbb{R})
+$$
+
+と表せる。(D1)より
+
+\begin{equation}
+D(\bm{a}_1, \cdots, \bm{a}_n) = \sum_{i_1, \cdots , i_n = 1}^{n} a_{{i_1}1} \cdots a_{{i_n}n}D(\bm{e}_{i_1}, \cdots, \bm{e}_{i_n})
+\label{equation:Det1}
+\end{equation}
+
+ここで、$i_1, \cdots, i_n$は独立に1からnまで動く。(D2),(D3)より$D(\bm{e}_1, \cdots, \bm{e}_n)$は、$(i_1, \cdots, i_n)$が$(1, \cdots, n)$の順列になっているときには、置換$\sigma = \begin{pmatrix}
+1 & \cdots & n \\
+i_1 & \cdots & i_n
+\end{pmatrix}$の符号に等しく、その他に$i_1, \cdots, i_n$の中に同じ数が含まれているときは$0$となる。したがって、
+
+$$
+D(\bm{e}_1, \cdots, \bm{e}_n) = \pm 1
+$$
+
+であるから、式(\ref{equation:Det1})は次のように表せる。
+
+\begin{equation}
+D(\bm{a}_1, \cdots, \bm{a}_n) = \sum_{\sigma \in S_n} sign(\sigma) \hspace{1pt} a_{\sigma(1)1} \cdots a_{\sigma(n)n}
+\label{equation:Det2}
+\end{equation}
+
+このように、$D(\bm{a}_1, \cdots, \bm{a}_n)$は$a_{ij}$の多項式として明らかに一意的に定まる。($A$に対して$\sigma \in S_n$は$n!$個の組み合わせのみである。)
+
+逆に、式(\ref{equation:Det1})によって$D(\bm{a}_1, \cdots, \bm{a}_n)$を定義すれば、それが(D1),(D2),(D3)の性質を持つことは、補題\ref{lemm:signFunction}で示したように$sign(\sigma)$の性質から確認できる。よって、行列式は式(\ref{equation:Det1})によって定義でき、それは一意的に存在する。
+
+\rem{
+$V = \vecSpace{n}$上の関数Fが定理\ref{rem:detDef}における$D$の性質(D1),(D2)をもてば、ある定数cがあるとき
+
+$$
+F(\bm{a}_1, \cdots, \bm{a}_n) = c\abs{A}
+$$
+
+ただし、$c = F(\bm{e}_1, \cdots, \bm{e}_n)$
+}
+
+\exam{
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{pmatrix} \in M_3(\mathbb{R})
+$$の行列式は以下の要領で得られる。
+
+例題\ref{exercise:permutation1}で得られた置換$\sigma \in S_n$を左上から順に、$\sigma_1, \cdots, \sigma_6$とラベリングすると、
+
+\begin{equation*}
+\begin{split}
+  \det(A) 
+  ={}&
+  sign(\sigma_1)\hspace{1pt}a_{\sigma_{1}(1)1}a_{\sigma_{1}(2)2}a_{\sigma_{1}(3)3}
+  + sign(\sigma_2)\hspace{1pt}a_{\sigma_{2}(1)1}a_{\sigma_{2}(2)2}a_{\sigma_{2}(3)3}
+  + sign(\sigma_3)\hspace{1pt}a_{\sigma_{3}(1)1}a_{\sigma_{3}(2)2}a_{\sigma_{3}(3)3}
+  \\&+
+  sign(\sigma_4) \hspace{1pt}a_{\sigma_{4}(1)1}a_{\sigma_{4}(2)2}a_{\sigma_{4}(3)3}
+  + sign(\sigma_5)\hspace{1pt}a_{\sigma_{5}(1)1}a_{\sigma_{5}(2)2}a_{\sigma_{5}(3)3}
+  + sign(\sigma_6)\hspace{1pt}a_{\sigma_{6}(1)1}a_{\sigma_{6}(2)2}a_{\sigma_{6}(3)3}
+  \\={}&
+  a_{11}a_{22}a_{33} + a_{21}a_{32}a_{13} + a_{31}a_{12}a_{23}
+  \\&- a_{11}a_{32}a_{23} - a_{21}a_{12}a_{33} - a_{31}a_{22}a_{13}
+\end{split}
+\end{equation*}
+
+が得られる。
+}
+
+
+\rem{
+$A \in M_n(\mathbb{R})$の転置行列を$\transposeMat{A}$とすれば、
+
+$$
+\abs{\transposeMat{A}} = \abs{A}
+$$
+
+となる。
+
+{\bf 証明}
+
+$\transposeMat{A}$の列ベクトルを$\bm{a}'_1 \cdots, \bm{a}'_n$とすれば、$\transposeMat{\bm{a}'_1} \cdots, \transposeMat{\bm{a}'_n}$は$A$の行ベクトルである。よって、
+
+$$
+\bm{a}_j = \sum_{i=1}^{n}a_{ij}\bm{e}_i
+$$
+
+とすれば、
+
+$$
+\bm{a}'_j = \sum_{j=1}^{n}a_{ij}\bm{e}_i
+$$
+
+である。行列式の定義式を$\transposeMat{A}$に適用して
+
+\begin{eqnarray*}
+\abs{\transposeMat{A}} &= &D(\bm{a}'_1 \cdots, \bm{a}'_n) \\
+&= &\sum_{\sigma \in S_n}sign(\sigma) \hspace{5pt} a_{\sigma(1)1} \cdots a_{\sigma(n)n}
+\end{eqnarray*}
+
+
+$\sigma$の逆置換を$\sigma^{-1}$とすれば、$sign(\sigma) = sign(\sigma^{-1})$は明らかであるから、
+
+$$a_{\sigma(1)1} \cdots a_{\sigma(n)n} = a_{\sigma^{-1}(1)1} \cdots a_{\sigma^{-1}(n)n}
+$$
+である。これは、$\sigma$が$S_n$上を動くとき、$\sigma^{-1}$も$S_n$の上を動くことから
+
+$$
+\abs{\transposeMat{A}} = \abs{A}
+$$
+
+が得られる。
+}
+
+\subsubsection{様々な行列式の例}
+
+\exam{\bf 上半三角、下半三角行列の行列式}
+
+n次行列$A = (a_{ij})$が上半三角で、n次行列$B = (b_{ij})$が下半三角であるとき、つまり
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+0 & a_{22} & \cdots & a_{2n} \\
+\cdots & \cdots & \ddots & \cdots \\
+0 & 0 & \cdots & a_{nn}
+\end{pmatrix}
+$$
+
+$$
+B = \begin{pmatrix}
+b_{11} & 0 & \cdots & 0 \\
+b_{21} & b_{22} & \cdots & 0 \\
+\cdots & \cdots & \ddots & \cdots \\
+b_{n1} & b_{n2} & \cdots & b_{nn} \\
+\end{pmatrix}
+$$
+
+の形である時、AとBの行列式は
+
+\begin{eqnarray*}
+\abs{A} &= &a_{11}a_{22} \cdots a_{nn} \\
+\abs{B} &= &b_{11}b_{22} \cdots b_{nn}
+\end{eqnarray*}
+
+のように対角成分の積に等しい。
+
+{\bf 証明}
+
+$A, B$の形状より
+
+\begin{eqnarray*}
+i > j \Longrightarrow a_{ij} = 0 \\
+i < j \Longrightarrow b_{ij} = 0
+\end{eqnarray*}
+
+したがって、式(\ref{equation:Det2})において
+
+\begin{eqnarray*}
+\sigma(i) \leq i \quad (1 \leq i \leq n) \\
+\sigma(i) \geq i \quad (1 \leq i \leq n) \\
+\end{eqnarray*}
+
+であるような$\sigma$に対する項だけが残るが、この条件を満たす$\sigma$は恒等置換$\sigma(i) = i$のみであるから、ここで主張する$\abs{A}, \abs{B}$を得る。
+
+\exam{
+$n$次行列$A = (a_{ij})$が
+
+$$
+A = \begin{pmatrix}
+A_{11} & A_{12} \\
+0 & A_{22}
+\end{pmatrix},
+$$
+
+$$
+A_{11} \in M_{n_1}(\mathbb{R}), \quad A_{12} \in M_{n_1,n_2}(\mathbb{R}), 
+\quad A_{11} \in M_{n_2}(\mathbb{R}), \quad n_1 + n_2 = n
+$$
+の形ならば、
+
+
+\begin{equation}
+\abs{A} = \abs{A_{11}}\abs{A_{22}}
+\label{equation:Det3}
+\end{equation}
+
+
+{\bf 証明}
+
+$A$の形状より、$i > n_1, \hspace{5pt} j \leq n_1$のとき$a_{ij} = 0$となるから、式(\ref{equation:Det2})において
+
+$$
+j \leq n_1 \Longrightarrow \sigma(j) \leq n_1
+$$
+
+でるような$\sigma$に対する項だけが残る。この条件を満たす$\sigma$は$\{1, \cdots, n_1\}$の置換$\sigma_1$と$\{n_1 + 1, \cdots, n\}$の置換$\sigma_2$の積として表される。$\{1, \cdots, n_1\}$の置換全体の集合を$S_{n_1}, {n_1 + 1, \cdots, n}$の置換全体の集合を$S_{n-{n_1}}$とおけば、$\sigma_1, \sigma_2$は独立にそれぞれ$S_{n_1}, S_{n-{n}_1}$の上を動く。また、$\sigma = \sigma_1\sigma_2$であるとき、明らかに
+
+$$
+sign(\sigma) = sign(\sigma_1)sign(\sigma_2)
+$$
+
+である。よって、
+
+\begin{equation}
+\begin{split}
+  \abs{A}
+  ={}&
+  \sum_{\sigma_1 \in S_{n_1}} sign(\sigma_1) \hspace{2pt} a_{\sigma_1(1)1} \cdots a_{\sigma_1({n_1}){n_1}}
+  \\&\times 
+  \sum_{\sigma_1 \in S_{n_2}} sign(\sigma_2) \hspace{2pt} a_{\sigma_2({n_1}+1){n_1+1}} \cdots a_{\sigma_2(n)n}
+  \\={}&
+  \abs{A_{11}}\abs{A_{22}}
+\end{split}
+\end{equation}
+}\label{exam:det2}
+
+\exercise{
+$n_1 = 2, n_2 = 3$として、例\ref{exam:det2}を確かめよ。
+
+{\bf 解答}
+
+$\{1, 2\}$の置換全体の集合を$S_2$、$\{3, 4, 5\}$の置換全体の集合を$S_3$とする。$\sigma_1 \in S_2, \sigma_2 \in S_3$とする。
+$\sigma_1$と$\sigma_2$はそれぞれ$S_2, S_3$の上を独立に動くから、行列式は以下のようになる。
+
+\begin{equation*}
+\begin{split}
+  \abs{A}
+  ={}&
+  a_{11}a_{22} - a_{21}a_{12}
+  \\&\times 
+    a_{33}a_{44}a_{55} + a_{43}a_{54}a_{35} + a_{53}a_{34}a_{45}
+  \\&- a_{33}a_{54}a_{45} - a_{43}a_{34}a_{55} - a_{53}a_{44}a_{35}
+  \\={}&
+  \abs{A_{11}}\abs{A_{22}}
+\end{split}
+\end{equation*}
+
+したがって、例\ref{exam:det2}と同様の行列式が得られた。
+}
+
+
+\subsubsection{余因子}
+
+$n$次行列$A = (a_{ij}) = (\bm{a}_1, \cdots, \bm{a}_n)$の第$i$行、第$j$列を取り去ってできる$(n - 1)$次行列を$A^{(ij)}$とかくことにする。そのとき、$A$の第$j$列を第$i$基本ベクトル$\bm{e}_i$でおきかえて得られる行列の行列式は次の式で与えられる。($\abs{\bm{a}_1, \cdots, \bm{a}_j, \cdots, \bm{a}_n}$の$\bm{a}_j$が$\bm{e}_i$に入れ替えらている。)
+
+\begin{equation}
+\abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A^{ij}}
+\label{defi:cofactor}
+\end{equation}
+
+
+この式の右辺を$A$の$(i,j)${\bf 余因子}(cofactor)という。
+
+実際、余因子は次のように求められる。
+
+$\bm{a}_1, \cdots, \bm{a}_n$の$i$行、$j$列を消し去り、第$j$列を基本ベクトル$\bm{e}_i$で置き換えた行列は以下のように表示できる。
+
+
+$$
+A^{(ij)} = \begin{pmatrix*}
+a_{11} & \cdots & a_{1{j-1}} & 0 & a_{1{j+1}} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+a_{{i-1}1} & \cdots & a_{{i-1}{j-1}} & 0 & a_{{i-1}{j+1}} & \cdots & a_{{i-1}n} \\
+0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
+a_{{i+1}1} & \cdots & a_{{i+1}{j-1}} & 0 & a_{{i+1}{j+1}} & \cdots & a_{{i+1}n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+a_{n1} & \cdots & a_{n{j-1}} & 0 & a_{n{j+1}} & \cdots & a_{nn}
+\end{pmatrix*}
+$$
+
+
+行列式の性質より、一組の列と列（あるいは行と行）を入れ替えると、符号が反転するところに着目すると、$A^{(ij)}$の第$j-1$列と第$j$列(つまり、$\bm{e}_i$)を入れ替えた行列$A^{(ij)'}$は
+
+$$
+A^{(ij)} = -A^{(ij)'}
+$$
+
+と表すことができる。この入れ替えを列に関して$j-1$回行うと
+
+$$
+\begin{pmatrix*}
+0 & a_{11} & \cdots & a_{1{j-1}} & a_{1{j+1}} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & a_{{i-1}1} & \cdots & a_{{i-1}{j-1}} & a_{{i-1}{j+1}} & \cdots & a_{{i-1}n} \\
+1 & 0 & \cdots & 0 & 0 & \cdots & 0 \\
+0 & a_{{i+1}1} & \cdots & a_{{i+1}{j-1}} & a_{{i+1}{j+1}} & \cdots & a_{{i+1}n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & a_{n1} & \cdots & a_{n{j-1}} & a_{n{j+1}} & \cdots & a_{nn}
+\end{pmatrix*}
+$$
+
+の行列が得られるから、この行列の行列式は
+
+$$
+(-1)^{j-1}\abs{\bm{e}_i, \bm{a}_1, \cdots, \bm{a}_{j-1}, \bm{a}_{j+1}, \cdots}
+$$
+
+の形になる。さらに、行に関して$i-1$回入れ替えを行うと最終的に
+
+$$
+\begin{pmatrix*}
+1 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+0 & a_{11} & \cdots & a_{1{j-1}} & a_{1{j+1}} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & a_{{i-1}1} & \cdots & a_{{i-1}{j-1}} & a_{{i-1}{j+1}} & \cdots & a_{{i-1}n} \\
+0 & a_{{i+1}1} & \cdots & a_{{i+1}{j-1}} &a_{{i+1}{j+1}} & \cdots & a_{{i+1}n} \\
+\vdots & \vdots & \vdots & \vdots &\vdots & \vdots & \vdots \\
+0 & a_{n1} & \cdots & a_{n{j-1}} &a_{n{j+1}} & \cdots & a_{nn}
+\end{pmatrix*}
+$$
+
+の行列が得られる。この行列の行列式は
+
+$$
+(-1)^{(i-1)+(j-1)}\begin{vmatrix}
+a_{11} & \cdots & a_{1{j-1}} & a_{1{j+1}} & \cdots & a_{1n} \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+a_{{i-1}1} & \cdots & a_{{i-1}{j-1}} & a_{{i-1}{j+1}} & \cdots & a_{{i-1}n} \\
+a_{{i+1}1} & \cdots & a_{{i+1}{j-1}} &a_{{i+1}{j+1}} & \cdots & a_{{i+1}n} \\
+\vdots & \vdots & \vdots & \vdots &\vdots & \vdots & \vdots \\
+a_{n1} & \cdots & a_{n{j-1}} &a_{n{j+1}} & \cdots & a_{nn}
+\end{vmatrix}
+$$
+
+に等しい。よって、$(-1)^{(i-1)+(j-1)} = (-1)^{i+j}$から
+
+$$
+\abs{A^{(ij)}} = \abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A^{(ij)}}
+$$
+
+が成立する。
+
+\subsubsection{余因子展開}
+
+この余因子を使ったn次行列式を求めるテクニックを紹介する。
+
+$A = (a_{ij}) \in M_n(\mathbb{R})$の第$(i,j)$余因子を$\Delta_{ij} = (-1)^{i+j}\abs{A^{(ij)}}$とすれば、
+
+第$j$列に関する展開を
+
+$$
+\abs{A} = \sum_{i=1}^{n} a_{ij}\Delta_{ij}
+$$
+
+第$i$行に関する展開を
+
+$$
+\abs{A} = \sum_{j=1}^{n} a_{ij}\Delta_{ij}
+$$
+
+とできる。
+
+{\bf 証明}
+
+列に関する展開式を証明すれば十分である。$A$の列ベクトルを$\bm{a}_1, \cdots, \bm{a}_n$とすれば、
+
+$$
+\bm{a}_j = \sum_{i=1}^{n} a_{ij}\bm{e}_i
+$$
+
+であるから、行列式の線形性$D(c\bm{a}_1, \bm{a}_2) = cD(\bm{a}_1, \bm{a}_2)$により
+
+$$
+\abs{A} = D(\bm{a}_1, \cdots, \bm{a}_j, \cdots, \bm{a}_n) = \sum_{i=1}^{n} a_{ij}D(\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n)
+$$
+
+となることより、
+
+$$
+\abs{A} = \sum_{i=1}^{n} a_{ij}\Delta_{ij}
+$$
+
+を得る。
+
+\exam{
+$n = 3$のとき、第1列に関する余因子展開は次となる。
+
+$$
+\begin{vmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{vmatrix} = a_{11}\begin{vmatrix}
+a_{22} & a_{23} \\
+a_{32} & a_{33}
+\end{vmatrix} - a_{21}\begin{vmatrix}
+a_{12} & a_{13} \\
+a_{32} & a_{33}
+\end{vmatrix} + a_{31}\begin{vmatrix}
+a_{12} & a_{13} \\
+a_{22} & a_{23}
+\end{vmatrix}
+$$
+}
+
+\rem{
+
+$A, B \in M_n(\mathbb{R})$に対して
+
+$$
+\abs{AB} = \abs{A}\abs{B}.
+$$
+
+{\bf 証明}
+
+Bの列ベクトルを$\bm{b}_1, \cdots, \bm{b}_n$とすれば、
+$$
+\abs{AB} = D(A\bm{b}_1, \cdots, A\bm{b}_n)
+$$
+
+右辺を$F(\bm{b}_1, \cdots, \bm{b}_n)$とおけば、明らかに行列式の性質(D1), (D2)をもっている。
+
+
+\begin{equation*}
+\begin{split}
+  F(\bm{b}_1, \cdots, \bm{b}_n)
+  ={}&
+  F(\bm{e}_1, \cdots, \bm{e}_n)D(\bm{b}_1, \cdots, \bm{b}_n)
+  \\={}&
+  F(\bm{e}_1, \cdots, \bm{e}_n)\abs{B}
+\end{split}
+\end{equation*}
+
+$A$の列ベクトルを$\bm{a}_1, \cdots, \bm{a}_n$とすれば、$A\bm{e}_j = \bm{a}_j$であるから
+
+$$
+F(\bm{e}_1, \cdots, \bm{e}_n) = D(\bm{a}_1, \cdots, \bm{a}_n) = \abs{A}
+$$
+}
+
+\rem{
+$A \in M_n(\mathbb{R})$が可逆であるためには、$\abs{A} \neq 0$が必要十分である。このとき、$\abs{A}^{-1} = \abs{A^{-1}}$となる。
+
+{\bf 証明}
+
+$A$が可逆ならば
+
+$$
+AA^{-1} = E
+$$
+
+であるから、両辺の行列式をとり
+
+$$
+\abs{A}\abs{A^{-1}} = \abs{E} = 1
+$$
+
+よって$\abs{A} \neq 0, \quad \abs{A}^{-1} = \abs{A^{-1}}$
+
+}
+
+% TODO 吉田さん
+% 線形写像 4.6行列の階数からレビュー再開
+
 
 \begin{thebibliography}{n}
 \bibitem[1]{key2} 佐武一郎 [線形代数] 共立出版株式会社
