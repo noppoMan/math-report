@@ -5,6 +5,7 @@
 \usepackage{bm}
 \usepackage{cases}
 \usepackage{mathtools}
+\usepackage{latexsym}
 
 \newtheorem{theo}{定理}[section]
 \newtheorem{defi}[theo]{定義}
@@ -14,6 +15,7 @@
 \newtheorem{prop}[theo]{命題}
 \newtheorem{ques}[theo]{問}
 \newtheorem{lemm}[theo]{補題}
+\newtheorem{cor}[theo]{系} % Corollary
 
 % functions %
 \newcommand{\innerProduct}[2]{\langle \bm{#1}, \bm{#2} \rangle}
@@ -26,6 +28,7 @@
 \newcommand{\linearCombination}[2]{\langle #1, \cdots, #2\rangle}
 \newcommand{\rank}[1]{{\rm rank}\,#1}
 \newcommand{\img}[0]{{\rm Im}}
+\newcommand{\nrm}[1]{\|\bm{#1}\|}
 
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
@@ -585,7 +588,7 @@ $A \in M_n(\mathbb{R})$とする。$A = {}^t\!A$ つまり、$a_{ij} = a_{ji} \q
 
 $A = -{}^t\!A$ つまり、$a_{ij} = -a_{ji} \quad (1 \leq i, j \leq n)$であるとき、$A$を交代(的)または交代行列という。
 
-\subsubsection{内積とテンソル積}
+\subsubsection{内積とテンソル積}\label{subsubsection:innerProduct}
 
 後の計量ベクトル空間の章で内積について詳しく説明するが、ここでは内積の定義とその意味についてだけ軽く触れておく。
 
@@ -3436,6 +3439,799 @@ $$
 }
 
 \section{計量ベクトル空間}
+
+線形空間では長さ、角、面積、体積といった計量を行うことは出来なかったが、ここに内積という構造を導入することでそのような計量を行える線形空間を{\bf 計量ベクトル空間}（内積空間）と呼ぶ。この章では、計量ベクトル空間における基本的な概念や性質について説明する。
+
+\subsection{内積の性質}
+
+$V = \vecSpace{n}$における内積は\ref{subsubsection:innerProduct}節において定義した。簡単に復習すると$\bm{x} = (x_i), \bm{y} = (y_i) \in \vecSpace{n}$の{\bf 内積}(inner product)は
+
+$$
+\innerProduct{x}{y} = \transposeVec{x}\bm{y} = \sum_{i = 1}^n x_iy_i
+$$
+
+であった。なお、$\vecSpace{n}$における内積を標準内積という。（$\mathbb{C}^n$などの空間にも内積は定義されることから、このように標準と呼称している。）
+
+この定義より、内積は次の性質を持つ。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\innerProduct{x}{y}$は$\bm{x}, \bm{y}$について線形である。$\bm{x}$についていえば、任意の$\bm{x}, \bm{x}', \bm{y} \in V, c \in \mathbb{R}$に対して
+\begin{eqnarray*}
+\langle \bm{x} + \bm{x}', \bm{y} \rangle &= &\innerProduct{x}{y} + \innerProduct{x'}{y}, \\
+\langle c\bm{x}, \bm{y} \rangle &= &c\innerProduct{x}{y}
+\end{eqnarray*}
+\item $\innerProduct{x}{y}$は$\bm{x}, \bm{y}$について対称である。
+$$
+\innerProduct{x}{y} = \innerProduct{y}{x}
+$$
+\item $\bm{x} \neq 0$ならば
+$$
+\innerProduct{x}{x} > 0
+$$
+実際、$\bm{x} = (x_i) \neq 0$ならば、
+$$
+\innerProduct{x}{x} = \sum_{i = 1}^n x_i^2 > 0
+$$
+\end{enumerate}
+
+一般に、(1), (2)を満たす$V$上の2変数関数を$V \times V$上の対称双1次形式(symmetric bilinear form)という。特に(3)の性質を持つものを正値定符号であるという。（正定値性を持つという。）したがって、$\innerProduct{x}{y}$は正値定符号対称双1次形式である。
+
+\subsubsection{ベクトルのノルム}
+
+内積の正定値性より
+
+$$
+\|\bm{x}\| = \sqrt{\innerProduct{x}{x}} > 0
+$$
+
+が定義される。これをベクトル$\bm{x}$の{\bf 長さ}あるいは{\bf ノルム}という。ノルムの定義から明らかに
+
+$$
+\|\bm{x}\| = 0 \Longleftrightarrow \bm{x} = \bm{0}
+$$
+
+である。また任意の$\bm{x} \in V, c \in \mathbb{R}$に対して
+
+$$
+\|c\bm{x}\| = \abs{c}\|\bm{x}\|
+$$
+
+が成立する。また同様のベクトルの2乗は、内積を利用し
+$$
+\bm{x}^2  = \nrm{x}^2 = \innerProduct{x}{x}
+$$
+
+と表すことができる。
+
+\exercise{次の等式を証明せよ}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $\innerProduct{x}{y} = \frac{1}{2}\{ \|\bm{x} + \bm{y}\|^2 - \|\bm{x}\|^2 + \|\bm{y}\|^2 \}$
+\item $\|\bm{x} + \bm{y}\|^2 + \|\bm{x} - \bm{y}\|^2 = 2(\|\bm{x}\|^2 + \|\bm{y}\|^2)$
+\end{enumerate}
+
+{\bf 解答}
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+
+\item \begin{eqnarray*}
+t = \|\bm{x} + \bm{y}\|^2 - \|\bm{x}\|^2 + \|\bm{y}\|^2 &= &\langle \bm{x} + \bm{y}, \bm{x} + \bm{y} \rangle - \innerProduct{x}{x} +\innerProduct{y}{y} \\
+&= &\langle \bm{x}, \bm{x} + \bm{y} \rangle + \langle \bm{y}, \bm{x} + \bm{y} \rangle - \innerProduct{x}{x} +\innerProduct{y}{y} \\
+&= &\innerProduct{x}{x} +\innerProduct{x}{y} + \innerProduct{y}{x} +\innerProduct{y}{y} - \innerProduct{x}{x} +\innerProduct{y}{y} \\
+&= & 2 \innerProduct{x}{y}
+\end{eqnarray*}
+$$
+\frac{1}{2} \cdot t = \frac{1}{2} \cdot 2\innerProduct{x}{y} = \innerProduct{x}{y}
+$$
+
+\item 
+\begin{eqnarray*}
+\|\bm{x} + \bm{y}\|^2 + \|\bm{x} - \bm{y}\|^2 &= &\langle \bm{x} + \bm{y}, \bm{x} + \bm{y} \rangle + \langle \bm{x} - \bm{y}, \bm{x} - \bm{y} \rangle \\
+&= &\langle \bm{x}, \bm{x} + \bm{y} \rangle + \langle \bm{y}, \bm{x} + \bm{y} \rangle + \langle \bm{x}, \bm{x} - \bm{y} \rangle + \langle -\bm{y}, \bm{x} - \bm{y} \rangle \\
+&= &\innerProduct{x}{x} + \innerProduct{x}{y} + \innerProduct{y}{x} + \innerProduct{y}{y} + \innerProduct{x}{x} + \innerProduct{x}{-y} + \innerProduct{x}{-y} + \innerProduct{-y}{x} + \innerProduct{-y}{-y} \\
+&= &\innerProduct{x}{x} + \innerProduct{x}{y} + \innerProduct{y}{x} + \innerProduct{y}{y} + \innerProduct{x}{x} - \innerProduct{x}{y} - \innerProduct{x}{y} - \innerProduct{y}{x} + \innerProduct{y}{y} \\
+&=& 2\innerProduct{x}{x} + 2 \innerProduct{y}{y} \\
+&=& 2(\|\bm{x}\|^2 + \|\bm{y}\|^2)
+\end{eqnarray*}
+
+\end{enumerate}
+
+\rem{
+任意の$\bm{x}, \bm{y} \in \vecSpace{n}$に対して
+$$
+\abs{\innerProduct{x}{y}} \leq \nrm{x}\nrm{y} 
+$$
+
+シュバルツの不等式が成立する。
+
+{\bf 証明}
+
+$\bm{x} = 0 \quad or \quad \bm{y} = 0$ならば、この不等式は$0 = 0$として成立する。したがって、$\bm{x}, \bm{y} \neq 0$とする。
+
+$$
+f(\lambda) = \|\bm{x} + \bm{y}\|^2 \quad (\lambda \in \mathbb{R})
+$$
+
+とおくと
+
+\begin{eqnarray*}
+f(\lambda) &= &\langle \lambda\bm{x} + \bm{y},\lambda\bm{x} + \bm{y} \rangle \\
+&= &\lambda^2 \innerProduct{x}{x} + 2\lambda \innerProduct{x}{y} + \innerProduct{y}{y}
+\end{eqnarray*}
+
+と展開できる。よって、$f$は$\lambda$に関する2次式で、すべての$\lambda \in \mathbb{R}$に対して、$f(\lambda) \geq 0$であるためには、2次式の判別式($\frac{D}{4} = b^2 - ac$)が負にならなければならない。したがって、
+
+$$
+\innerProduct{x}{y}^2 - \innerProduct{x}{x}\innerProduct{y}{y} \leq 0
+$$
+
+すなわち
+
+$$
+\innerProduct{x}{y}^2 \leq \innerProduct{x}{x}\innerProduct{y}{y}
+$$
+
+ここで両辺とも$\geq 0$であるから、平方根をとると
+
+$$
+\abs{\innerProduct{x}{y}} \leq \nrm{x}\nrm{y} 
+$$
+
+が成立する。
+}\label{rem:schwarz}
+
+\cor{
+$\bm{x}, \bm{y} \in \vecSpace{n}$に対して三角不等式
+
+$$
+\nrm{x} - \nrm{y} \leq \|\bm{x} + \bm{y} \| \leq \nrm{x} + \nrm{y}
+$$
+
+が成立する。
+
+{\bf 証明}
+
+定理\ref{rem:schwarz}の証明で$\lambda = 1$とおけばシュバルツの不等式により
+
+\begin{eqnarray*}
+f(1) &= &\|\bm{x} + \bm{y} \|^2 = \nrm{x}^2 + 2 \innerProduct{x}{y} + \nrm{y}^2 \\
+& \leq &\nrm{x}^2 + 2\nrm{x}\nrm{y} + \nrm{y}^2 \\
+& = &(\nrm{x}^2 + \nrm{y}^2)
+\end{eqnarray*}
+}
+
+両辺ともに$0$以上であるから、平方根をとって主張の三角不等式のうちの2つめの不等式を得る。
+また、ひとつめの不等式は明らかに成立する。
+
+この三角不等式の成立により計量ベクトル空間においてノルムが距離と呼べるようになる。
+
+
+\subsubsection{ベクトルのなす角}
+
+シュバルツの不等式の内積の絶対値を外して式を変形することで、$\bm{x}, \bm{y} \neq 0$のとき、
+
+\begin{equation}
+\label{cosThetaDefFormulaByVector}
+-1 \leq \frac{\innerProduct{x}{y}}{\nrm{x}\nrm{y}} \leq 1
+\end{equation}
+
+が成立する。もうひとつの内積の定義
+
+$$
+\innerProduct{x}{y} = \nrm{x}\nrm{y}\cos\theta
+$$
+
+を変形すると
+
+$$
+\cos\theta = \frac{\innerProduct{x}{y}}{\nrm{x}\nrm{y}}
+$$
+
+を得るから、式(\ref{cosThetaDefFormulaByVector})は
+
+$$
+-1 \leq \cos\theta \leq 1
+$$
+
+に1対1で対応する。つまり、$0 \leq \theta \leq \pi$が一意的に定まる。この$\theta$を２つのベクトル$\bm{x}, \bm{y}$のなす角という。
+
+\exam{
+$n = 2$として、ベクトルのなす角$\theta$を求める。$\bm{x} = (x_i), \bm{y} = (y_i) \in \vecSpace{n}$, 
+
+\begin{eqnarray*}
+  \left\{
+    \begin{array}{l}
+      x_1 = r_1 \cos \theta_1 \\
+      x_2 = r_1 \sin \theta_1
+    \end{array}
+  \right. \quad
+  \left\{
+    \begin{array}{l}
+      y_1 = r_1 \cos \theta_2 \\
+      y_2 = r_1 \sin \theta_2
+    \end{array}
+  \right.
+\end{eqnarray*}
+とおく。
+
+\begin{eqnarray*}
+\innerProduct{x}{y} &= &x_1y_1 + x_2y_2 \\
+&= &r_1r_2(\cos\theta_1 \cos\theta_2 + \sin\theta_1 \sin\theta_2) \\
+& =&r_1r_2\cos(\theta_2 - \theta_1) \\
+\end{eqnarray*}
+}
+
+したがって
+$$
+\innerProduct{x}{y} = \nrm{x}\nrm{y}\cos(\theta_2 - \theta_1)
+$$
+
+であるから、ある整数$m$があって
+$$
+\theta = \abs{\theta_2 - \theta_1 + 2 \pi m} \leq \pi
+$$
+となる。よって、この$\theta$は幾何学的な意味での$\bm{x}, \bm{y}$のなす角に他ならない。
+
+\exam{
+２つのベクトルが張る平行四辺形の面積と行列式
+
+$\bm{x} = (x_i), \bm{y} = (y_i) \in \vecSpace{2}$の２つのベクトルが張る平行四辺形の面積と$A = (\bm{a}, \bm{b})$の行列式($\det(A)$)の絶対値をとった値は一致することを示す。
+
+ベクトル$\bm{x}, \bm{y}$が張る平行四辺形に$\bm{y}$の先端から$\bm{x}$の先端に対角線つまり、ベクトル$\bm{y} - \bm{x}$を引くと平行四辺形を2分する三角形ができる。
+
+この三角形の面積$S_1$を
+
+$$
+S_1 = \frac{1}{2} \cdot \nrm{x}\nrm{y}\sin\theta
+$$
+
+とすると。高さは$\nrm{y}\sin\theta$であるから、平行四辺形の面積$S_2$は
+
+$$
+S_2 = \nrm{x}\nrm{y}\sin\theta
+$$
+
+この式より
+
+\begin{eqnarray*}
+\nrm{x}^2\nrm{y}^2\sin^2\theta &= &\innerProduct{x}{x}\innerProduct{y}{y}(1 - \cos^2 \theta) \\
+&=&\innerProduct{x}{x}\innerProduct{y}{y} - \innerProduct{x}{x}\innerProduct{y}{y}\cos^2\theta
+\end{eqnarray*}
+
+が得られるから、両辺の平方根を取ると
+
+\begin{eqnarray*}
+\nrm{x}\nrm{y}\sin\theta &= &\nrm{x}\nrm{y} - \nrm{x}\nrm{y}\cos\theta \\
+&= &\nrm{x}\nrm{y} - \innerProduct{x}{y}
+\end{eqnarray*}
+
+のような関係式が得られる。
+
+これを展開すると
+
+\begin{eqnarray*}
+\nrm{x}\nrm{y} - \innerProduct{x}{y} &=& \sqrt{\innerProduct{x}{x}\innerProduct{y}{y} - \innerProduct{x}{y}^2} \\
+&=& \sqrt{(x_1^2 + x_2^2)(y_1^2 + y_2^2) - (x_1y_1 + x_2y_2)^2} \\
+&=& \sqrt{x_1^2y_1^2 + x_1^2y_2^2 + x_2^2y_1^2 + x_2^2y_2^2 - (x_1^2y_1^2 + x_1y_1x_2y_2 + x_2y_2x_1y_1 +  x_2^2y_2^2)} \\
+&=&\sqrt{x_1^2y_2^2 + x_2^2y_1^2 - x_1y_1x_2y_2 + x_2y_2x_1y_1} \\
+&=&\sqrt{(x_1y_2 - x_2y_2)^2} \\
+&=&\abs{x_1y_2 - x_2y_1}
+\end{eqnarray*}
+
+より $S_2 = x_1y_2 - x_2y_1$である。
+
+一方
+
+$$
+det(A) = \begin{vmatrix}
+x_1 & y_1 \\
+x_2 & y_2
+\end{vmatrix} = x_1y_2 - x_2y_1
+$$
+
+であるから
+
+$$
+\nrm{x}\nrm{y} - \innerProduct{x}{y} = \det(A)
+$$
+
+である。
+}
+
+\exercise{
+$$
+\bm{x} = \begin{pmatrix}
+\sqrt{3} \\
+1
+\end{pmatrix},\bm{y} = \begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+$$に対し、$\nrm{x}, \nrm{y}, \theta = \angle(\bm{x}, \bm{y})$を求めよ。
+$\newline$
+
+ノルムを求める。
+$$
+\nrm{x} = 2, \quad \nrm{y} = \sqrt{2}
+$$
+
+角を求める。
+\begin{eqnarray*}
+\angle(\bm{x}, \bm{y}) &=& \frac{\innerProduct{x}{y}}{\nrm{x}\nrm{y}} \\
+&=&\frac{\sqrt{3} + 1}{2\sqrt{2}} \\
+&=&\frac{1}{2} \cdot \frac{1}{\sqrt{2}} \frac{\sqrt{3}}{2} \cdot \frac{1}{\sqrt{2}} \\
+&=&\cos\frac{\pi}{3} \cdot \cos\frac{\pi}{4} + \sin\frac{\pi}{3} \cdot \sin\frac{1}{4} \\
+&=&\cos(\frac{\pi}{3} - \frac{\pi}{4})
+\end{eqnarray*}
+}
+
+\subsubsection{ベクトルの直行条件}
+
+核の定義から、特別な場合として、ベクトル$\bm{x}, \bm{y}  \neq 0$に対し
+$$
+\innerProduct{x}{y} = 0 \Longleftrightarrow \theta = \frac{\pi}{2}
+$$
+となるようなとき、$\bm{x}, \bm{y}$は{\bf 直行する}(orthogonal)という。逆に、シュバルツの不等式で統合が成立する場合、つまり
+$$
+\innerProduct{x}{y} = \pm\nrm{x}\nrm{y}
+$$
+となるためには、$\theta = 0 \hspace{5pt} or \hspace{5pt} \pi$であることが必要十分である。
+この場合、２つのベクトルは平行となる。
+
+$\newline$
+
+この節で述べた定理やその系により、内積の定義された計量ベクトル空間では、様々な計量を定義することが可能になる。
+
+\subsection{正規直交系}
+
+ベクトル$\bm{e}_1, \cdots, \bm{e}_r$が
+
+$$
+\langle \bm{e}_i, \bm{e}_j \rangle = \delta_{ij} \quad (1 \leq i, j \leq r)
+$$
+
+を満たすとき、{\bf 正規直交系}(orthonormal system)であるという。この条件から、各$i$に対して
+$\|\bm{e}_i\| = 1$. また任意の相違なる$i, j$に対して、$\langle \bm{e}_i, \bm{e}_j \rangle = 0$、すなわち$\bm{e}_i, \bm{e}_j$は直行する。
+
+
+\exam{
+$V = \vecSpace{n}$の基本ベクトル$\vecSet{e}$は標準内積に関して正規直交基底をなす。これまで$\vecSet{e}$は基本ベクトルを表してきたが、以降、一般の正規直交基底に関しても$\vecSet{e}$で表すことにする。
+}
+
+\lemm{
+$\bm{e}_1, \cdots, \bm{e}_r$を正規直交系
+
+\begin{eqnarray*}
+\bm{x} = \sum_{i=1}^r x_i\bm{e}_i, \quad \bm{y} = \sum_{i=1}^r y_i\bm{e}_i
+\end{eqnarray*} 
+}\label{lemm:orthonormalSystem}
+
+とすれば
+
+$$
+\innerProduct{x}{y} = \sum_{i=1}^r x_iy_i
+$$
+
+である。また
+
+$$
+\langle \bm{x}, \bm{e}_i \rangle = x_i
+$$
+
+
+{\bf 証明}
+
+これは計算過程により証明できる。
+
+\begin{eqnarray*}
+\innerProduct{x}{y} &= &\langle \sum_{i=1}^r x_i\bm{e}_i, \sum_{i=1}^r y_i\bm{e}_i \rangle \\
+&= &\sum_{i,j=1}^r x_iy_i \langle \bm{e}_i, \bm{e}_j \rangle \\
+&= &\sum_{i,j=1}^r x_iy_i\delta_{ij} = \sum_{i,j=1}^r x_iy_i
+\end{eqnarray*}.
+
+この計算過程より、$\bm{y} = \bm{e}_i$とすれば
+
+$$
+\langle \bm{x}, \bm{e}_i \rangle = x_i
+$$
+
+となる。（つまり、$\bm{x}$のi番目以外はすべて0になる）
+
+
+\subsubsection{ノルムが1のベクトルを作る方法}
+
+$\bm{a} \in \vecSpace{n}$をノルムが1ではないベクトルとする。$\bm{a}$のノルムを1（つまり単位ベクトル）とするには
+
+$$
+\frac{\bm{a}}{\|\bm{a}\|}
+$$
+
+のように、ベクトルをそのベクトルのノルムで割ればよい。
+
+\rem{
+$V = \mathbb{R}^n$の任意の部分空間$W$は正規直交基底をもつ。
+
+{\bf 証明}
+
+$\dim W = r$とし、$\bm{a}_1, \cdots, \bm{a}_r$を$W$の任意の底とする。このとき、
+
+$$
+\langle \bm{e}_1, \cdots, \bm{e}_k \rangle = \langle \bm{a}_1, \cdots, \bm{a}_k \rangle \quad (1 \leq k \leq r)
+$$
+となるよう正規直交系$\langle \bm{e}_1, \cdots, \bm{e}_k \rangle$が取れる（作れる）ことを$k$に関する帰納法で示す。（$k = n$の場合に定理を与える）
+}\label{rem:schmidtOrthonormalization}
+
+$k = 1$のとき
+
+\begin{equation}
+\bm{e}_1 = \frac{\bm{a}_1}{\|\bm{a}_1\|}
+\label{rem:subspaceShouldHaveOrthonormalBasis}
+\end{equation}
+
+とおけば、$\{\bm{e}_1\}$はただ一つのベクトルからなる正規直交系となる。
+
+$k - 1$のとき式(\ref{rem:subspaceShouldHaveOrthonormalBasis})が成立するような$\bm{e}_1, \cdots, \bm{e}_{k-1}$が存在したとする。このとき、
+
+$$
+\bm{a}_k' = \sum_{1 \leq i \leq k -1} \langle \bm{e}_i, \bm{a}_k \rangle \bm{e}_i, \quad \bm{a}_k'' = \bm{a}_k - \bm{a}_k'
+$$
+
+とおけば、各$k$における式(\ref{rem:subspaceShouldHaveOrthonormalBasis})は
+
+$$
+\bm{e}_i = \frac{\bm{a}_k''}{\| \bm{a}_k'' \|} \quad (2 \leq i \leq k - 1)
+$$
+である。$\bm{a}_k'$は$\bm{e}_i$方向のベクトルより、(ベクトルどうしの引き算の定義から)$\bm{a}_k''$は$\bm{e}_i$に必ず直行する。つまり、
+
+$$
+\langle \bm{e}_i, \bm{a}_k'' \rangle = \langle \bm{e}_i, \bm{a}_k \rangle - \langle \bm{e}_i, \bm{a}_k' \rangle = 0 \quad (1 \leq i \leq k - 1)
+$$
+
+である。ここで、$\bm{a}_1, \cdots, \bm{a}_k$は線形独立であるから
+
+$$
+\bm{a}_k \notin \langle \bm{a}_1, \cdots, \bm{a}_{k-1} \rangle = \langle \bm{e}_1, \cdots, \bm{e}_{k-1} \rangle
+$$
+
+となるはずであるから、$\bm{a}_k'' \neq 0$. したがって、
+
+$$
+\bm{e}_k = \frac{\bm{a}_k''}{\|\bm{a}_k''\|}
+$$
+
+とおけば、
+
+$$
+\langle \bm{e}_i, \bm{e}_k \rangle = \delta_{ik} \quad (1 \leq i \leq k)
+$$
+
+が成立する。したがって、定理の主張が示せた。
+
+また、このような正規直交基底の構成方法を{\bf（グラム）シュミットの正規直交化法 }という。
+{\bf \newline}
+
+
+
+\cor{
+部分空間$W$の任意の正規直交基底は$V$の正規直交基底に延長される。
+
+これは基底の延長を行い、シュミットの正規直交化法を利用することで証明できる。
+}
+
+
+
+\exercise{
+$$
+\bm{a}_1 = \begin{pmatrix}
+1 \\
+1 \\
+0
+\end{pmatrix},
+\bm{a}_2 = \begin{pmatrix}
+1 \\
+0 \\
+1
+\end{pmatrix}, 
+\bm{a}_3 = \begin{pmatrix}
+0 \\
+1 \\
+1
+\end{pmatrix}
+$$
+とする。
+
+$$
+\langle \bm{e}_1, \bm{e}_2, \bm{e}_3 \rangle = \langle \bm{a}_1, \bm{a}_2, \bm{a}_3 \rangle \quad (i = 1, 2, 3)
+$$
+
+となるような正規直交基底$\bm{e}_1, \bm{e}_2, \bm{e}_3$を求めよ。
+}
+
+シュミットの正規直交化法より
+
+$$
+\|\bm{a}_1\| = \sqrt{2}, \quad \bm{e}_1 = \begin{pmatrix}
+\frac{1}{\sqrt{2}} \\[1.5ex]
+\frac{1}{\sqrt{2}} \\[1.5ex]
+0
+\end{pmatrix}
+$$
+
+\begin{eqnarray*}
+\bm{a}_2' &= &\langle \bm{e}_1, \bm{a}_2 \rangle \bm{e}_1 \\[1.5ex]
+&=& \frac{1}{\sqrt{2}} \begin{pmatrix}
+\frac{1}{\sqrt{2}} \\[1.5ex]
+\frac{1}{\sqrt{2}} \\[1.5ex]
+0
+\end{pmatrix} = \begin{pmatrix}
+\frac{1}{2}  \\[1.5ex]
+\frac{1}{2}  \\[1.5ex]
+0
+\end{pmatrix}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\bm{a}_2'' &= &\bm{a}_2 - \bm{a}_2' = \begin{pmatrix}
+\frac{1}{2} \\[1.5ex]
+-\frac{1}{2} \\[1.5ex]
+1
+\end{pmatrix}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\bm{e}_2 &= &\frac{\bm{a}_2''}{\|\bm{a}_2''\|} \\
+&=&\left(\frac{\sqrt{6}}{2}\right)^{-1} \cdot \begin{pmatrix}
+\frac{1}{2} \\[1.5ex]
+-\frac{1}{2} \\[1.5ex]
+1
+\end{pmatrix} \\
+&=&\begin{pmatrix}
+\frac{1}{\sqrt{6}} \\[1.5ex]
+-\frac{1}{\sqrt{6}} \\[1.5ex]
+\frac{2}{\sqrt{6}}
+\end{pmatrix}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\bm{a}_3' &= &\langle \bm{e}_1, \bm{a}_3 \rangle\bm{e}_1 + \langle \bm{e}_2, \bm{a}_3 \rangle\bm{e}_2 \\
+&= & \frac{1}{\sqrt{2}} \begin{pmatrix}
+\frac{1}{\sqrt{2}} \\[1.5ex]
+-\frac{1}{\sqrt{2}} \\[1.5ex]
+0
+\end{pmatrix} + \frac{1}{\sqrt{6}}\begin{pmatrix}
+\frac{1}{\sqrt{6}} \\[1.5ex]
+-\frac{1}{\sqrt{6}} \\[1.5ex]
+\frac{2}{\sqrt{6}}
+\end{pmatrix} = \begin{pmatrix}
+\frac{2}{3} \\[1.5ex]
+\frac{1}{3} \\[1.5ex]
+\frac{1}{3}
+\end{pmatrix} \\
+\bm{a}_3'' &=& \bm{a}_3 - \bm{a}_3' \\
+&=& \begin{pmatrix}
+-\frac{2}{3} \\[1.5ex]
+\frac{2}{3} \\[1.5ex]
+\frac{2}{3}
+\end{pmatrix} \\
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\bm{e}_3 &= &\frac{\bm{a}_3''}{\|\bm{a}_3''\|} = \begin{pmatrix}
+-\frac{1}{\sqrt{3}} \\[1.5ex]
+\frac{1}{\sqrt{3}} \\[1.5ex]
+\frac{1}{\sqrt{3}}
+\end{pmatrix}
+\end{eqnarray*}
+
+\subsubsection{一般的なベクトル空間における内積}
+
+本レポートでは、$V = \mathbb{R}^n$において標準内積を考えたが、（公理的に）一般のベクトル空間$V$において、内積の性質(1),(2),(3)を満たすものとして内積を定義することができる。一般のベクトルに対してこれまで述べてきたことがそのまま成立する。特に、$\dim V = n$ならば、$V$に正規直交基底$\{\bm{e}_i\}$が存在する。そのとき、
+
+% TODO 抽象的なベクトル空間でも内積が定義できること
+
+\subsection{直交行列}
+
+\rem{
+$\bm{T} \in M_n()\mathbb{R}$に対して、次の４条件は同値である。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item $T$は内積を不変にする。すなわち
+$$
+\langle T\bm{x}, T\bm{y} \rangle = \innerProduct{x}{y} \quad (\forall \bm{x}, \bm{y} \in \vecSpace{n})
+$$
+\item $T$はベクトルの長さを不変にする。すなわち
+$$
+\|T\bm{x}| = \nrm{x}
+$$
+\item $T$は{\bf 直交行列}(orthogonal matrix)である。すなわち
+$$
+\transposeMat{T}T = T\transposeMat{T} = E
+$$
+
+これをいいかえると、$T$は可逆で$T^{-1} = \transposeMat{T}$
+\item $\{\bm{e}_i\}$を$V$の正規直交基底とすれば、$\{T\bm{e}_i\}$も正規直交基底である。
+\end{enumerate}
+}
+
+{\bf 証明} (1) $\Rightarrow$ (2), (2) $\Rightarrow$ (3), (3) $\Rightarrow$ (4), (4) $\Rightarrow$ (1)の順で証明する。
+
+{\bf (1) $\Rightarrow$ (2)}
+
+$$
+\langle T\bm{x}, T\bm{x} \rangle = \langle \bm{x}, \bm{x} \rangle.
+$$
+
+であるから、
+
+$$
+\|T\bm{x}\| = \sqrt{\langle T\bm{x}, T\bm{x} \rangle} = \sqrt{\langle \bm{x}, \bm{x} \rangle} =\|\bm{x}\|
+$$
+
+{\bf (2) $\Rightarrow$ (3)}
+
+$T = (t_{ij}), \bm{x} = (x_i)$とおく。
+
+
+\begin{eqnarray*}
+(左辺) &=& \langle T\bm{x}, T\bm{x} \rangle = \sum_{i=1}^n \left(\sum_{j=1}^n t_{ij}x_j\right) \left(\sum_{k=1}^n t_{ik}x_k\right) \\
+&=& \sum_{j,k=1}^n \left(\sum_{i=1}^n t_{ij}t_{ik}\right)x_jx_k \\
+\end{eqnarray*}
+
+\begin{eqnarray*}
+(右辺) &=& \langle \bm{x}, \bm{x} \rangle = \sum_{j=1}^n x_j^2
+\end{eqnarray*}
+
+両辺の$x_jx_k$の係数を比べれば
+
+$$
+\sum_{i=1}^n t_{ij}t_{ik} = \delta_{jk}
+$$
+
+を得る. よって
+
+$$
+\transposeMat{T}T = E
+$$
+
+がいえ、$T$は可逆で$T^{-1} = \transposeMat{T}$.
+
+{\bf (3) $\Rightarrow$ (4)}
+
+(3)を仮定すれば
+
+$$
+\langle T\bm{e}_i, T\bm{e}_j \rangle = \langle \transposeMat{T}T\bm{e}_i, \bm{e}_j \rangle = \langle \bm{e}_i, \bm{e}_j \rangle = \delta_{ij}
+$$.
+
+よって、$\{T\bm{e}_i\}$も正規直交基底である.
+
+{\bf (4) $\Rightarrow$ (1)}
+
+$\{T\bm{e}_i\} = \{\bm{e}_i\}$を正規直交基底とし $\bm{x}, \bm{y} \in V$に対し、
+$$
+\bm{x} = \sum_{i=1}^n x_i\bm{e}_i, \quad \bm{y} = \sum_{i=1}^n y_i\bm{e}_i.
+$$
+
+とすれば、補題\ref{lemm:orthonormalSystem}を使い
+
+\begin{eqnarray*}
+\langle T\bm{x}, T\bm{y} \rangle &=& \langle \sum_{i=1}^n x_iT\bm{e}_i, \sum_{i=1}^n y_iT\bm{e}_i \rangle \\
+&=& \sum_{i=1}^n x_iy_i = \innerProduct{x}{y}
+\end{eqnarray*}
+
+$\Box$
+$\newline$
+
+直交行列$T$に対して
+
+$$
+\det T^2 = \det \transposeMat{T}T = \det E = 1
+$$
+
+であるから、$\det T = \pm1$.
+
+なお、$n$次直交行列の全体の集合を$O(n)$で表す。また、$T \in O(n)$で$\det T = 1$であるようなもの全体の集合を$SO(n)$で表す。
+
+\exercise{
+$T \in M_n(\mathbb{R})$の各列ベクトルを$\bm{t}_1, \cdots, \bm{t}_n$とすれば、
+
+
+$$
+Tが直交行列 \Longleftrightarrow {t_i}が正規直交基底
+$$
+であることを示せ.
+}
+
+{\bf 証明}
+(方針: Tが直交行列であるとは、$\transposeMat{T}T = E$となることを示し、$\bm{t}_1, \cdots, \bm{t}_n$が正規直行基底となるには$\langle \bm{t}_i\bm{t}_j \rangle = \delta_{ij}$を示せば良い。)
+
+
+$T = (t_1, \cdots, t_n)$を直交行列とするとき、$T \in O(n) \Longleftrightarrow \transposeMat{T}T = E \Longleftrightarrow \transposeMat{\bm{t}_i}\bm{t}_j = \langle \bm{t}_i, \bm{t}_j \rangle =  \delta_{ij} \Longleftrightarrow \bm{t}_1, \cdots, \bm{t}_nは正規直交基底$
+
+\exam{
+次の行列はいずれも直交行列である
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 
+$
+\begin{pmatrix}
+\cos\theta & -\sin\theta \\
+\sin\theta & \cos\theta
+\end{pmatrix}
+$
+$\newline$
+
+導出
+$\newline$
+
+$\begin{pmatrix}
+\cos\theta & -\sin\theta \\
+\sin\theta & \cos\theta
+\end{pmatrix} \begin{pmatrix}
+\cos\theta & \sin\theta \\
+-\sin\theta & \cos\theta
+\end{pmatrix} = \begin{pmatrix}
+\cos^2\theta + \sin^2\theta & \cos\theta\sin\theta-\sin\theta\cos\theta \\
+\sin\cos\theta - \cos\theta\sin\theta & \sin^2\theta + \cos^2\theta
+\end{pmatrix} = E$
+
+\item $\begin{pmatrix}
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+1 & 0 & 0
+\end{pmatrix}$
+$\newline$
+
+導出
+$\newline$
+
+$\begin{pmatrix}
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+1 & 0 & 0
+\end{pmatrix}\begin{pmatrix}
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{pmatrix} = E
+$
+\end{enumerate}
+}
+
+\rem{
+$\{\bm{e}_i\}, \{\bm{a}_i\}$を$\vecSpace{n}$の二つの基底、$T$を基底の変換$\{\bm{e}_i\} \rightarrow \{\bm{a}_i\}$の表現行列とする。$\{\bm{e}_i\}$が正規直交基底である時
+
+$$
+\{\bm{a}_i\}が正規直交基底 \Longleftrightarrow Tが直交行列
+$$
+であることを示せ.
+
+{\bf 証明}
+
+$T = (t_{ij})$とおけば、$\bm{a}_i = \sum_{k=1}^n t_{ki}\bm{e}_i$であるから、
+
+\begin{eqnarray*}
+\langle \bm{a}_i, \bm{a}_j \rangle &=& \langle \sum_{k=1}^n t_{ki}\bm{e}_k, \sum_{l=1}^n t_{li}\bm{e}_l \rangle \\
+&=& \sum_{k=1}^n t_{ki}t_{kj} = \delta_{ij}
+\end{eqnarray*}
+}
+
+よって、
+
+$$
+\langle \bm{a}_i, \bm{a}_j \rangle \Longleftrightarrow \transposeMat{T}T = E \Longleftrightarrow \transposeMat{t}_it_j = \delta_{ij}
+$$.
+
+$\newline$
+
+この定理により、$T$を直交行列, $\{\bm{e}_i\}$を任意の正規直交基底とすれば、線形変換$f_{T}: \bm{x} \rightarrow T\bm{x}$の基底$\{\bm{e}_i\}$（基底を取り替えた）に関する新座標系での表現行列を$T'$としてもこれも同様に直交行列である。この仮定のもとに、$\{\bm{e}_i\}$, $\{T\bm{e}_i\}$はともに正規直交基底であり、$T'$は基底の変換$\{\bm{e}_i\} \rightarrow \{T\bm{e}_i\}$の表現行列に他ならない。実際、基底の変換行列を$T_1 = (\bm{e}_1, \cdots, \bm{e}_n)$とおけば、$T' = T_1^{-1}TT_1$である。このように、直交行列$T$に対応する線形変換$f_T$を直交変換という。$T$は内積を不変にする線形変換として特徴づけられる。
+
+\subsection{直交補空間}
 
 % TODO 吉田さん
 % 線形写像 4.6行列の階数からレビュー再開
