@@ -4027,12 +4027,6 @@ $$
 \end{pmatrix}
 \end{eqnarray*}
 
-\subsubsection{一般的なベクトル空間における内積}
-
-本レポートでは、$V = \mathbb{R}^n$において標準内積を考えたが、（公理的に）一般のベクトル空間$V$において、内積の性質(1),(2),(3)を満たすものとして内積を定義することができる。一般のベクトルに対してこれまで述べてきたことがそのまま成立する。特に、$\dim V = n$ならば、$V$に正規直交基底$\{\bm{e}_i\}$が存在する。そのとき、
-
-% TODO 抽象的なベクトル空間でも内積が定義できること
-
 \subsection{直交行列}
 
 一般に
@@ -4355,10 +4349,38 @@ $W_1, W_2$を$V = \bm{R}^n$の部分空間とすれば
 \label{expression6-1}
 (W_1 + W_2)^\bot &=& W_1^\bot \cap W_2^\bot, \\
 \label{expression6-2}
-(W_1 \cup W_2)^\bot &=& W_1^\bot + W_2^\bot
+(W_1 \cap W_2)^\bot &=& W_1^\bot + W_2^\bot
 \end{eqnarray}
 \begin{Proof*}
-% TODO 吉田さん質問。これが成立することがわからない。
+
+式(\ref{expression6-1})を示す。$\bm{x} \in (W_1 + W_2)^\bot$とする。
+
+任意の$\bm{y} \in W_1 + W_2$に対して$\innerProduct{x}{y} = 0$
+
+$\hspace{5pt} \Longleftrightarrow$ ある$\bm{w}_1 \in W_1, \bm{w}_2 \in W_2$に対し、$\bm{y} = \bm{w}_1 + \bm{w}_2$とおけるから、$\langle \bm{x}, \bm{w}_1 + \bm{w}_2 \rangle = \langle \bm{x}, \bm{w}_1 \rangle + \langle \bm{x}, \bm{w}_2 \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow \langle \bm{x}, \bm{w}_1 \rangle = \langle \bm{x}, \bm{w}_2 \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow$ 任意の$\bm{w}_1 \in W_1, \bm{w}_2 \in W_2$に対し、$\langle \bm{x}, \bm{w}_1 \rangle = \langle \bm{x}, \bm{w}_2 \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow$ $\bm{x} \in W_1^\bot \cap W_2^\bot$
+
+つまり、$(W_1 + W_2)^\bot = W_1^\bot \cap W_2^\bot = \{0\}$
+\newline
+
+式(\ref{expression6-2})を示す。$\bm{x} \in (W_1 \cap W_2)^\bot$とする。
+
+任意の$\bm{y} = W_1 \cap W_2$に対して、$\langle \bm{x}, \bm{y} \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow$ ある$\bm{w}_1 \in W_1, \bm{w}_2 \in W_2$に対し、$\langle \bm{x}, \bm{w}_1 \rangle = \langle \bm{x}, \bm{w}_2 \rangle = 0$. 
+
+$\hspace{5pt} \Longleftrightarrow$ $\langle \bm{x}, \bm{w}_1 \rangle + \langle \bm{x}, \bm{w}_2 \rangle = \langle \bm{x}, \bm{w}_1 + \bm{w}_2  \rangle = \langle \bm{x}, \bm{y} \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow$ 任意の$\bm{w}_1 \in W_1, \bm{w}_2 \in W_2$に対し、$\langle \bm{x}, \bm{w}_1 \rangle + \langle \bm{x}, \bm{w}_2 \rangle = 0$
+
+$\hspace{5pt} \Longleftrightarrow \bm{x} \in W_1^\bot + W_2^\bot$ 
+
+つまり、$(W_1 \cap W_2)^\bot = W_1^\bot + W_2^\bot = {0}$
 \end{Proof*}
 }
 
@@ -5148,7 +5170,7 @@ $$
 とおけば、$T$は直交行列で
 
 $$
-T^1AT = \begin{pmatrix}
+T^{-1}AT = \begin{pmatrix}
 4 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & 1
@@ -5162,7 +5184,6 @@ $$
 
 % TODO 吉田さん
 % 線形写像 4.6行列の階数からレビュー再開
-
 
 \begin{thebibliography}{n}
 \bibitem[1]{key2} 佐武一郎 [線形代数] 共立出版株式会社
