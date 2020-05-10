@@ -133,7 +133,7 @@ $$
 すべての成分が0である行列を{\bf 零行列}といい
 
 $$
-0 = \begin{pmatrix}
+\bm{0} = \begin{pmatrix}
 0 & 0 \\
 0 & 0 \\
 \end{pmatrix}
@@ -316,7 +316,7 @@ $A, B \in M_{m,n}(\mathbb{R}), A = (a_{ij}), B = (b_{ij})$とし、加法、ス�
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
-\item $A + B = (a_{ij}) + (b_{ij})$
+\item $A + B = (a_{ij} + b_{ij})$
 \item $cA = (ca_{ij}) \quad (c \in \mathbb{R})$
 \item $(-1)A = -A, \quad A + (-B) = A - B$
 \end{enumerate}
@@ -337,7 +337,7 @@ $A, B \in M_{m,n}(\mathbb{R}), A = (a_{ij}), B = (b_{ij})$とし、加法、ス�
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \item $a_{ij}とb_{ij}の各成分どうしに結合法則が成り立つことより明らか$
 \item $a_{ij}とb_{ij}の各成分どうしに交換法則が成り立つことより明らか$
-\item $A + B = a_{ij} + b_ij$より、$c(A + B) = c(a_{ij} + b_ij)$である。
+\item $A + B = a_{ij} + b_{ij}$より、$c(A + B) = c(a_{ij} + b_{ij})$である。
 $cA = ca_{ij}, cB = cb_{ij}$であるから、$cA + cB = ca_{ij} + cb_{ij}$となる。
 ここで実数における分配法則により、$c(a_{ij} + b_{ij}) = ca_{ij} + cb_{ij}$より、すべての(i, j)について分配法則が適用されるから、$c(A+B) = cA + cB$である。
 \end{enumerate}
@@ -375,6 +375,8 @@ $$
 \item $A(B+C) = AB + AC$
 \item $(B+C)A = BA + CA$
 \end{enumerate}
+
+ただし、行列$A, B, C$はそれぞれの場合にこれらの演算が可能な型である必要があることに注意。
 
 これらも$AB$の各成分どうしが実数の積と和の形をしていることから、実数の演算における法則が適用できる。これにより、実際に演算することでこれらの証明は容易である。
 (2)と(3)が同値でない理由として、行列の積は非可換なことが挙げられる。
@@ -651,8 +653,8 @@ $$
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \item ${}^t(\tensorProduct{a}{b}) = {}^t(\bm{a}{}^t\bm{b}) = {}^t{}^t\bm{b}{}^t\bm{a} = \bm{b}{}^t\bm{a} = \tensorProduct{b}{a}$
-\item $(\tensorProduct{a}{b})\bm{c} = (\bm{a}{}^t\bm{b})\bm{c} = \innerProduct{b}{c}\bm{a}$
-\item $\innerProduct{c}{(\tensorProduct{a}{b})\bm{d}} = {}^t\bm{c}(\bm{a}{}^t\bm{b})\bm{d} = \innerProduct{c}{a}\innerProduct{b}{d} = \innerProduct{a}{c}\innerProduct{b}{d}$
+\item $(\tensorProduct{a}{b})\bm{c} = \bm{a}({}^t\bm{b}\bm{c}) = \innerProduct{b}{c}\bm{a}$
+\item $\innerProduct{c}{(\tensorProduct{a}{b})\bm{d}} = ({}^t\bm{c}\bm{a})({}^t\bm{b}\bm{d}) = \langle \bm{c}, \bm{a} \rangle \langle \bm{b}, \bm{d} \rangle = \langle \bm{a}, \bm{c} \rangle \langle \bm{b}, \bm{d} \rangle$
 \end{enumerate}
 
 
@@ -862,16 +864,16 @@ $2 \cdot \dfrac{3}{2} + 7 \neq 5$であるため、$\bm{x} + \bm{y} \notin W_2$�
 \end{enumerate}
 
 \defi{
-$V = \vecSpace{n}$とする。任意の$\bm{x} \in V$に対し、そのスカラー倍全体の集合$\{a\bm{x}\mid a \in \mathbb{R}\}$は明らかに$V$の部分空間になる。さらに一般的に、$\bm{x_1}, \cdots, \bm{x_r} \in V$が与えられたとき、
+$V = \vecSpace{n}$とする。任意の$\bm{x} \in V$に対し、そのスカラー倍全体の集合$\{a\bm{x}\mid a \in \mathbb{R}\}$は明らかに$V$の部分空間になる。さらに一般的に、$\bm{x}_1, \cdots, \bm{x}_r \in V$が与えられたとき、
 
 $$
 \bm{x} = \sum_{1 \leq i \leq r} a_{i}\bm{x}_i \quad (a_1, \cdots, a_r \in \mathbb{R})
 $$
 
-のような形で$\bm{x}$が表されるとき、これを$\bm{x_1}, \cdots, \bm{x_r}$の{\bf 線形結合}(linear combination)または{\bf 1次結合}という。
+のような形で$\bm{x}$が表されるとき、これを$\bm{x}_1, \cdots, \bm{x}_r$の{\bf 線形結合}(linear combination)または{\bf 1次結合}という。
 }\label{defi:linearCombination}
 
-$\bm{x_1}, \cdots, \bm{x_r}$の線形結合全体の集合を$W = \{a_1\bm{x_1} + \cdots + a_r\bm{x_r} \mid a_1, \cdots, a_2 \in \mathbb{R} \}$とすると、$W$は$V$の一組の部分空間になる。これを$\bm{x_1}, \cdots, \bm{x}_r$によって張られる部分空間といい、$\langle \bm{x_1}, \cdots, \bm{x_r} \rangle$のように書く。（内積と混同しないように注意したい。）
+$\bm{x}_1, \cdots, \bm{x}_r$の線形結合全体の集合を$W = \{a_1\bm{x}_1 + \cdots + a_r\bm{x}_r \mid a_1, \cdots, a_2 \in \mathbb{R} \}$とすると、$W$は$V$の一組の部分空間になる。これを$\bm{x}_1, \cdots, \bm{x}_r$によって張られる部分空間といい、$\langle \bm{x}_1, \cdots, \bm{x}_r \rangle$のように書く。（内積と混同しないように注意したい。）
 
 \begin{Proof*}
 $$
@@ -989,7 +991,7 @@ $$
 一方、線形独立ではない$\bm{x}, \cdots \bm{x}_r$を{\bf 線形従属}(linearly dependent)または{\bf 1次従属}であるという。$\bm{x}, \cdots \bm{x}_r$が線形従属であるとき以下の1次関係式が成立する。
 
 $$
-\sum_{1 \leq i \leq r} a_i\bm{x}_i = 0, \quad a_i \in \mathbb{R} \hspace{3pt} \& \hspace{3pt} \exists a_i \neq 0
+\sum_{1 \leq i \leq r} a_i\bm{x}_i = 0 \quad (a_i \in \mathbb{R}) \hspace{3pt} \& \hspace{3pt} \exists a_i \neq 0
 $$
 
 \subsubsection{線形独立と線形従属の定義の成り立ち}
@@ -1176,7 +1178,7 @@ $$
 $W \subset V = \langle \bm{e}_1, \cdots, \bm{e}_n \rangle$であるから、補題\ref{lemm:basisReplacing}により$W$に含まれる線形独立なベクトルの個数は高々nである。$\bm{x}_1, \cdots, \bm{x}_r$をWに含まれる最大個数の線形独立なベクトルの集合とする。そのとき、$r \leq n$で任意の$\bm{x} \in W$に対し、$\bm{x} \in \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$が成立する。よって、$W \subset \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$である。$\langle \bm{x}_1, \cdots, \bm{x}_r \rangle \subset W$は明らかであるから、$W = \langle \bm{x}_1, \cdots, \bm{x}_r \rangle$。よって、$\{\bm{x}_1, \cdots, \bm{x}_r \}$は$W$の基底である。補題\ref{lemm:basisReplacing}により、rは一意的に定まる。
 \end{Proof*}
 
-この定理により部分空間Wに対して定まる($r \in \mathbb{R}$)をWの{\bf 次元}(dimension)といい、$\dim W$と書く。
+この定理により部分空間Wに対して定まる($r \in \mathbb{N}$)をWの{\bf 次元}(dimension)といい、$\dim W$と書く。
 
 \rem{
 $\{\bm{x}_1, \cdots, \bm{x}_n\}$を線形独立なベクトルの組とする。このとき、$\{\bm{x}_1, \cdots, \bm{x}_n\}$の線形結合としての表し方は一意的である。すなわち、$\bm{x} = a_1\bm{x}_1 + \cdots + a_n\bm{x}_n \quad (a_i \in \mathbb{R})$において、$a_i$は$\bm{x}$に対して一意的に定まる。
@@ -1348,7 +1350,7 @@ $$
 \end{pmatrix}P
 $$
 
-が得られた。この関係式から
+が得られた。$P$は（次元を変えずに）基底を別の基底に移す線形写像であるから、正則である必要がある。ゆえに$det(P) \neq 0$で$P^{-1}$が存在し、
 
 $$
 \begin{pmatrix}
@@ -1359,7 +1361,7 @@ $$
 \end{pmatrix}
 $$
 
-も容易に導ける。
+のように逆写像としても振る舞う。
 
 \exercise{$\vecSpace{3}$の２つの底を
 
@@ -1511,13 +1513,15 @@ $$
 
 \begin{numcases}
   {}
+  \label{numcases:addition-theorem-of-trigonometric-functions-1}
   rcos(\alpha + \beta) = rcos\alpha cos\beta - sin\alpha sin\beta \\
+  \label{numcases:addition-theorem-of-trigonometric-functions-2}
   rsin(\alpha + \beta) = rsin\alpha cos\beta + cos\alpha sin\beta
 \end{numcases}
 
 変換前の点P$(x, y)$、変換後の点P'$(rcos(\alpha + \beta), rsin(\alpha, \beta))$とする。
 
-Pの座標$(x, y)$を(9), (10)にそれぞれ代入して、
+Pの座標$(x, y)$を(\ref{numcases:addition-theorem-of-trigonometric-functions-1}), (\ref{numcases:addition-theorem-of-trigonometric-functions-2})にそれぞれ代入して、
 
 \begin{eqnarray*}
 rcos(\alpha + \beta) = xcos\beta - ysin\beta \\
@@ -1569,8 +1573,8 @@ $$
 A_1 = \begin{pmatrix}
 1 & -1 & 0 \\
 0 & 1 & -1
-\end{pmatrix} \in M_{2,3}\mathbb{R}, \quad
-A_2 = (1, 1, 1) \in M_{1,3}\mathbb{R}, \quad
+\end{pmatrix} \in M_{2,3}(\mathbb{R}), \quad
+A_2 = (1, 1, 1) \in M_{1,3}(\mathbb{R}), \quad
 A_3 = \begin{pmatrix}
 cos\theta & -sin\theta \\
 sin\theta & cos\theta
@@ -1581,7 +1585,7 @@ $$
 
 \subsubsection{表現行列}
 
-$V = \vecSpace{n}, V = \vecSpace{m}$とする。$f: V \to V'$を線形写像とする。$\{\bm{e}_1, \cdots, \bm{e}_n\}, \{\bm{e}_1', \cdots, \bm{e}_n'\}$をそれぞれ$V, V'$の標準基底とし、
+$V = \vecSpace{n}, V' = \vecSpace{m}$とする。$f: V \to V'$を線形写像とする。$\{\bm{e}_1, \cdots, \bm{e}_n\}, \{\bm{e}_1', \cdots, \bm{e}_n'\}$をそれぞれ$V, V'$の標準基底とし、
 
 $$
 f(\bm{e}_j) = \sum_{1 \leq i \leq n} a_{ij}\bm{e}_{i}'
@@ -1591,7 +1595,7 @@ $$
 
 $$
 \begin{array}{ccc}
-V & \stackrel{f}{\longrightarrow}  & V \\
+V & \stackrel{f}{\longrightarrow}  & V' \\
 \rotatebox{90}{$\in$} & & \rotatebox{90}{$\in$} \\
 \bm{e}_1 & \longmapsto & \bm{a}_1 \\
 \bm{e}_2 & \longmapsto & \bm{a}_2 \\
@@ -1615,7 +1619,7 @@ a_{m2}
 \end{pmatrix}, 
 \cdots,
 f(\bm{e}_n) = \bm{a}_n = \begin{pmatrix}
-a_{n1} \\
+a_{1n} \\
 \vdots \\
 a_{mn}
 \end{pmatrix}
@@ -1654,7 +1658,7 @@ f(\bm{x}) &= &f(\sum_{1 \leq j \leq n} x_{j}\bm{e}_j)  \\
 &= &A\bm{x}
 \end{eqnarray*}
 
-つまり、$f$は$A = (a_ij)$に対応する線形写像$f_A$と一致するということである。
+つまり、$f$は$A = (a_{ij})$に対応する線形写像$f_A$と一致するということである。
 
 \defi{
 $V$から$V'$への線形写像を$f$とする。$V$の基底$\{\bm{e}_1, \cdots, \bm{e}_n\}$, V'の基底$\{\bm{e}_1', \cdots, \bm{e}_n'\}$に関して、
@@ -1831,6 +1835,18 @@ $$
 と表記する。
 }
 
+\exam{
+多項式$f(x) = a_0 + a_1x + a_2x^2$はベクトルどうしの内積により次のように表せる。
+
+$$
+f(x) = \begin{pmatrix} 1 & x & x^2 \end{pmatrix}\begin{pmatrix}
+a_0 \\
+a_1 \\
+a_2
+\end{pmatrix} = a_0 + a_1x + a_2x^2
+$$
+}
+
 \exercise{
 $\polynomialVecSet{4} = \{a_4x^4 + a_3x^3 + a_2x^2 + a_1x + a_0 \mid a_i \in \mathbb{R}\}$を実数係数の4次以下の多項式全体とする。線形写像$F: \polynomialVecSet{4} \to \polynomialVecSet{4}$を
 
@@ -1868,15 +1884,16 @@ F(g(\bm{a})) &= &F(a_1 + a_2 \cdot x + a_3 \cdot x^2 + a_4 \cdot x^3 + a_5 \cdot
 
 $$
 \begin{pmatrix}
+1 & x & x^2 & x^3 & x^4
+\end{pmatrix}
+\begin{pmatrix}
 0 & 1 & 0 & 0 & 0 \\
 0 & 0 & 2 & 0 & 0 \\
 0 & 0 & 0 & 3 & 0 \\
 0 & 0 & 0 & 0 & 4 \\
 0 & 0 & 0 & 0 & 0
 \end{pmatrix}
-\begin{pmatrix}
-1 & x & x^2 & x^3 & x^4
-\end{pmatrix}\bm{a}
+\bm{a}
 $$
 
 となっているので、Fの表現行列
@@ -1971,7 +1988,7 @@ y
 \subsection{線形写像の核と像}
 
 $V = \vecSpace{n}, V' = \vecSpace{m}$とし、線形写像$f: V \to V'$が与えられたとする。
-$f$によって、$V'$のベクトル$0_{V'}$に移される$V$のベクトル全体の集合
+$f$によって、$V'$のベクトル$\bm{0}_{V'}$に移される$V$のベクトル全体の集合
 
 $$
 \ker(f) = \{\bm{x} \in V \mid f(\bm{x}) = \bm{0}\}
@@ -1985,18 +2002,18 @@ $$
 
 を$f$の{\bf 像}(Image, イメージ)という。
 
-この定義から、$f$が全射$\Longleftrightarrow \img(f) = V'$である。また、$f$が単射であれば、$\ker(f) = \{0\}$である。これを証明する。
+この定義から、$f$が全射$\Longleftrightarrow \img(f) = V'$である。また、$f$が単射であれば、$\ker(f) = \{\bm{0}\}$である。これを証明する。
 
-$f$が単射であるとする。$\forall \bm{x} \in \ker(f)$をとると、$f(\bm{x}) = \bm{0}$.ここで、$f$は線形写像より、$f(\bm{0}) = \bm{0}$.よって、$f(\bm{x}) = \bm{0}$ .仮定より、$f$は単射なので$\bm{x} = \bm{0}$.よって、$\ker(f) = \{0\}$となる。
+$f$が単射であるとする。$\forall \bm{x} \in \ker(f)$をとると、$f(\bm{x}) = \bm{0}$.ここで、$f$は線形写像より、$f(\bm{0}) = \bm{0}$.よって、$f(\bm{x}) = f(\bm{0})$ .仮定より、$f$は単射なので$\bm{x} = \bm{0}$.よって、$\ker(f) = \{\bm{0}\}$となる。
 
-逆に、$f(\bm{x}) = f(\bm{y})$となる$\forall \bm{x}, \bm{y} \in V$に対し、$f(\bm{x}) = f(\bm{y}) = 0$。ここで$f$は線形写像なので、$f(\bm{x} - \bm{y}) = \bm{0}$が言え、$\bm{x} - \bm{y} \in \ker(f) = \{0\}$である。したがって、$\bm{x} - \bm{y} = \bm{0}$より、$\bm{x} = \bm{y}$.
+逆に、$f(\bm{x}) = f(\bm{y})$となる$\forall \bm{x}, \bm{y} \in V$に対し、$f(\bm{x}) = f(\bm{y}) = \bm{0}$。ここで$f$は線形写像なので、$f(\bm{x} - \bm{y}) = \bm{0}$が言え、$\bm{x} - \bm{y} \in \ker(f) = \{\bm{0}\}$である。したがって、$\bm{x} - \bm{y} = \bm{0}$より、$\bm{x} = \bm{y}$.
 
 \rem{
 $\img(f), \ker(f)$はそれぞれ$V', V$の部分空間である。
 }
 
 \begin{Proof*}
-$\img(f) \subset V'$を示す。$\bm{x}, \bm{y} \in \img(f)$とすれば、ある$\bm{x}, \bm{y} \in V$があって、$\bm{x}' = f(\bm{x}), \bm{y}' = f(\bm{y})$と表せる。よって、
+$\img(f)がV'$の部分空間であることを示す。$\bm{x}', \bm{y}' \in \img(f)$とすれば、ある$\bm{x}, \bm{y} \in V$があって、$\bm{x}' = f(\bm{x}), \bm{y}' = f(\bm{y})$と表せる。よって、
 
 \begin{eqnarray*}
 \bm{x}' + \bm{y}' = f(\bm{x}) + f(\bm{y}) = f(\bm{x} + \bm{y}) \in \img(f) \\
@@ -2005,7 +2022,7 @@ c\bm{x}' = cf(\bm{x}) = f(c\bm{x}) \in \img(f)
 
 より、$\img(f)$は$V'$の部分空間である。
 
-$\ker(f) \subset V$を示す。$\bm{x}, \bm{y} \in Ker(f)$とすれば、$f(\bm{x}) = f(\bm{y}) = 0$であるから
+$\ker(f)がV$の部分空間であることを示す。$\bm{x}, \bm{y} \in Ker(f)$とすれば、$f(\bm{x}) = f(\bm{y}) = 0$であるから
 
 \begin{eqnarray*}
 f(\bm{x} + \bm{y}) = f(\bm{x}) + f(\bm{y}) = \bm{0} \in Ker(f) \\
@@ -2045,19 +2062,22 @@ $$
 であるから、
 
 $$
-\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j \in \ker(f)
+\bm{y} = \sum_{s + 1 \leq j \leq n} c_j\bm{x}_j \in \ker(f)
 $$
 
 したがって、
 
 $$
-\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j = \sum_{1 \leq i \leq n} k_i\bm{x}_i \quad (k_i \in \mathbb{R})
+\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j = \sum_{1 \leq i \leq s} k_i\bm{x_i} \quad (k_i \in \mathbb{R})
 $$
 
-とかける。つまり、$\{\bm{x}_1, \cdots, \bm{x}_s\} \subset \vecSet{x}$であるが、$\{\bm{x}_1, \cdots, \bm{x}_s\}$は$f$により$\bm{0}$に潰れてしまうので、$s \leq n$であっても右辺と左辺の$\bm{0}$に移されないベクトルの個数は
-一致するということを言っている。
+今、$\bm{y} \in \ker(f)$より $\bm{y} = \langle \bm{x}_1, \cdots, \bm{x}_s \rangle$とかける。上式を移項して
 
-ここで、$\bm{x}_1, \cdots, \bm{x}_n$は$V$の基底より、線形独立であるから、すべての$j$で$c_j = 0$、すべての$i$で$k_i = 0$でなければならない。よって、$f$によって移される新たな$\img(f)$の基底 $f(\bm{x}_{s + 1}), \cdots, f(\bm{x}_n)$も線形独立である。
+$$
+\sum_{s + 1 \leq j \leq n} c_j\bm{x}_j - \sum_{1 \leq i \leq s} k_i\bm{x_i} = 0
+$$
+
+となり、$\bm{x}_1, \cdots, \bm{x}_n$が線形独立であることから、$c_j, k_i = 0$より$f(\bm{x}_{s + 1}), \cdots, f(\bm{x}_n)$は線形独立となる。
 
 また、この定理により次の等式が成立することが直ちに分かる。
 
@@ -2077,7 +2097,7 @@ A = \begin{pmatrix}
 1 & 1 & -2 
 \end{pmatrix}
 $$
-によって定義される線形写像$f: \bm{x} \mapsto A\bm{x} \quad (\bm{x} \in \vecSpace{3})$に対する$\ker(f)$と$Im(f_A)$とぞれぞれの次元を求めよ。
+によって定義される線形写像$f: \bm{x} \mapsto A\bm{x} \quad (\bm{x} \in \vecSpace{3})$に対する$\ker(f)$と$Im(f)$とぞれぞれの次元を求めよ。
 }\label{exercise:FindingTheImageAndKernel1}
 
 $\ker(f)$とその次元を求める。$f$のカーネルは$f$に写すと$\bm{0}$になるベクトルの集合であるから、$A\bm{x} = \bm{0}$.
@@ -2181,7 +2201,7 @@ $$
 }
 
 \exam{
-$A = \bm{x}{}^t\bm{y}, \bm{x} \in \vecSpace{m}, \bm{y} \in \vecSpace{n}, \bm{x}, \bm{y} \neq \bm{0}$とすれば、$\rank A = 1$である。
+$A = \bm{x}{}^t\bm{y}, \bm{x} \in \vecSpace{n}, \bm{y} \in \vecSpace{n}, \bm{x}, \bm{y} \neq \bm{0}$とすれば、$\rank A = 1$である。
 
 $\bm{y} = (y_i)$とすれば、$A$の列ベクトルは$y_1\bm{x}, \cdots, y_n\bm{x}$であるから、
 
@@ -2291,7 +2311,7 @@ $A = (a_{ij}) \in M_{m,n}(\mathbb{R})$とする。$A$に対する{\bf 基本変�
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 \item $A$のi行(列)を定数倍する。
 $$
-A \longrightarrow cA = \begin{pmatrix}
+A \longrightarrow \begin{pmatrix}
 a_{11} & a_{12} & \cdots & a_{1n} \\
 \vdots & \vdots & \vdots & \vdots \\
 ca_{i1} & ca_{i2} & \cdots & ca_{in} \\
@@ -2582,7 +2602,7 @@ $$
 \sigma: X \to X
 $$
 
-をXの{\bf 置換(permutation)}という。($X$は高々加算な有限集合として考える。)
+をXの{\bf 置換(permutation)}という。($X$は有限集合として考える。)
 このn文字の置換の集合を$S_n$とかく。任意の置換$\sigma \in S_n$が$1, 2, \cdots, n$から$i_1, i_2, \cdots, i_n$へ1対1で対応しているとき、つまり$\sigma(k) = i_k \quad (1 \leq k \leq n)$のとき
 
 $$
@@ -2917,7 +2937,7 @@ $$
 \renewcommand{\labelenumi}{(D\arabic{enumi})}
 \item $D(\bm{a}_1, \cdots, \bm{a}_n)$は各変数$\bm{a}_i$に関して線形である。
 \begin{eqnarray*}
-&D(\bm{a}_1 + \bm{a}_1`, \cdots, \bm{a}_n) = D(\bm{a}_1, \cdots, \bm{a}_n) + D(\bm{a}_1`, \cdots, \bm{a}_n), \\
+&D(\bm{a}_1 + \bm{a}_1', \cdots, \bm{a}_n) = D(\bm{a}_1, \cdots, \bm{a}_n) + D(\bm{a}_1', \cdots, \bm{a}_n), \\
 &D(c\bm{a}_1, \cdots, \bm{a}_n) = cD(\bm{a}_1, \cdots, \bm{a}_n)
 \end{eqnarray*}
 
@@ -3219,7 +3239,7 @@ $\sigma_1$と$\sigma_2$はそれぞれ$S_2, S_3$の上を独立に動くから�
   \abs{A}
   ={}&
   a_{11}a_{22} - a_{21}a_{12}
-  \\&\times 
+  \\&+ 
     a_{33}a_{44}a_{55} + a_{43}a_{54}a_{35} + a_{53}a_{34}a_{45}
   \\&- a_{33}a_{54}a_{45} - a_{43}a_{34}a_{55} - a_{53}a_{44}a_{35}
   \\={}&
@@ -3236,7 +3256,7 @@ $\sigma_1$と$\sigma_2$はそれぞれ$S_2, S_3$の上を独立に動くから�
 $n$次行列$A = (a_{ij}) = (\bm{a}_1, \cdots, \bm{a}_n)$の第$i$行、第$j$列を取り去ってできる$(n - 1)$次行列を$A^{(ij)}$とかくことにする。そのとき、$A$の第$j$列を第$i$基本ベクトル$\bm{e}_i$でおきかえて得られる行列の行列式は次の式で与えられる。($\abs{\bm{a}_1, \cdots, \bm{a}_j, \cdots, \bm{a}_n}$の$\bm{a}_j$が$\bm{e}_i$に入れ替えらている。)
 
 \begin{equation}
-\abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A^{ij}}
+\abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A^{(ij)}}
 \label{defi:cofactor}
 \end{equation}
 
@@ -3249,7 +3269,7 @@ $\bm{a}_1, \cdots, \bm{a}_n$の$i$行、$j$列を消し去り、第$j$列を基�
 
 
 $$
-A^{(ij)} = \begin{pmatrix*}
+A' = \begin{pmatrix*}
 a_{11} & \cdots & a_{1{j-1}} & 0 & a_{1{j+1}} & \cdots & a_{1n} \\
 \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
 a_{{i-1}1} & \cdots & a_{{i-1}{j-1}} & 0 & a_{{i-1}{j+1}} & \cdots & a_{{i-1}n} \\
@@ -3261,10 +3281,10 @@ a_{n1} & \cdots & a_{n{j-1}} & 0 & a_{n{j+1}} & \cdots & a_{nn}
 $$
 
 
-行列式の性質より、一組の列と列（あるいは行と行）を入れ替えると、符号が反転するところに着目すると、$A^{(ij)}$の第$j-1$列と第$j$列(つまり、$\bm{e}_i$)を入れ替えた行列$A^{(ij)'}$は
+行列式の性質より、一組の列と列（あるいは行と行）を入れ替えると、符号が反転するところに着目すると、$A'$の第$j-1$列と第$j$列(つまり、$\bm{e}_i$)を入れ替えた行列$A''$は
 
 $$
-A^{(ij)} = -A^{(ij)'}
+A' = -A''
 $$
 
 と表すことができる。この入れ替えを列に関して$j-1$回行うと
@@ -3317,7 +3337,7 @@ $$
 に等しい。よって、$(-1)^{(i-1)+(j-1)} = (-1)^{i+j}$から
 
 $$
-\abs{A^{(ij)}} = \abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A^{(ij)}}
+\abs{\bm{a}_1, \cdots, \bm{e}_i, \cdots, \bm{a}_n} = (-1)^{i+j}\abs{A'}
 $$
 
 が成立する。
@@ -3326,7 +3346,7 @@ $$
 
 この余因子を使ったn次行列式を求めるテクニックを紹介する。
 
-$A = (a_{ij}) \in M_n(\mathbb{R})$の第$(i,j)$余因子を$\Delta_{ij} = (-1)^{i+j}\abs{A^{(ij)}}$とすれば、
+$A = (a_{ij}) \in M_n(\mathbb{R})$の第$(i,j)$余因子による行列式を$\Delta_{ij} = (-1)^{i+j}\abs{A^{(ij)}}$とすれば、
 
 第$j$列に関する展開を
 
@@ -3548,7 +3568,7 @@ $$
 \abs{\innerProduct{x}{y}} \leq \nrm{x}\nrm{y} 
 $$
 
-シュバルツの不等式が成立する。
+シュワルツの不等式が成立する。
 
 \begin{Proof*}
 $\bm{x} = 0 \quad or \quad \bm{y} = 0$ならば、この不等式は$0 = 0$として成立する。したがって、$\bm{x}, \bm{y} \neq 0$とする。
@@ -3764,19 +3784,19 @@ $$
 \begin{eqnarray*}
 \angle(\bm{x}, \bm{y}) &=& \frac{\innerProduct{x}{y}}{\nrm{x}\nrm{y}} \\
 &=&\frac{\sqrt{3} + 1}{2\sqrt{2}} \\
-&=&\frac{1}{2} \cdot \frac{1}{\sqrt{2}} \frac{\sqrt{3}}{2} \cdot \frac{1}{\sqrt{2}} \\
+&=&\frac{1}{2} \cdot \frac{1}{\sqrt{2}} + \frac{\sqrt{3}}{2} \cdot \frac{1}{\sqrt{2}} \\
 &=&\cos\frac{\pi}{3} \cdot \cos\frac{\pi}{4} + \sin\frac{\pi}{3} \cdot \sin\frac{1}{4} \\
 &=&\cos(\frac{\pi}{3} - \frac{\pi}{4})
 \end{eqnarray*}
 }
 
-\subsubsection{ベクトルの直行条件}
+\subsubsection{ベクトルの直交条件}
 
 核の定義から、特別な場合として、ベクトル$\bm{x}, \bm{y}  \neq 0$に対し
 $$
 \innerProduct{x}{y} = 0 \Longleftrightarrow \theta = \frac{\pi}{2}
 $$
-となるようなとき、$\bm{x}, \bm{y}$は{\bf 直行する}(orthogonal)という。逆に、シュバルツの不等式で統合が成立する場合、つまり
+となるようなとき、$\bm{x}, \bm{y}$は{\bf 直交する}(orthogonal)という。逆に、シュワルツの不等式で統合が成立する場合、つまり
 $$
 \innerProduct{x}{y} = \pm\nrm{x}\nrm{y}
 $$
@@ -4056,7 +4076,7 @@ $$
 $$
 \item $T$はベクトルの長さを不変にする。すなわち
 $$
-\|T\bm{x}| = \nrm{x}
+\|T\bm{x}\| = \nrm{x}
 $$
 \item $T$は{\bf 直交行列}(orthogonal matrix)である。すなわち
 $$
@@ -4515,9 +4535,9 @@ $A \in M_n(\mathbb{R})$に対し
 $$
 \abs{xE - A} = \begin{vmatrix}
 x - a_{11} & -a_{12} & \cdots & - a_{1n} \\
-x - a_{21} & -a_{22} & \cdots & - a_{2n} \\
+ - a_{21} & x-a_{22} & \cdots & - a_{2n} \\
 \vdots     & \vdots  & \ddots & \vdots \\
-x - a_{n1} & -a_{n2} & \cdots & - a_{nn}
+ - a_{n1} & -a_{n2} & \cdots & x - a_{nn}
 \end{vmatrix}
 $$
 
