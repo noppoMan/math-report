@@ -1,0 +1,349 @@
+\documentclass[dvipdfmx,autodetect-engine]{jsarticle}
+\usepackage{tikz}
+\usepackage{graphicx,fancybox,ascmac, amsmath, amssymb}
+\usepackage[all]{xy}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{mathtools}
+\usepackage{latexsym}
+\usepackage{amsthm}
+\usepackage{graphicx}
+
+\theoremstyle{definition}
+
+\newtheorem{theo}{定理}[section]
+\newtheorem{defi}[theo]{定義}
+\newtheorem{rem}[theo]{定理}
+\newtheorem{exam}[theo]{例}
+\newtheorem{exercise}[theo]{例題}
+\newtheorem{prop}[theo]{命題}
+\newtheorem{ques}[theo]{問}
+\newtheorem{lemm}[theo]{補題}
+\newtheorem{cor}[theo]{系} % Corollary
+\newtheorem{Proof}{証明}
+\newtheorem*{Proof*}{証明}
+\newtheorem{Answer}{解答}
+\newtheorem*{Answer*}{解答}
+
+\title{関数解析}
+
+\author{武井優己}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{はじめに}
+
+\subsection{実数の性質}
+
+関数解析では、完備性という実数の性質が根底にあるが、完備性の証明のためには前提として必要な実数の性質があるのでまずはそれを見ていく。なお、実数の連続性の公理に関しては割愛し、有界な数列であれば、上限(sup)か下限(inf)のいずれか1つまたは両方を持つことを認める。
+
+\rem{単調増加数列$\{x_n\}$が上に有界 $\Longrightarrow$ $\{x_n\}$は収束する
+\begin{Proof*}
+$\epsilon-N$論法により示せばよい。集合$\{x_1, x_2, x_3, \cdots\} = S$とおく。仮定から$S$は上に有界であるから上限$\alpha$を持つ。上限の定義より、任意の$\epsilon > 0$に対し、$\alpha - \epsilon < x_N \leq \alpha$となる$x_N$が存在する。ここで$\{x_n\}$は単調増加より、$n \geq N \Longrightarrow x_n \geq x_N$.したがって、
+$$
+\alpha - \epsilon < x_N \leq x_n \leq \alpha
+$$
+より
+$$
+n \geq N \Longrightarrow |x_n - \alpha| < \epsilon
+$$
+となる。ゆえに、$x_n \rightarrow{} \alpha$. \qed
+\end{Proof*}
+\label{rem:bounded-convergence}}
+
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[scale=0.6]{./epsilon-N.png}
+        \caption{不等式のイメージ}
+    \end{center}
+\end{figure}
+
+図1の$\epsilon$をどんどん小さくしていっても、$\alpha - \epsilon < x_n \leq \alpha$の範囲で必ず$x_n \geq x_N$となるような実数$x_n$を取ることが出来る(=$\alpha$に収束する)。というのが$\epsilon-N$論法の主張である。これは、$\alpha + \epsilon$として右側から$\epsilon$を$\alpha$に近づけても同様の論法で証明される。
+
+\rem{区間縮小法
+
+閉区間の列$\{[a_n, b_n]\}$が任意の$n$に対し、$a_n \leq a_{n+1} < b_{n+1} \leq b_n$を満たすとき、$\bigcap\limits_{n=1}^\infty [a_n, b_n]$は1点となる。
+\begin{Proof*}
+端点の列$\{a_n\}$は単調増加で、上から$b_1$でおさえられている。したがって、定理\ref{rem:bounded-convergence}より、$\lim a_n = a$が存在する。一方、$b_n$は単調減少であるから、下から$a_1$でおさえられている。したがって、$\lim b_n = b$が存在し、$a \leq b$である。よって、閉区間[a, b]が$\cap [a_n, b_n]$に含まれていることが言える。とくに、$b_n \rightarrow a_n \rightarrow 0$であるとき、$0 \leq b - a \leq b_n - a_n \rightarrow 0$より、$a = b$となるから、$[a, b] = a$である。
+\end{Proof*}
+\label{rem:nested-interval}
+}
+
+\exam{
+有界閉区間$I = [1 - \frac{1}{n}, 1 + \frac{1}{n}]$の列$\{[1 - \frac{1}{n}, 1 + \frac{1}{n}]\}$の極限は$1$に収束する。
+
+$a_n = 1 - \frac{1}{n}, \hspace{5pt} b_n = 1 + \frac{1}{n}$とする。$I$は有界で、$\{a_n\}$は単調増加、$\{b_n\}$は単調減少であるから、それぞれ極限が存在する。それを$\lim_{n \to \infty} a_n = a, \hspace{5pt} \lim_{n \to \infty} b_n = b$とすれば、$a \leq b$である。よって、$[a, b] \in \cap [a_n, b_n]$. ここで、$a_n$と$b_n$に共通する$\frac{1}{n}$に関して、$n \to \infty \Longrightarrow \frac{1}{n} \to 0$であるとき、$0 \leq b - a \leq b_n - a_n \to 0$より、$a = b = 1$である。
+}
+
+\rem{有界列は収束部分列を持つ - ボルツァーノ・ワイエルシュトラスの定理
+\begin{Proof*}
+任意の有界な数列を$\{a_n\} = (a_1, a_2, a_3, \cdots)$とする。$\{a_n\}$は有界であるから、上限と下限を持つ。それらをそれぞれ$a_0, b_0$とし、区間$I_0 = [a_0, b_0]$とする。このとき、$\{a_n\}$の任意の項$x_n$は$x_n \in I_0$である。以後、有界閉区間$I_n$を次のように帰納的に作る。$I_0$を2等分し、$\{a_n\}$の項を無限個含んでいる区間を選び、それを$I_1 = [a_1, b_1]$とする。（両方の区間でこれを満たしていればいずれかを選ぶ）同様に、$I_1$を2等分し$\{a_n\}$の項を無限個含んでいる区間を選びそれを、$I_2 = [a_2, b_2]$としていけば、$I_n = [a_n, b_n]$のとき、$a_n$と$b_n$を2等分する中点$c_n$は
+
+$$
+c_n = \frac{1}{2^n}(a_0 - b_0)
+$$
+
+である。$[a_n, c_n], [c_n, b_n]$のうち、$\{a_n\}$の項が無限個含まれている方を新たに$I_{n+1}$とする。閉区間の作り方から、$I_0 \supset I_1 \supset I_2 \supset \cdots \supset I_n \supset I_{n+1} \supset \cdots$という包含関係が作れるから、明らかに
+
+$$
+a_0 \leq a_1 \leq \cdots \leq a_n \leq \cdots b_n \leq \cdots \leq b_1 \leq b_0
+$$
+
+である。よって、定理\ref{rem:bounded-convergence}より、中点$c_n$の極限は
+
+$$
+\lim_{n \to \infty} \frac{1}{2^n} = 0 \Longrightarrow \lim_{n \to \infty} c_n = 0
+$$
+
+となるから、定理\ref{rem:nested-interval}（区間縮小法）により
+
+$$
+\lim_{n \to \infty} a_n = \lim_{n \to \infty} b_n = a
+$$
+
+となるような実数$a$が存在する。任意の自然数$k$に対して、各$I_k \quad (0 \leq k \leq n)$から$n(k) > n(k-1)$となるような項$x_{n(k)}$を一つずつ取り出せば、$x_{n(k)} \in I_k$となるような$\{x_n\}$の部分列$\{x_{n(k)}\}$が作れる。($a_{n(1)} = a_1, a_{n(2)} = a_5, a_{n(3)} = a_9$のようなイメージ)したがって、$I_k = [a_k, b_k]$より、
+
+$$
+a_k \leq x_{n(k)} \leq b_k
+$$
+
+が成り立つ。すべての$k$についてこれが言えるので、はさみうちの原理により
+
+$$
+\lim_{k \to \infty} a_k = a, \hspace{5pt} \lim_{k \to \infty} b_k = a \Longrightarrow \lim_{k \to \infty} x_{n(k)} = a
+$$
+
+よって、この部分列も$a$に収束する。
+\end{Proof*}
+\label{rem:b-w-theo}
+}
+
+ボルツァーノ・ワイエルシュトラスの定理により次のことが言える。
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 元の数列$\{a_n\}$が収束するのであれば、任意の部分列$\{a_{n(k)}\}$も同じ値に収束する。これは定理の証明より明らか
+\item (1)の対偶として、部分列$\{a_{n(k)}\}$のうちひとつでも収束するものがなければ、元の数列$\{a_n\}$は収束しない。これは、単調数列であっても、区間縮小法が成立せず、両側の極限が一致しないことから分かる。
+\item 元の数列が収束しないケースでも、ある部分列は収束することがある。例をあげる
+
+$a_n = (-1)^n = -1, 1, -1, 1, \cdots$は、振動してしまい一つの値に収束しない。しかし、$n$の遇奇に応じて項を取り、部分列とすれば
+$\{a_{2n}\} = 1, 1, \cdots, \hspace{5pt} \{a_{2n-1}\} = -1,-1, \cdots$は$n \to \infty$のとき、それぞれ$1, -1$に収束する。
+\end{enumerate}
+
+
+\subsection{実数の完備性}
+
+\defi{数列$\{x_n\}$がコーシー列(Cauchy Sequence)であるとは、$\forall \epsilon > 0$に対し、
+$$
+\exists N \quad s.t. \quad m,n \geq N \Longrightarrow |x_m - x_n| < \epsilon
+$$が成り立つことを言う。
+}
+$\newline$
+
+\rem{
+数列$\{x_n\}が収束する \Longleftrightarrow \{x_n\}がコーシー列である$
+\begin{Proof*}
+$\Longrightarrow)$ $x_n \rightarrow a$とする。$e-N$論法により
+$\forall \epsilon > 0$に対し、$\exists N \quad s.t. \quad n \geq N \Longrightarrow |x_n - a| < \frac{\epsilon}{2}$. ゆえに$m$でも同様に、$m \geq N \Longrightarrow |x_m - a| < \frac{\epsilon}{2}$.したがって、
+$$
+m, n \geq N \Longrightarrow |x_m - x_n| \leq |x_m - a| + |x_n - a| < \epsilon
+$$
+
+より、$\{x_n\}$はコーシー列である。
+
+$\Longleftarrow)$ 数列$\{x_n\}$がコーシー列であるとする。仮定より、$\forall \epsilon > 0$に対して、
+
+$$
+m, n \geq N_1 \Longrightarrow |x_m - x_n| < \epsilon_1
+$$
+
+が成り立つような$N_1$が存在する。よって、
+
+\begin{equation}
+x_n - \epsilon_1 < x_m \leq x_{N_1} < x_n + \epsilon_1
+\label{eq:inequality-1}
+\end{equation}
+
+である。また次のように
+
+\begin{eqnarray*}
+\alpha = \min[x_1, x_2, \cdots, x_{N_1}, x_n - \epsilon_1] \\
+\beta = \max[x_1, x_2, \cdots, x_{N_1}, x_n + \epsilon_1]
+\end{eqnarray*}
+
+とすれば、すべての$x_n$に関して、$\alpha \leq x_n \leq \beta$である。（ここで、$N_1$ = mと考えると良い）よって、$\{x_n\}$は有界である。ゆえに、定理\ref{rem:b-w-theo}により、$\{x_n\}$は収束部分列を持つ。その部分列を
+
+$$
+a_{n(1)}, a_{n(2)}, \cdots, a_{n(k), \cdots} \quad (n(1) < n(2) < \cdots n(k) < \cdots)
+$$
+
+としよう。部分列$a_{n(k)}$は収束するので、その極限値を$c$とすれば、任意の$\epsilon_2 > 0$に対して、
+
+\begin{equation}
+n(k) \geq N_2 \Longrightarrow |a_{n(k)} - c| < \epsilon_2
+\label{eq:inequality-2}
+\end{equation}
+
+となるような$N_2$が存在する。
+
+ここで、$N = max[N_1, N_2]$とすると、$n, n(k) \geq N$のとき、(\ref{eq:inequality-1}), (\ref{eq:inequality-2})から
+
+$$
+|a_n - c| = |(a_n - a_{n(k)}) - (c - a_{n(k)})| \leq |a_n - a_{n(k)}| + |a_{n(k)} - c| < \epsilon_1 + \epsilon_2
+$$
+
+が成り立つ。$\epsilon_1, \epsilon_2$は正の整数であるから、$\epsilon_1 + \epsilon_2 = \epsilon$もまた任意の整数である。したがって、
+
+$$
+n \geq N \Longrightarrow |a_n - c| < \epsilon
+$$
+
+が成り立つような$N$が存在し、$\{x_n\}$は収束する。
+\end{Proof*}
+}
+
+\section{ノルム空間}
+
+TODO 縮小写像の原理の証明にノルム空間を用いているため、ここでノルム空間のいくつかの定理を示す
+
+\subsection{縮小写像の原理}
+
+先に上げたノルム空間はノルムさえ定まっていれば、完備でなくとも距離を入れることができた。ここでは縮小写像を考えるために、ノルム空間に完備性（コーシー列が収束する）を導入する。完備性が備わったノルム空間を完備なノルム空間という。
+
+\defi{$X$を完備なノルム空間とする。写像$T: X \to X$を考える。$X$におけるノルムを$||\cdot||$とする。以降、このような空間を$(X, ||\cdot||)$のように表す。このとき、$T$が{\bf 縮小写像}であるとは、 ある $\mu \in [0, 1)$が存在して、
+
+$$
+||T(x) - T(y)|| \leq \mu||x - y|| \quad (x, y \in X)
+$$
+
+が成り立つことである。この関係は恒等的に成り立たなければならないから、$T$は明らかに連続である。実際、$x_n \to y$とすれば、$||T(x_n) - T(y)|| \leq \mu ||x - y|| \to 0$より、$T(x_n) \to T(y)$
+
+縮小写像と呼ばれる所以は、写像で送った$T(x), T(y)$の距離が$x$と$y$の距離よりも縮小されることにある。
+}
+
+\rem{縮小写像の原理（バナッハの不動点定理）
+
+$(X, ||\cdot||)$を完備なノルム空間とし、$A \subset X$を閉集合とする。このとき、$T: A \to A$を縮小写像とすれば、$T(z) = z$を満たすような$z \in A$がただ一つ存在する。このような$z$を不動点という
+
+\begin{Proof*}
+この証明を考える上で、示したいことは
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\item 不動点が存在すること
+\item 不動点が一意的であること
+\end{enumerate}
+の2つである。
+
+まずは、縮小写像の性質を利用し、不動点が存在することを示す。
+
+$x_n \in A$とし、$x_n := T(x_{n-1})$と定義する。すなわち、
+$x_0 \in A, x_1 = T(x_0), x_2 = T(x_1), \cdots$である。このように数をつくると数列$\{x_n\}$が与えられる。縮小写像の定義より
+
+$$
+||T(x_n) - T(x_m)|| \leq \mu||x_n - x_m||
+$$
+
+ここで、$T(x_n) = x_{n+1}, T(x_m) = x_{m+1}$となるから
+$$
+||x_{n+1} - x_{m+1}|| \leq \mu||x_n - x_m||
+$$
+
+$m = n - 1$とすれば、
+
+\begin{equation}
+||x_{n+1} - x_n|| \leq \mu ||x_n - x_{n-1}||
+\label{equation:contraction-mapping-1}
+\end{equation}
+これを帰納的に行えば
+
+\begin{eqnarray}
+||x_n - x_{n-1}|| &\leq& \mu ||x_{n-1} - x_{n-2}|| \nonumber \\
+\label{equation:contraction-mapping-2}
+||x_{n-1} - x_{n-2}|| &\leq& \mu ||x_{n-2} - x_{n-3}|| \\
+&\vdots& \nonumber 
+\end{eqnarray}
+
+が成立する。ゆえに、(\ref{equation:contraction-mapping-1})の右辺に(\ref{equation:contraction-mapping-2})を帰納的に代入するようなことを考えると、次のような不等式を得る
+
+\begin{eqnarray}
+||x_{n+1} - x_n|| &\leq& \mu ||x_n - x_{n-1}|| \nonumber \\
+&\leq& \mu^2 ||x_{n-1} - x_{n-2}|| \nonumber \\
+&\leq& \mu^3 ||x_{n-2} - x_{n-3}|| \nonumber \\
+\label{equation:contraction-mapping-3}
+&\leq& \mu^4 ||x_{n-3} - x_{n-4}|| \\
+&\leq& \mu^5 ||x_{n-4} - x_{n-5}|| \nonumber \\
+&\vdots& \nonumber \\
+&\leq& \mu^n ||x_{n-m} - x_{n-n}|| = \mu^n ||x_1 - x_0|| \nonumber
+\end{eqnarray}
+
+実際、(\ref{equation:contraction-mapping-3})は次のように帰納的に縮小写像の不等式が成立していることを表している。
+
+\begin{eqnarray*}
+||T(x_n) - T(x_{n-1})|| &\leq& \mu ||x_n - x_{n-1}|| \\
+&\leq& \mu^2 ||T(x_{n-2}) - T(x_{n-3})|| \leq \mu^3 ||x_{n-2} - x_{n-3}|| \\
+&\leq& \mu^4 ||T(x_{n-4}) - T(x_{n-5})|| \leq \mu^5 ||x_{n-4} - x_{n-5}|| \\
+&\vdots&
+\end{eqnarray*}
+
+また、$||x_n - x_m||$は
+\begin{eqnarray*}
+||x_n - x_m|| = ||x_n - x_{n-1} + x_{n-1} - x_{n-2} + x_{n-2} - \cdots - x_{m+1} - x_{m+1} - x_{m}||
+\end{eqnarray*}
+
+のように表すことができる。ゆえに三角不等式（ノルムが必ず満たすべき性質）により$n > m$に対し
+
+\begin{eqnarray*}
+||x_n - x_m|| &=& ||x_n - x_{n-1} + x_{n-1} - x_{n-2} + x_{n-2} - \cdots - x_{m+1} - x_{m+1} - x_{m}|| \\
+&\leq& ||x_n - x_{n-1} || + || x_{n-1} - x_{n-2} ||  +  \cdots - || x_{m+1} - x_{m}|| = \sum_{k=m}^{n-1} ||x_{k+1} - x_k||
+\end{eqnarray*}
+
+が成立しなければならない。この三角不等式をまとめて、(\ref{equation:contraction-mapping-3})で得られた$||x_{n+1} - x_n|| \leq \mu^n ||x_1 - x_0||$を使えば
+
+\begin{eqnarray*}
+||x_n - x_m|| &\leq& \sum_{k=m}^{n-1} ||x_{k+1} - x_k|| \\
+&\leq& \sum_{k=m}^{n-1} \mu^k ||x_1 - x_0|| = ||x_1 - x_0|| \sum_{k=m}^{n-1} \mu^k
+\end{eqnarray*}
+
+を得る。ここで、$\sum_{k=m}^{n-1} \mu^k$は等比数列であるから、公式より
+
+$$
+\sum_{k=m}^{n-1} \mu^k = \frac{\mu^m-\mu^n}{1 - \mu}
+$$
+
+である。(このとき、$1-\mu$は定数) $\mu^n \geq 0$より
+
+$$
+\frac{\mu^m-\mu^n}{1 - \mu} \leq \frac{\mu^m}{1 - \mu}
+$$
+
+ゆえに
+
+\begin{eqnarray*}
+||x_n - x_m|| &\leq& ||x_1 - x_0|| \cdot \frac{\mu^m-\mu^n}{1 - \mu} \\
+&\leq& ||x_1 - x_0|| \cdot \frac{\mu^m}{1 - \mu}
+\end{eqnarray*}
+
+が成立。したがって、$n > m \to \infty$のとき$\mu$は$[1, 0)$の値より、$\mu^m \to 0$.つまり
+
+$$
+||x_n - x_m|| \leq ||x_1 - x_0|| \cdot \frac{\mu^m}{1 - \mu} \to 0
+$$
+
+より$\{x_n\}$はコーシー列である。コーシー列の完備性より$\{x_n\}$は$z \in X$に収束する。また、$T$の定義より$A$は閉集合なので$z \in A$である。ゆえに不動点$z$が存在し、$n \to \infty$のとき$T(x_n) = x_{n+1}, x_n \to z$と$T$の連続性により$T(x_n) \to T(z)$. したがって、$T(z) = z$となる。
+
+
+次に不動点が一意であることを示す。$z, z' \in A$に対し$T(z) = z, T(z') = z'$とすると
+
+$$
+||z - z'|| = ||T(z) - T(z')|| \leq \mu ||z - z'||
+$$
+
+ここで、$\mu \leq 1$よりこの関係式が成立するには、$||z - z'|| = 0$でなければならない。ゆえに$z = z'$となり、一意性を示せた。
+
+\end{Proof*}
+}
+
+\section{バナッハ空間}
+
+\end{document}
